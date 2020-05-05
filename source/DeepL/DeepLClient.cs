@@ -46,6 +46,30 @@ namespace DeepL
         /// </summary>
         private static readonly string usageStatisticsPath = "usage";
 
+        /// <summary>
+        /// Contains the path to the action that translates a text.
+        /// </summary>
+        private static readonly string translatePath = "translate";
+
+        /// <summary>
+        /// Contains a map, which converts languages enumeration values to language codes.
+        /// </summary>
+        private static readonly Dictionary<Language, string> languageCodeConversionMap = new Dictionary<Language, string>
+        {
+            [Language.German] = "DE",
+            [Language.English] = "EN",
+            [Language.French] = "FR",
+            [Language.Italian] = "IT",
+            [Language.Japanese] = "JA",
+            [Language.Spanish] = "ES",
+            [Language.Dutch] = "NL",
+            [Language.Polish] = "PL",
+            [Language.Portuguese] = "PT",
+            [Language.BrazilianPortuguese] = "PT-BR",
+            [Language.Russian] = "RU",
+            [Language.Chinese] = "ZH",
+        };
+
         #endregion
 
         #region Private Fields
@@ -143,7 +167,7 @@ namespace DeepL
         /// </summary>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <returns>Returns the usage statistics of the DeepL API plan.</returns>
-        public async Task<UsageStatistics> GetUsageStatisticsAsync(CancellationToken cancellationToken)
+        public async Task<UsageStatistics> GetUsageStatisticsAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             // Sends a request to the DeepL API to retrieve the usage statistics
             HttpResponseMessage responseMessage = await this.httpClient.GetAsync(
@@ -158,10 +182,129 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Gets the usage statistics of the DeepL API plan, i.e. the number of characters that may be translated and the number of characters that have been translated so far.
+        /// Translates the specified text from the specified source language to the specified target language.
         /// </summary>
-        /// <returns>Returns the usage statistics of the DeepL API plan.</returns>
-        public Task<UsageStatistics> GetUsageStatisticsAsync() => this.GetUsageStatisticsAsync(CancellationToken.None);
+        /// <param name="text">The text that is to be translated.</param>
+        /// <param name="sourceLanguageCode">The source language code.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="splitting">Determines if and how the text is to be split.</param>
+        /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns the result of the translation.</returns>
+        public async Task<TranslationResult> TranslateAsync(
+            string text,
+            string sourceLanguageCode,
+            string targetLanguageCode,
+            Splitting splitting = Splitting.None,
+            bool preserveFormatting = false,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Validates the parameters
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentNullException(nameof(text));
+            if (string.IsNullOrWhiteSpace(targetLanguageCode))
+                throw new ArgumentNullException(nameof(targetLanguageCode));
+            if (sourceLanguageCode == "PT-BR")
+                throw new DeepLException("The Portuguese (Brazilian) language must not be used as a source language.");
+
+            // Prepares the intput as POST parameters
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("text", text);
+            if (!string.IsNullOrWhiteSpace(sourceLanguageCode))
+                parameters.Add("source_lang", sourceLanguageCode);
+            parameters.Add("target_lang", targetLanguageCode);
+            switch (splitting)
+            {
+                case Splitting.None:
+                    parameters.Add("split_sentences", "0");
+                    break;
+                case Splitting.InterpunctionAndNewLines:
+                    parameters.Add("split_sentences", "1");
+                    break;
+                case Splitting.Interpunction:
+                    parameters.Add("split_sentences", "nonewlines");
+                    break;
+            }
+            parameters.Add("preserve_formatting", preserveFormatting ? "1" : "0");
+
+            // Sends a request to the DeepL API to translate the text
+            HttpResponseMessage responseMessage = await this.httpClient.PostAsync(
+                this.BuildUrl(DeepLClient.translatePath),
+                new FormUrlEncodedContent(parameters),
+                cancellationToken
+            );
+            this.CheckResponseStatusCode(responseMessage);
+
+            // Retrieves the returned JSON and parses it into a .NET object
+            string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TranslationResult>(translationResultContent);
+        }
+
+        /// <summary>
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// </summary>
+        /// <param name="text">The text that is to be translated.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="splitting">Determines if and how the text is to be split.</param>
+        /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns the result of the translation.</returns>
+        public Task<TranslationResult> TranslateAsync(
+            string text,
+            string targetLanguageCode,
+            Splitting splitting = Splitting.None,
+            bool preserveFormatting = false,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateAsync(text, null, targetLanguageCode, splitting, preserveFormatting, cancellationToken);
+
+        /// <summary>
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// </summary>
+        /// <param name="text">The text that is to be translated.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="splitting">Determines if and how the text is to be split.</param>
+        /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns the result of the translation.</returns>
+        public Task<TranslationResult> TranslateAsync(
+            string text,
+            Language sourceLanguage,
+            Language targetLanguage,
+            Splitting splitting = Splitting.None,
+            bool preserveFormatting = false,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateAsync(
+            text,
+            DeepLClient.languageCodeConversionMap[sourceLanguage],
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            splitting,
+            preserveFormatting,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the specified text from the specified source language to the specified target language.
+        /// </summary>
+        /// <param name="text">The text that is to be translated.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="splitting">Determines if and how the text is to be split.</param>
+        /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns the result of the translation.</returns>
+        public Task<TranslationResult> TranslateAsync(
+            string text,
+            Language targetLanguage,
+            Splitting splitting = Splitting.None,
+            bool preserveFormatting = false,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateAsync(
+            text,
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            splitting,
+            preserveFormatting,
+            cancellationToken
+        );
 
         #endregion
 

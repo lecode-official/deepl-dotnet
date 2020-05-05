@@ -2,6 +2,7 @@
 #region Using Directives
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 #endregion
@@ -34,14 +35,15 @@ namespace DeepL.Test
                 return;
             }
 
-            // Retrieves the usage statistics from the DeepL API and prints them to the console
+            // Translates some text and prints the result to the console
             using (DeepLClient client = new DeepLClient(arguments[0]))
             {
                 try
                 {
-                    UsageStatistics usageStatistics = await client.GetUsageStatisticsAsync();
-                    Console.WriteLine($"Character count: {usageStatistics.CharacterCount}");
-                    Console.WriteLine($"Character limit: {usageStatistics.CharacterLimit}");
+                    TranslationResult result;
+                    result = await client.TranslateAsync("This is a test sentence.", Language.German);
+                    Console.WriteLine(result.Translations.First().DetectedSourceLanguage);
+                    Console.WriteLine(result.Translations.First().Text);
                 }
                 catch (DeepLException exception)
                 {
