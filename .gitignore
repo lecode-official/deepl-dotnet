@@ -1,0 +1,11 @@
+
+# Ignores Visual Studio Code configuration
+.vscode
+
+# Ignores compilation output
+bin
+obj
+
+# Ignores OS generated files
+.DS_Store
+Thumbs.db
