@@ -52,6 +52,11 @@ namespace DeepL
         private static readonly string translatePath = "translate";
 
         /// <summary>
+        /// Contains the path to the action that retrieves the langauges that are supported by the DeepL API.
+        /// </summary>
+        private static readonly string supportedLanguagesPath = "languages";
+
+        /// <summary>
         /// Contains a map, which converts languages enumeration values to language codes.
         /// </summary>
         private static readonly Dictionary<Language, string> languageCodeConversionMap = new Dictionary<Language, string>
@@ -186,6 +191,25 @@ namespace DeepL
             // Retrieves the returned JSON and parses it into a .NET object
             string usageStatisticsContent = await responseMessage.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<UsageStatistics>(usageStatisticsContent);
+        }
+
+        /// <summary>
+        /// Gets the supported languages of the DeepL API (which may change over time).
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a list of the supported languages.</returns>
+        public async Task<IEnumerable<SupportedLanguage>> GetSupportedLanguagesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Sends a request to the DeepL API to retrieve the supported languages
+            HttpResponseMessage responseMessage = await this.httpClient.GetAsync(
+                this.BuildUrl(DeepLClient.supportedLanguagesPath),
+                cancellationToken
+            );
+            await this.CheckResponseStatusCodeAsync(responseMessage);
+
+            // Retrieves the returned JSON and parses it into a .NET object
+            string supportedLanguagesContent = await responseMessage.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<IEnumerable<SupportedLanguage>>(supportedLanguagesContent);
         }
 
         /// <summary>

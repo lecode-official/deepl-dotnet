@@ -2,7 +2,9 @@
 namespace DeepL
 {
     /// <summary>
-    /// Represents an enumeration for the supported languages of the DeepL translation engine.
+    /// Represents an enumeration for the supported languages of the DeepL translation engine. This list contains all
+    /// supported languages as of the time of writing this .NET implementation. In order to get the current list of
+    /// supported languages use the <see cref="DeepLClient.GetSupportedLanguagesAsync"/> method.
     /// </summary>
     public enum Language
     {
