@@ -11,7 +11,7 @@ namespace DeepL
     /// <summary>
     /// Represents the result of the translation of a text using the DeepL API, which contains one or more translations.
     /// </summary>
-    public class TranslationResult
+    internal class TranslationResult
     {
         #region Using Directives
 

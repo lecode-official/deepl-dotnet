@@ -190,8 +190,8 @@ namespace DeepL
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <returns>Returns the result of the translation.</returns>
-        public async Task<TranslationResult> TranslateAsync(
+        /// <returns>Returns the translations.</returns>
+        public async Task<IEnumerable<Translation>> TranslateAsync(
             string text,
             string sourceLanguageCode,
             string targetLanguageCode,
@@ -237,7 +237,7 @@ namespace DeepL
 
             // Retrieves the returned JSON and parses it into a .NET object
             string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TranslationResult>(translationResultContent);
+            return JsonConvert.DeserializeObject<TranslationResult>(translationResultContent).Translations;
         }
 
         /// <summary>
@@ -248,8 +248,8 @@ namespace DeepL
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <returns>Returns the result of the translation.</returns>
-        public Task<TranslationResult> TranslateAsync(
+        /// <returns>Returns the translations.</returns>
+        public Task<IEnumerable<Translation>> TranslateAsync(
             string text,
             string targetLanguageCode,
             Splitting splitting = Splitting.None,
@@ -265,8 +265,8 @@ namespace DeepL
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <returns>Returns the result of the translation.</returns>
-        public Task<TranslationResult> TranslateAsync(
+        /// <returns>Returns the translations.</returns>
+        public Task<IEnumerable<Translation>> TranslateAsync(
             string text,
             Language sourceLanguage,
             Language targetLanguage,
@@ -291,8 +291,8 @@ namespace DeepL
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <returns>Returns the result of the translation.</returns>
-        public Task<TranslationResult> TranslateAsync(
+        /// <returns>Returns the translations.</returns>
+        public Task<IEnumerable<Translation>> TranslateAsync(
             string text,
             Language targetLanguage,
             Splitting splitting = Splitting.None,

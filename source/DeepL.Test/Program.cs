@@ -2,7 +2,7 @@
 #region Using Directives
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #endregion
@@ -40,10 +40,15 @@ namespace DeepL.Test
             {
                 try
                 {
-                    TranslationResult result;
-                    result = await client.TranslateAsync("This is a test sentence.", Language.German);
-                    Console.WriteLine(result.Translations.First().DetectedSourceLanguage);
-                    Console.WriteLine(result.Translations.First().Text);
+                    IEnumerable<Translation> translations = await client.TranslateAsync(
+                        "This is a test sentence. This is another test sentence.",
+                        Language.German
+                    );
+                    foreach (Translation translation in translations)
+                    {
+                        Console.WriteLine(translation.DetectedSourceLanguage);
+                        Console.WriteLine(translation.Text);
+                    }
                 }
                 catch (DeepLException exception)
                 {
