@@ -202,7 +202,7 @@ namespace DeepL
             IEnumerable<string> texts,
             string sourceLanguageCode,
             string targetLanguageCode,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -260,7 +260,7 @@ namespace DeepL
         public Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
             string targetLanguageCode,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(texts, null, targetLanguageCode, splitting, preserveFormatting, cancellationToken);
@@ -278,7 +278,7 @@ namespace DeepL
             IEnumerable<string> texts,
             Language sourceLanguage,
             Language targetLanguage,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -303,7 +303,7 @@ namespace DeepL
         public Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
             Language targetLanguage,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -328,7 +328,7 @@ namespace DeepL
             string text,
             string sourceLanguageCode,
             string targetLanguageCode,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -362,7 +362,7 @@ namespace DeepL
         public Task<Translation> TranslateAsync(
             string text,
             string targetLanguageCode,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(text, null, targetLanguageCode, splitting, preserveFormatting, cancellationToken);
@@ -380,7 +380,7 @@ namespace DeepL
             string text,
             Language sourceLanguage,
             Language targetLanguage,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -405,7 +405,7 @@ namespace DeepL
         public Task<Translation> TranslateAsync(
             string text,
             Language targetLanguage,
-            Splitting splitting = Splitting.None,
+            Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
