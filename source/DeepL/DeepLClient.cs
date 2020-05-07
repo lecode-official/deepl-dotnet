@@ -128,7 +128,7 @@ namespace DeepL
         /// </summary>
         /// <param name="responseMessage">The HTTP response that is to be checked.</param>
         /// <exception cref="DeepLException">When the status code represents an error, then a <see cref="DeepLException"/> is thrown.</exception>
-        private void CheckResponseStatusCode(HttpResponseMessage responseMessage)
+        private async Task CheckResponseStatusCodeAsync(HttpResponseMessage responseMessage)
         {
             // When the status code represents success, then nothing is done
             if (responseMessage.IsSuccessStatusCode)
@@ -138,6 +138,13 @@ namespace DeepL
             switch (responseMessage.StatusCode)
             {
                 case HttpStatusCode.BadRequest:
+                    try
+                    {
+                        string content = await responseMessage.Content.ReadAsStringAsync();
+                        ErrorResult errorResult = JsonConvert.DeserializeObject<ErrorResult>(content);
+                        throw new DeepLException($"Bad request. Please check error message and your parameters. {errorResult.Message}");
+                    }
+                    catch (JsonReaderException) { }
                     throw new DeepLException("Bad request. Please check error message and your parameters.");
                 case HttpStatusCode.Forbidden:
                     throw new DeepLException("Authorization failed. Please supply a valid authentication key.");
@@ -174,7 +181,7 @@ namespace DeepL
                 this.BuildUrl(DeepLClient.usageStatisticsPath),
                 cancellationToken
             );
-            this.CheckResponseStatusCode(responseMessage);
+            await this.CheckResponseStatusCodeAsync(responseMessage);
 
             // Retrieves the returned JSON and parses it into a .NET object
             string usageStatisticsContent = await responseMessage.Content.ReadAsStringAsync();
@@ -204,8 +211,6 @@ namespace DeepL
                 throw new ArgumentNullException(nameof(text));
             if (string.IsNullOrWhiteSpace(targetLanguageCode))
                 throw new ArgumentNullException(nameof(targetLanguageCode));
-            if (sourceLanguageCode == "PT-BR")
-                throw new DeepLException("The Portuguese (Brazilian) language must not be used as a source language.");
 
             // Prepares the intput as POST parameters
             Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -233,7 +238,7 @@ namespace DeepL
                 new FormUrlEncodedContent(parameters),
                 cancellationToken
             );
-            this.CheckResponseStatusCode(responseMessage);
+            await this.CheckResponseStatusCodeAsync(responseMessage);
 
             // Retrieves the returned JSON and parses it into a .NET object
             string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
