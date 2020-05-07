@@ -41,7 +41,11 @@ namespace DeepL.Test
                 try
                 {
                     IEnumerable<Translation> translations = await client.TranslateAsync(
-                        "This is a test sentence. This is another test sentence.",
+                        new List<string>
+                        {
+                            "This is a test sentence.",
+                            "This is another test sentence."
+                        },
                         Language.German
                     );
                     foreach (Translation translation in translations)
