@@ -640,7 +640,7 @@ namespace DeepL
         /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
-        /// <param name="fileName">The name of the file.</param>
+        /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
@@ -1039,7 +1039,7 @@ namespace DeepL
         /// </summary>
         /// <param name="documentTranslation">The ongoing translation of the document.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <returns>Returns a stream, that contains the contents of the downloaded document.</returns>
+        /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public async Task<Stream> DownloadTranslatedDocumentAsync(
             DocumentTranslation documentTranslation,
             CancellationToken cancellationToken = default(CancellationToken))
@@ -1061,7 +1061,9 @@ namespace DeepL
                 await this.CheckResponseStatusCodeAsync(responseMessage);
 
                 // Retrieves the returned JSON and parses it into a .NET object
-                return await responseMessage.Content.ReadAsStreamAsync();
+                Stream stream = await responseMessage.Content.ReadAsStreamAsync();
+                stream.Seek(0, SeekOrigin.Begin);
+                return stream;
             }
         }
 
@@ -1081,12 +1083,323 @@ namespace DeepL
             {
                 // Writes the downloaded document to file
                 using (FileStream fileStream = File.Create(fileName))
+                    await stream.CopyToAsync(fileStream);
+            }
+        }
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
+        /// <param name="sourceLanguageCode">The source language code.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
+        public async Task<Stream> TranslateDocumentAsync(
+            Stream fileStream,
+            string fileName,
+            string sourceLanguageCode,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Uploads the document to the DeepL API for translation
+            DocumentTranslation documentTranslation = await this.UploadDocumentForTranslationAsync(
+                fileStream,
+                fileName,
+                sourceLanguageCode,
+                targetLanguageCode,
+                cancellationToken
+            );
+
+            // Periodically checks if the document translation has finished
+            while (true)
+            {
+                // Checks if a cancellation has been requested, if so, the process is aborted
+                if (cancellationToken != null && cancellationToken.IsCancellationRequested)
+                    return null;
+
+                // Gets the status of the translation
+                TranslationStatus translationStatus = await this.CheckTranslationStatusAsync(
+                    documentTranslation,
+                    cancellationToken
+                );
+
+                // If the translation is done, then the loop can be exited and the translated document can be downloaded
+                if (translationStatus.Status == TranslationState.Done)
+                    break;
+
+                // In order to not send too many requests to the server, we wait for a short amount of time, before sending
+                // another request (when the tranlation has started, then the translation status actually contains the estimated
+                // number of seconds remaining, if they are not in the translation status, then we default to 1/2 second)
+                await Task.Delay(
+                    translationStatus.SecondsRemaining.HasValue ? translationStatus.SecondsRemaining.Value * 1000 : 1000,
+                    cancellationToken
+                );
+            }
+
+            // Finally, since the document has now been translated, it can be downloaded
+            return await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken);
+        }
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
+        public Task<Stream> TranslateDocumentAsync(
+            Stream fileStream,
+            string fileName,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            fileStream,
+            fileName,
+            null,
+            targetLanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
+        public Task<Stream> TranslateDocumentAsync(
+            Stream fileStream,
+            string fileName,
+            Language sourceLanguage,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            fileStream,
+            fileName,
+            DeepLClient.languageCodeConversionMap[sourceLanguage],
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
+        public Task<Stream> TranslateDocumentAsync(
+            Stream fileStream,
+            string fileName,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            fileStream,
+            fileName,
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
+        public Task<Stream> TranslateDocumentAsync(
+            Stream fileStream,
+            string fileName,
+            SupportedLanguage sourceLanguage,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            fileStream,
+            fileName,
+            sourceLanguage.LanguageCode,
+            targetLanguage.LanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
+        public Task<Stream> TranslateDocumentAsync(
+            Stream fileStream,
+            string fileName,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            fileStream,
+            fileName,
+            targetLanguage.LanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="sourceFileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
+        /// <param name="sourceLanguageCode">The source language code.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        public async Task TranslateDocumentAsync(
+            string sourceFileName,
+            string targetFileName,
+            string sourceLanguageCode,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Opens the file and uploads it to the DeepL API for translation and downloads the result
+            using (FileStream inputFileStream = new FileStream(sourceFileName, FileMode.Open))
+            {
+                using (Stream outputFileStream = await this.TranslateDocumentAsync(inputFileStream, Path.GetFileName(sourceFileName), sourceLanguageCode, targetLanguageCode, cancellationToken))
                 {
-                    stream.Seek(0, SeekOrigin.Begin);
-                    stream.CopyTo(fileStream);
+                    using (FileStream fileStream = File.Create(targetFileName))
+                        await outputFileStream.CopyToAsync(fileStream);
                 }
             }
         }
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="sourceFileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        public Task TranslateDocumentAsync(
+            string sourceFileName,
+            string targetFileName,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            sourceFileName,
+            targetFileName,
+            null,
+            targetLanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="sourceFileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        public Task TranslateDocumentAsync(
+            string sourceFileName,
+            string targetFileName,
+            Language sourceLanguage,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            sourceFileName,
+            targetFileName,
+            DeepLClient.languageCodeConversionMap[sourceLanguage],
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="sourceFileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        public Task TranslateDocumentAsync(
+            string sourceFileName,
+            string targetFileName,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            sourceFileName,
+            targetFileName,
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="sourceFileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        public Task TranslateDocumentAsync(
+            string sourceFileName,
+            string targetFileName,
+            SupportedLanguage sourceLanguage,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            sourceFileName,
+            targetFileName,
+            sourceLanguage.LanguageCode,
+            targetLanguage.LanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="sourceFileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        public Task TranslateDocumentAsync(
+            string sourceFileName,
+            string targetFileName,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.TranslateDocumentAsync(
+            sourceFileName,
+            targetFileName,
+            targetLanguage.LanguageCode,
+            cancellationToken
+        );
 
         #endregion
 
