@@ -3,9 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -30,6 +32,8 @@ namespace DeepL
         {
             this.authenticationKey = authenticationKey;
             this.httpClient = new HttpClient();
+            this.httpClient.DefaultRequestHeaders.Add("User-Agent", "DeepL.NET/0.1");
+            this.httpClient.DefaultRequestHeaders.Add("Accept", "*/*");
         }
 
         #endregion
@@ -50,6 +54,12 @@ namespace DeepL
         /// Contains the path to the action that translates a text.
         /// </summary>
         private static readonly string translatePath = "translate";
+
+        /// <summary>
+        /// Contains the path to the action that translates documents (Microsoft Word documents, Microsoft PowerPoint
+        /// documents, HTML documents, and plain text documents are supported).
+        /// </summary>
+        private static readonly string translateDocumentPath = "document";
 
         /// <summary>
         /// Contains the path to the action that retrieves the langauges that are supported by the DeepL API.
@@ -106,12 +116,17 @@ namespace DeepL
         /// Builds a URL for the DeepL API.
         /// </summary>
         /// <param name="path">The path of the URL.</param>
-        /// <param name="queryParameters">The query parameters that are to be added to the URL</param>
+        /// <param name="pathParameters">The parameters that are added to the path of the URL.</param>
+        /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
         /// <returns>Returns the built URL as a string.</returns>
-        private string BuildUrl(string path, Dictionary<string, string> queryParameters = null)
+        private string BuildUrl(string path, IEnumerable<string> pathParameters, IDictionary<string, string> queryParameters = null)
         {
             // Concatenates the path to the base URL
-            string uri = $"{DeepLClient.baseUrl}/{path}";
+            string url = $"{DeepLClient.baseUrl}/{path}";
+
+            // Adds the path parameters
+            if (pathParameters != null && pathParameters.Any())
+                url = string.Concat(url, string.Join("/", pathParameters));
 
             // When no query parameters were passed to the method, then a new dictionary of parameters is created
             if (queryParameters == null)
@@ -122,11 +137,19 @@ namespace DeepL
 
             // Converts the query parameters to a string and appends them to the URL
             string queryString = string.Join("&", queryParameters.Select(keyValuePair => $"{keyValuePair.Key}={HttpUtility.HtmlEncode(keyValuePair.Value)}"));
-            uri = string.Concat(uri, "?", queryString);
+            url = string.Concat(url, "?", queryString);
 
             // Returns the built URL
-            return uri;
+            return url;
         }
+
+        /// <summary>
+        /// Builds a URL for the DeepL API.
+        /// </summary>
+        /// <param name="path">The path of the URL.</param>
+        /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
+        /// <returns>Returns the built URL as a string.</returns>
+        private string BuildUrl(string path, IDictionary<string, string> queryParameters = null) => this.BuildUrl(path, null, queryParameters);
 
         /// <summary>
         /// Checks the status code of the HTTP response and throws an exception if the status code represents an error.
@@ -240,7 +263,7 @@ namespace DeepL
             if (string.IsNullOrWhiteSpace(targetLanguageCode))
                 throw new ArgumentNullException(nameof(targetLanguageCode));
 
-            // Prepares the intput as POST parameters
+            // Prepares the parameters for the HTTP POST request
             List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
             foreach (string text in texts)
                 parameters.Add(new KeyValuePair<string, string>("text", text));
@@ -273,16 +296,19 @@ namespace DeepL
             }
 
             // Sends a request to the DeepL API to translate the text
-            HttpResponseMessage responseMessage = await this.httpClient.PostAsync(
-                this.BuildUrl(DeepLClient.translatePath),
-                new FormUrlEncodedContent(parameters),
-                cancellationToken
-            );
-            await this.CheckResponseStatusCodeAsync(responseMessage);
+            using (HttpContent httpContent = new FormUrlEncodedContent(parameters))
+            {
+                HttpResponseMessage responseMessage = await this.httpClient.PostAsync(
+                    this.BuildUrl(DeepLClient.translatePath),
+                    httpContent,
+                    cancellationToken
+                );
+                await this.CheckResponseStatusCodeAsync(responseMessage);
 
-            // Retrieves the returned JSON and parses it into a .NET object
-            string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TranslationResult>(translationResultContent).Translations;
+                // Retrieves the returned JSON and parses it into a .NET object
+                string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TranslationResult>(translationResultContent).Translations;
+            }
         }
 
         /// <summary>
@@ -595,6 +621,372 @@ namespace DeepL
             splitting,
             preserveFormatting,
             xmlHandling,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sourceLanguageCode">The source language code.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public async Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            Stream fileStream,
+            string fileName,
+            string sourceLanguageCode,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Validates the arguments
+            if (fileStream == null)
+                throw new ArgumentNullException(nameof(fileStream));
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+            if (string.IsNullOrWhiteSpace(targetLanguageCode))
+                throw new ArgumentNullException(nameof(targetLanguageCode));
+
+            // Prepares the content of the POST request to the DeepL API
+            string boundary = $"--{Guid.NewGuid().ToString()}";
+            using (MultipartFormDataContent httpContent = new MultipartFormDataContent(boundary))
+            {
+                // Manually sets the content type, because the HTTP request message parser of the DeepL API does not seem to be
+                // standards conform (by default, the System.Net.HttpClient puts the boundary string in quotes, but this causes
+                // the HTTP parser of the DeepL API to not read the request properly)
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue($"multipart/form-data");
+                httpContent.Headers.ContentType.Parameters.Add(new NameValueHeaderValue("boundary", boundary));
+
+                // Adds the file to the content of the HTTP request (again, the content disposition is set by hand, because, by
+                // default, the System.Net.HttpClient does not quote the name and file name, but the DeepL API HTTP parser does
+                // not support unquoted parameter values)
+                var fileContent = new StreamContent(fileStream);
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                fileContent.Headers.ContentDisposition.Name = "\"file\"";
+                fileContent.Headers.ContentDisposition.FileName = $"\"{fileName}\"";
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+                httpContent.Add(fileContent, "file", fileName);
+
+                // Adds the parameters to the content of the HTTP request (again, the content disposition is set by hand, because,
+                // by default, the System.Net.HttpClient does not quote the name, but the DeepL API HTTP parser does not support
+                // unquoted parameter values)
+                var targetLanguageContent = new StringContent(targetLanguageCode);
+                targetLanguageContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                targetLanguageContent.Headers.ContentDisposition.Name = "\"target_lang\"";
+                httpContent.Add(targetLanguageContent, "target_lang");
+                if (!string.IsNullOrWhiteSpace(sourceLanguageCode))
+                    httpContent.Add(new StringContent(sourceLanguageCode), "source_lang");
+
+                // Sends a request to the DeepL API to upload the document for translations
+                HttpResponseMessage responseMessage = await this.httpClient.PostAsync(
+                    this.BuildUrl(DeepLClient.translateDocumentPath),
+                    httpContent,
+                    cancellationToken
+                );
+                await this.CheckResponseStatusCodeAsync(responseMessage);
+
+                // Retrieves the returned JSON and parses it into a .NET object
+                string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<DocumentTranslation>(translationResultContent);
+            }
+        }
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            Stream fileStream,
+            string fileName,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileStream,
+            fileName,
+            null,
+            targetLanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            Stream fileStream,
+            string fileName,
+            Language sourceLanguage,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileStream,
+            fileName,
+            DeepLClient.languageCodeConversionMap[sourceLanguage],
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            Stream fileStream,
+            string fileName,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileStream,
+            fileName,
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            Stream fileStream,
+            string fileName,
+            SupportedLanguage sourceLanguage,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileStream,
+            fileName,
+            sourceLanguage.LanguageCode,
+            targetLanguage.LanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            Stream fileStream,
+            string fileName,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileStream,
+            fileName,
+            targetLanguage.LanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileName">The name of the file that is to be uploaded.</param>
+        /// <param name="sourceLanguageCode">The source language code.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public async Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            string fileName,
+            string sourceLanguageCode,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Opens the file and uploads it to the DeepL API
+            using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
+            {
+                return await this.UploadDocumentForTranslationAsync(
+                    fileStream,
+                    Path.GetFileName(fileName),
+                    sourceLanguageCode,
+                    targetLanguageCode,
+                    cancellationToken
+                );
+            }
+        }
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            string fileName,
+            string targetLanguageCode,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileName,
+            null,
+            targetLanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileName">The name of the file that is to be uploaded.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            string fileName,
+            Language sourceLanguage,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileName,
+            DeepLClient.languageCodeConversionMap[sourceLanguage],
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            string fileName,
+            Language targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileName,
+            DeepLClient.languageCodeConversionMap[targetLanguage],
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileName">The name of the file that is to be uploaded.</param>
+        /// <param name="sourceLanguage">The source language.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            string fileName,
+            SupportedLanguage sourceLanguage,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileName,
+            sourceLanguage.LanguageCode,
+            targetLanguage.LanguageCode,
+            cancellationToken
+        );
+
+        /// <summary>
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
+        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
+        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
+        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// </summary>
+        /// <param name="fileName">The name of the file that is to be uploaded.</param>
+        /// <param name="targetLanguage">The target language.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
+        /// and to download the translated document.
+        /// </returns>
+        public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
+            string fileName,
+            SupportedLanguage targetLanguage,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) => this.UploadDocumentForTranslationAsync(
+            fileName,
+            targetLanguage.LanguageCode,
             cancellationToken
         );
 
