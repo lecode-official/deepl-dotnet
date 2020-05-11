@@ -1022,6 +1022,60 @@ namespace DeepL
             }
         }
 
+        /// <summary>
+        /// Downloads the translated document from the DeepL API. The translation process of the document must be finished.
+        /// </summary>
+        /// <param name="documentTranslation">The ongoing translation of the document.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns a stream, that contains the contents of the downloaded document.</returns>
+        public async Task<Stream> DownloadTranslatedDocumentAsync(
+            DocumentTranslation documentTranslation,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Prepares the parameters for the HTTP POST request
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                ["document_key"] = documentTranslation.DocumentKey
+            };
+
+            // Sends a request to the DeepL API to download the translated document
+            using (HttpContent httpContent = new FormUrlEncodedContent(parameters))
+            {
+                HttpResponseMessage responseMessage = await this.httpClient.PostAsync(
+                    this.BuildUrl(DeepLClient.translateDocumentPath, new List<string> { documentTranslation.DocumentId, "result" }),
+                    httpContent,
+                    cancellationToken
+                );
+                await this.CheckResponseStatusCodeAsync(responseMessage);
+
+                // Retrieves the returned JSON and parses it into a .NET object
+                return await responseMessage.Content.ReadAsStreamAsync();
+            }
+        }
+
+        /// <summary>
+        /// Downloads the translated document from the DeepL API. The translation process of the document must be finished.
+        /// </summary>
+        /// <param name="documentTranslation">The ongoing translation of the document.</param>
+        /// <param name="fileName">The name of the file to which the downloaded document is to be written.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        public async Task DownloadTranslatedDocumentAsync(
+            DocumentTranslation documentTranslation,
+            string fileName,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Downloads the document from the DeepL API
+            using (Stream stream = await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken))
+            {
+                // Writes the downloaded document to file
+                using (FileStream fileStream = File.Create(fileName))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    stream.CopyTo(fileStream);
+                }
+            }
+        }
+
         #endregion
 
         #region IDisposable Implementation
