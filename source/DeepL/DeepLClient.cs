@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.StaticFiles;
 using Newtonsoft.Json;
 
 #endregion
@@ -31,9 +32,12 @@ namespace DeepL
         public DeepLClient(string authenticationKey)
         {
             this.authenticationKey = authenticationKey;
+
             this.httpClient = new HttpClient();
             this.httpClient.DefaultRequestHeaders.Add("User-Agent", "DeepL.NET/0.1");
             this.httpClient.DefaultRequestHeaders.Add("Accept", "*/*");
+
+            this.fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
         }
 
         #endregion
@@ -98,6 +102,11 @@ namespace DeepL
         /// Contains an HTTP client, which is used to call the DeepL API.
         /// </summary>
         private readonly HttpClient httpClient;
+
+        /// <summary>
+        /// Contains a provider, which maps file names to content (MIME) types.
+        /// </summary>
+        private readonly FileExtensionContentTypeProvider fileExtensionContentTypeProvider;
 
         #endregion
 
@@ -671,7 +680,10 @@ namespace DeepL
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
                 fileContent.Headers.ContentDisposition.Name = "\"file\"";
                 fileContent.Headers.ContentDisposition.FileName = $"\"{fileName}\"";
-                fileContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+                if (!this.fileExtensionContentTypeProvider.TryGetContentType(fileName, out string contentType))
+                    contentType = "text/plain";
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                Console.WriteLine(contentType);
                 httpContent.Add(fileContent, "file", fileName);
 
                 // Adds the parameters to the content of the HTTP request (again, the content disposition is set by hand, because,
