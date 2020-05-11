@@ -126,7 +126,7 @@ namespace DeepL
 
             // Adds the path parameters
             if (pathParameters != null && pathParameters.Any())
-                url = string.Concat(url, string.Join("/", pathParameters));
+                url = string.Concat(url, "/", string.Join("/", pathParameters));
 
             // When no query parameters were passed to the method, then a new dictionary of parameters is created
             if (queryParameters == null)
@@ -989,6 +989,38 @@ namespace DeepL
             targetLanguage.LanguageCode,
             cancellationToken
         );
+
+        /// <summary>
+        /// Determines the status of the ongoing document translation.
+        /// </summary>
+        /// <param name="documentTranslation">The ongoing translation of the document.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <returns>Returns the status of the ongoing translation of the document.</returns>
+        public async Task<TranslationStatus> CheckTranslationStatusAsync(
+            DocumentTranslation documentTranslation,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Prepares the parameters for the HTTP POST request
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                ["document_key"] = documentTranslation.DocumentKey
+            };
+
+            // Sends a request to the DeepL API to retrieve the status of the translation of the document
+            using (HttpContent httpContent = new FormUrlEncodedContent(parameters))
+            {
+                HttpResponseMessage responseMessage = await this.httpClient.PostAsync(
+                    this.BuildUrl(DeepLClient.translateDocumentPath, new List<string> { documentTranslation.DocumentId }),
+                    httpContent,
+                    cancellationToken
+                );
+                await this.CheckResponseStatusCodeAsync(responseMessage);
+
+                // Retrieves the returned JSON and parses it into a .NET object
+                string translationStatusContent = await responseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<TranslationStatus>(translationStatusContent);
+            }
+        }
 
         #endregion
 
