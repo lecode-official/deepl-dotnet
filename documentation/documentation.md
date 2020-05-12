@@ -41,5 +41,5 @@ Console.WriteLine(translation.Text);
 For more advanced topics you may refer to the following topics.
 
 - [Translating Text](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/translating-text.md)
-- [Translating Documents]((https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/translating-documents.md))
-- [Other Functions]((https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md))
+- [Translating Documents](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/translating-documents.md)
+- [Other Functions](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md)
