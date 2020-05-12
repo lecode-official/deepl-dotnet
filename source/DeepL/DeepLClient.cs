@@ -164,7 +164,18 @@ namespace DeepL
         /// Checks the status code of the HTTP response and throws an exception if the status code represents an error.
         /// </summary>
         /// <param name="responseMessage">The HTTP response that is to be checked.</param>
-        /// <exception cref="DeepLException">When the status code represents an error, then a <see cref="DeepLException"/> is thrown.</exception>
+        /// <exception cref="DeepLException">
+        /// When the status code represents an error, then a <see cref="DeepLException"/> is thrown. This occurs in the
+        /// following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The resource could not be found (e.g. when the specified document translation does not exist anymore).
+        /// 4. The text that is to be translated is too large.
+        /// 5. Too many requests have been made in a short period of time.
+        /// 6. The translation quota has been exceeded.
+        /// 7. An internal server error has occurred.
+        /// 8. The DeepL API server is unavailable.
+        /// </exception>
         private async Task CheckResponseStatusCodeAsync(HttpResponseMessage responseMessage)
         {
             // When the status code represents success, then nothing is done
@@ -210,6 +221,13 @@ namespace DeepL
         /// Gets the usage statistics of the DeepL API plan, i.e. the number of characters that may be translated and the number of characters that have been translated so far.
         /// </summary>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The authentication key is invalid.
+        /// 2. Too many requests have been made in a short period of time.
+        /// 3. An internal server error has occurred.
+        /// 4. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the usage statistics of the DeepL API plan.</returns>
         public async Task<UsageStatistics> GetUsageStatisticsAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -229,6 +247,13 @@ namespace DeepL
         /// Gets the supported languages of the DeepL API (which may change over time).
         /// </summary>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The authentication key is invalid.
+        /// 2. Too many requests have been made in a short period of time.
+        /// 3. An internal server error has occurred.
+        /// 4. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a list of the supported languages.</returns>
         public async Task<IEnumerable<SupportedLanguage>> GetSupportedLanguagesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -254,6 +279,22 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translations.</returns>
         public async Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
@@ -329,6 +370,22 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translations.</returns>
         public Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
@@ -356,6 +413,22 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translations.</returns>
         public Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
@@ -385,6 +458,22 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translations.</returns>
         public Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
@@ -411,6 +500,22 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translations.</returns>
         public Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
@@ -440,6 +545,22 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translations.</returns>
         public Task<IEnumerable<Translation>> TranslateAsync(
             IEnumerable<string> texts,
@@ -467,6 +588,19 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translation.</returns>
         public async Task<Translation> TranslateAsync(
             string text,
@@ -505,6 +639,19 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translation.</returns>
         public Task<Translation> TranslateAsync(
             string text,
@@ -532,6 +679,19 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translation.</returns>
         public Task<Translation> TranslateAsync(
             string text,
@@ -555,12 +715,24 @@ namespace DeepL
         /// Translates the specified text from the specified source language to the specified target language.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
-        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translation.</returns>
         public Task<Translation> TranslateAsync(
             string text,
@@ -587,6 +759,19 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the text, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translation.</returns>
         public Task<Translation> TranslateAsync(
             string text,
@@ -616,6 +801,19 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. The text that is to be translated is too large.
+        /// 4. Too many requests have been made in a short period of time.
+        /// 5. The translation quota has been exceeded.
+        /// 6. An internal server error has occurred.
+        /// 7. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the translation.</returns>
         public Task<Translation> TranslateAsync(
             string text,
@@ -644,6 +842,18 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -720,6 +930,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -748,6 +970,18 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -776,6 +1010,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -803,6 +1049,18 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the file name, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -831,6 +1089,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -857,6 +1127,18 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -867,6 +1149,10 @@ namespace DeepL
             string targetLanguageCode,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Validates the parameters
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
             // Opens the file and uploads it to the DeepL API
             using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
             {
@@ -889,6 +1175,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -914,6 +1212,18 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -939,6 +1249,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -963,6 +1285,18 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file name, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -988,6 +1322,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>
         /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
         /// and to download the translated document.
@@ -1007,11 +1353,26 @@ namespace DeepL
         /// </summary>
         /// <param name="documentTranslation">The ongoing translation of the document.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception name="ArgumentNullException">
+        /// If the document translation is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The authentication key is invalid.
+        /// 2. The document translation does not exist anymore.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. An internal server error has occurred.
+        /// 5. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns the status of the ongoing translation of the document.</returns>
         public async Task<TranslationStatus> CheckTranslationStatusAsync(
             DocumentTranslation documentTranslation,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Validates the parameters
+            if (documentTranslation == null)
+                throw new ArgumentNullException(nameof(documentTranslation));
+
             // Prepares the parameters for the HTTP POST request
             Dictionary<string, string> parameters = new Dictionary<string, string>
             {
@@ -1039,11 +1400,26 @@ namespace DeepL
         /// </summary>
         /// <param name="documentTranslation">The ongoing translation of the document.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception name="ArgumentNullException">
+        /// If the document translation is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The authentication key is invalid.
+        /// 2. The document translation does not exist anymore.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. An internal server error has occurred.
+        /// 5. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public async Task<Stream> DownloadTranslatedDocumentAsync(
             DocumentTranslation documentTranslation,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Validates the parameters
+            if (documentTranslation == null)
+                throw new ArgumentNullException(nameof(documentTranslation));
+
             // Prepares the parameters for the HTTP POST request
             Dictionary<string, string> parameters = new Dictionary<string, string>
             {
@@ -1073,11 +1449,33 @@ namespace DeepL
         /// <param name="documentTranslation">The ongoing translation of the document.</param>
         /// <param name="fileName">The name of the file to which the downloaded document is to be written.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception name="ArgumentNullException">
+        /// If the document translation or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The authentication key is invalid.
+        /// 2. The document translation does not exist anymore.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. An internal server error has occurred.
+        /// 5. The DeepL API server is unavailable.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public async Task DownloadTranslatedDocumentAsync(
             DocumentTranslation documentTranslation,
             string fileName,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Validates the arguments
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
             // Downloads the document from the DeepL API
             using (Stream stream = await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken))
             {
@@ -1097,6 +1495,18 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public async Task<Stream> TranslateDocumentAsync(
             Stream fileStream,
@@ -1153,6 +1563,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public Task<Stream> TranslateDocumentAsync(
             Stream fileStream,
@@ -1177,6 +1599,18 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public Task<Stream> TranslateDocumentAsync(
             Stream fileStream,
@@ -1201,6 +1635,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public Task<Stream> TranslateDocumentAsync(
             Stream fileStream,
@@ -1224,6 +1670,18 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the file name, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public Task<Stream> TranslateDocumentAsync(
             Stream fileStream,
@@ -1248,6 +1706,18 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the file stream, the target language, or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
         /// <returns>Returns a stream, that contains the contents of the translated document.</returns>
         public Task<Stream> TranslateDocumentAsync(
             Stream fileStream,
@@ -1271,6 +1741,25 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public async Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1278,6 +1767,12 @@ namespace DeepL
             string targetLanguageCode,
             CancellationToken cancellationToken = default(CancellationToken))
         {
+            // Validates the arguments
+            if (string.IsNullOrWhiteSpace(sourceFileName))
+                throw new ArgumentNullException(nameof(sourceFileName));
+            if (string.IsNullOrWhiteSpace(targetFileName))
+                throw new ArgumentNullException(nameof(targetFileName));
+
             // Opens the file and uploads it to the DeepL API for translation and downloads the result
             using (FileStream inputFileStream = new FileStream(sourceFileName, FileMode.Open))
             {
@@ -1298,6 +1793,25 @@ namespace DeepL
         /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1321,6 +1835,25 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1344,6 +1877,25 @@ namespace DeepL
         /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1366,6 +1918,25 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1389,6 +1960,25 @@ namespace DeepL
         /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DeepLException">
+        /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
+        /// 1. The parameters are invalid (e.g. the source or target language are not supported).
+        /// 2. The authentication key is invalid.
+        /// 3. Too many requests have been made in a short period of time.
+        /// 4. The translation quota has been exceeded.
+        /// 5. An internal server error has occurred.
+        /// 6. The DeepL API server is unavailable.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
