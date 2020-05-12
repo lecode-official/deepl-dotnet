@@ -60,7 +60,7 @@ namespace DeepL
         private static readonly string translatePath = "translate";
 
         /// <summary>
-        /// Contains the path to the action that translates documents (Microsoft Word documents, Microsoft PowerPoint
+        /// Contains the path to the set of actions that translate documents (Microsoft Word documents, Microsoft PowerPoint
         /// documents, HTML documents, and plain text documents are supported).
         /// </summary>
         private static readonly string translateDocumentPath = "document";
@@ -127,9 +127,17 @@ namespace DeepL
         /// <param name="path">The path of the URL.</param>
         /// <param name="pathParameters">The parameters that are added to the path of the URL.</param>
         /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
+        /// <exception cref="ArgumentException">If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.</parameter>
+        /// <exception cref="ArgumentNullException">If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.</parameter>
         /// <returns>Returns the built URL as a string.</returns>
         private string BuildUrl(string path, IEnumerable<string> pathParameters, IDictionary<string, string> queryParameters = null)
         {
+            // Validates the parameters
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("The path must not be empty.");
+
             // Concatenates the path to the base URL
             string url = $"{DeepLClient.baseUrl}/{path}";
 
@@ -137,11 +145,9 @@ namespace DeepL
             if (pathParameters != null && pathParameters.Any())
                 url = string.Concat(url, "/", string.Join("/", pathParameters));
 
-            // When no query parameters were passed to the method, then a new dictionary of parameters is created
+            // Adds the authentication key to the query parameters
             if (queryParameters == null)
                 queryParameters = new Dictionary<string, string>();
-
-            // Adds the authentication key to the query parameters
             queryParameters.Add("auth_key", this.authenticationKey);
 
             // Converts the query parameters to a string and appends them to the URL
@@ -157,6 +163,8 @@ namespace DeepL
         /// </summary>
         /// <param name="path">The path of the URL.</param>
         /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
+        /// <exception cref="ArgumentException">If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.</parameter>
+        /// <exception cref="ArgumentNullException">If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.</parameter>
         /// <returns>Returns the built URL as a string.</returns>
         private string BuildUrl(string path, IDictionary<string, string> queryParameters = null) => this.BuildUrl(path, null, queryParameters);
 
@@ -164,6 +172,7 @@ namespace DeepL
         /// Checks the status code of the HTTP response and throws an exception if the status code represents an error.
         /// </summary>
         /// <param name="responseMessage">The HTTP response that is to be checked.</param>
+        /// <exception cref="ArgumentNullException">If the response message is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.</parameter>
         /// <exception cref="DeepLException">
         /// When the status code represents an error, then a <see cref="DeepLException"/> is thrown. This occurs in the
         /// following cases:
@@ -178,6 +187,10 @@ namespace DeepL
         /// </exception>
         private async Task CheckResponseStatusCodeAsync(HttpResponseMessage responseMessage)
         {
+            // Validates the arguments
+            if (responseMessage == null)
+                throw new ArgumentNullException(nameof(responseMessage));
+
             // When the status code represents success, then nothing is done
             if (responseMessage.IsSuccessStatusCode)
                 return;
@@ -283,7 +296,7 @@ namespace DeepL
         /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -310,8 +323,12 @@ namespace DeepL
                 throw new ArgumentNullException(nameof(texts));
             if (!texts.Any())
                 throw new ArgumentException("No texts were provided for translation.", nameof(texts));
-            if (string.IsNullOrWhiteSpace(targetLanguageCode))
+            if (texts.Any(text => text == null))
+                throw new ArgumentException("One or more texts are null.");
+            if (targetLanguageCode == null)
                 throw new ArgumentNullException(nameof(targetLanguageCode));
+            if (string.IsNullOrWhiteSpace(targetLanguageCode))
+                throw new ArgumentException("The target language code must not be empty or only consist of white spaces.");
 
             // Prepares the parameters for the HTTP POST request
             List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
@@ -374,7 +391,7 @@ namespace DeepL
         /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -405,9 +422,10 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text from the specified source language to the specified target language.
         /// </summary>
         /// <param name="texts">A list of texts that are to be translated.</param>
+        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
@@ -417,7 +435,7 @@ namespace DeepL
         /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -449,10 +467,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text from the specified source language to the specified target language.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// </summary>
         /// <param name="texts">A list of texts that are to be translated.</param>
-        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
@@ -462,7 +479,7 @@ namespace DeepL
         /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -492,19 +509,20 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text from the specified source language to the specified target language.
         /// </summary>
         /// <param name="texts">A list of texts that are to be translated.</param>
+        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentNullException">
-        /// When the texts, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -527,7 +545,7 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
             texts,
-            sourceLanguage.LanguageCode,
+            sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
@@ -536,10 +554,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text from the specified source language to the specified target language.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// </summary>
         /// <param name="texts">A list of texts that are to be translated.</param>
-        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
@@ -549,7 +566,7 @@ namespace DeepL
         /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty, or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -591,6 +608,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -612,8 +632,10 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Validates the arguments
-            if (string.IsNullOrWhiteSpace(text))
+            if (text == null)
                 throw new ArgumentNullException(nameof(text));
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentException("The text must not be empty or only consist of white spaces.");
 
             // Translates the text
             IEnumerable<Translation> translations = await this.TranslateAsync(
@@ -641,6 +663,9 @@ namespace DeepL
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -671,9 +696,10 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text from the specified source language to the specified target language.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
+        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
@@ -681,6 +707,9 @@ namespace DeepL
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentNullException">
         /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -712,7 +741,7 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text from the specified source language to the specified target language.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
         /// <param name="targetLanguage">The target language.</param>
@@ -722,6 +751,9 @@ namespace DeepL
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentNullException">
         /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -751,16 +783,20 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text from the specified source language to the specified target language.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
+        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentNullException">
-        /// When the text, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -783,7 +819,7 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
             text,
-            sourceLanguage.LanguageCode,
+            sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
@@ -792,10 +828,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text from the specified source language to the specified target language.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
-        /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
@@ -803,6 +838,9 @@ namespace DeepL
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -842,6 +880,9 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -868,10 +909,14 @@ namespace DeepL
             // Validates the arguments
             if (fileStream == null)
                 throw new ArgumentNullException(nameof(fileStream));
-            if (string.IsNullOrWhiteSpace(fileName))
+            if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
-            if (string.IsNullOrWhiteSpace(targetLanguageCode))
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("The file name must not be empty or only consist of white spaces.");
+            if (targetLanguageCode == null)
                 throw new ArgumentNullException(nameof(targetLanguageCode));
+            if (string.IsNullOrWhiteSpace(targetLanguageCode))
+                throw new ArgumentException("The target language code must not be empty or only consist of white spaces.");
 
             // Prepares the content of the POST request to the DeepL API
             string boundary = $"--{Guid.NewGuid().ToString()}";
@@ -930,6 +975,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -970,6 +1018,9 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1010,6 +1061,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1049,8 +1103,11 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1074,7 +1131,7 @@ namespace DeepL
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
-            sourceLanguage.LanguageCode,
+            sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
             cancellationToken
         );
@@ -1089,6 +1146,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1127,6 +1187,9 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1151,8 +1214,10 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Validates the parameters
-            if (string.IsNullOrWhiteSpace(fileName))
+            if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("The file name must not be empty or only consist of white spaces.");
             if (!File.Exists(fileName))
                 throw new FileNotFoundException($"The file \"{fileName}\" could not be found.");
 
@@ -1177,6 +1242,9 @@ namespace DeepL
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
@@ -1216,6 +1284,9 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1254,6 +1325,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1291,8 +1365,11 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file name, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
@@ -1315,7 +1392,7 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
-            sourceLanguage.LanguageCode,
+            sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
             cancellationToken
         );
@@ -1329,6 +1406,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1457,9 +1537,20 @@ namespace DeepL
         /// <param name="documentTranslation">The ongoing translation of the document.</param>
         /// <param name="fileName">The name of the file to which the downloaded document is to be written.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception name="ArgumentNullException">
         /// If the document translation or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The authentication key is invalid.
@@ -1468,21 +1559,16 @@ namespace DeepL
         /// 4. An internal server error has occurred.
         /// 5. The DeepL API server is unavailable.
         /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public async Task DownloadTranslatedDocumentAsync(
             DocumentTranslation documentTranslation,
             string fileName,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Validates the arguments
-            if (string.IsNullOrWhiteSpace(fileName))
+            if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("The file name must not be empty or only consist of white spaces.");
 
             // Downloads the document from the DeepL API
             using (Stream stream = await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken))
@@ -1503,6 +1589,9 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1563,7 +1652,7 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
@@ -1571,6 +1660,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1607,6 +1699,9 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1635,7 +1730,7 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
@@ -1643,6 +1738,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1678,8 +1776,11 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1700,13 +1801,13 @@ namespace DeepL
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
-            sourceLanguage.LanguageCode,
+            sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
             cancellationToken
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
@@ -1714,6 +1815,9 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the target language, or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1749,6 +1853,9 @@ namespace DeepL
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1777,10 +1884,14 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Validates the arguments
-            if (string.IsNullOrWhiteSpace(sourceFileName))
+            if (sourceFileName == null)
                 throw new ArgumentNullException(nameof(sourceFileName));
-            if (string.IsNullOrWhiteSpace(targetFileName))
+            if (string.IsNullOrWhiteSpace(sourceFileName))
+                throw new ArgumentException("The source file name must not be empty or only consist of white spaces.");
+            if (targetFileName == null)
                 throw new ArgumentNullException(nameof(targetFileName));
+            if (string.IsNullOrWhiteSpace(targetFileName))
+                throw new ArgumentException("The target file name must not be empty or only consist of white spaces.");
             if (!File.Exists(sourceFileName))
                 throw new FileNotFoundException($"The file \"{sourceFileName}\" could not be found.");
 
@@ -1796,7 +1907,7 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
@@ -1804,6 +1915,9 @@ namespace DeepL
         /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1847,6 +1961,9 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1882,7 +1999,7 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
@@ -1890,6 +2007,9 @@ namespace DeepL
         /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1932,6 +2052,9 @@ namespace DeepL
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
@@ -1961,13 +2084,13 @@ namespace DeepL
         ) => this.TranslateDocumentAsync(
             sourceFileName,
             targetFileName,
-            sourceLanguage.LanguageCode,
+            sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
             cancellationToken
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
         /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
@@ -1975,6 +2098,9 @@ namespace DeepL
         /// <param name="targetFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
