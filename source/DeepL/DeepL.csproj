@@ -24,7 +24,7 @@
     <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/lecode-official/deepl-dotnet</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIconUrl>https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/images/logo64x64.png</PackageIconUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
