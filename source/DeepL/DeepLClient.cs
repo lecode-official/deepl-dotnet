@@ -251,6 +251,9 @@ namespace DeepL
         /// characters that have been translated so far.
         /// </summary>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The authentication key is invalid.
@@ -277,6 +280,9 @@ namespace DeepL
         /// Gets the supported languages of the DeepL API (which may change over time).
         /// </summary>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The authentication key is invalid.
@@ -318,6 +324,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -418,6 +427,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -463,6 +475,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -511,6 +526,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -555,6 +573,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -603,6 +624,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -648,6 +672,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -709,6 +736,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -754,6 +784,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -802,6 +835,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -846,6 +882,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -894,6 +933,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -939,6 +981,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1037,6 +1082,9 @@ namespace DeepL
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1079,6 +1127,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1123,6 +1174,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1165,6 +1219,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1209,6 +1266,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1273,6 +1333,9 @@ namespace DeepL
         /// <exception cref="PathTooLongException">
         /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1354,6 +1417,9 @@ namespace DeepL
         /// <exception cref="PathTooLongException">
         /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1419,6 +1485,9 @@ namespace DeepL
         /// <exception cref="PathTooLongException">
         /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1486,6 +1555,9 @@ namespace DeepL
         /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
         /// thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1549,6 +1621,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="PathTooLongException">
         /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1616,6 +1691,9 @@ namespace DeepL
         /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
         /// thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1646,6 +1724,9 @@ namespace DeepL
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception name="ArgumentNullException">
         /// If the document translation is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1693,6 +1774,9 @@ namespace DeepL
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception name="ArgumentNullException">
         /// If the document translation is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1752,7 +1836,8 @@ namespace DeepL
         /// <see cref="UnauthorizedAccessException"/> is thrown.
         /// </exception>
         /// <exception cref="PathTooLongException">
-        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DirectoryNotFoundException"
         /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
@@ -1761,7 +1846,11 @@ namespace DeepL
         /// If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.
         /// </exception>
         /// <exception cref="NotSupportedException">
-        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The authentication key is invalid.
@@ -1784,9 +1873,12 @@ namespace DeepL
             // Downloads the document from the DeepL API
             using (Stream stream = await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken))
             {
-                // Writes the downloaded document to file
+                // Writes the downloaded document to file (the CopyToAsync method does not have an overload where only a stream and a
+                // cancellation token can be specified, so the one with the explicit buffer size is used; the buffer size specified here is
+                // the default buffer size specified in the source of the Stream class, see
+                // https://github.com/dotnet/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/IO/Stream.cs#L34)
                 using (FileStream fileStream = File.Create(fileName))
-                    await stream.CopyToAsync(fileStream);
+                    await stream.CopyToAsync(fileStream, bufferSize: 81920, cancellationToken);
             }
         }
 
@@ -1807,6 +1899,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1838,8 +1933,8 @@ namespace DeepL
             while (true)
             {
                 // Checks if a cancellation has been requested, if so, the process is aborted
-                if (cancellationToken != null && cancellationToken.IsCancellationRequested)
-                    return null;
+                if (cancellationToken != null)
+                    cancellationToken.ThrowIfCancellationRequested();
 
                 // Gets the status of the translation
                 TranslationStatus translationStatus = await this.CheckTranslationStatusAsync(
@@ -1881,6 +1976,9 @@ namespace DeepL
         /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1919,6 +2017,9 @@ namespace DeepL
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1959,6 +2060,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1997,6 +2101,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -2037,6 +2144,9 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file stream, the target language, or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -2103,6 +2213,9 @@ namespace DeepL
         /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
         /// thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2141,8 +2254,12 @@ namespace DeepL
                     targetLanguageCode,
                     cancellationToken))
                 {
+                    // Writes the downloaded stream to a file (the CopyToAsync method does not have an overload where only a stream and a
+                    // cancellation token can be specified, so the one with the explicit buffer size is used; the buffer size specified here
+                    // is the default buffer size specified in the source of the Stream class, see
+                    // https://github.com/dotnet/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/IO/Stream.cs#L34)
                     using (FileStream fileStream = File.Create(outputFileName))
-                        await outputFileStream.CopyToAsync(fileStream);
+                        await outputFileStream.CopyToAsync(fileStream, bufferSize: 81920, cancellationToken);
                 }
             }
         }
@@ -2188,6 +2305,9 @@ namespace DeepL
         /// <exception name="SecurityException">
         /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -2254,6 +2374,9 @@ namespace DeepL
         /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
         /// thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2317,6 +2440,9 @@ namespace DeepL
         /// <exception name="SecurityException">
         /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -2382,6 +2508,9 @@ namespace DeepL
         /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
         /// thrown.
         /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2446,6 +2575,9 @@ namespace DeepL
         /// <exception name="SecurityException">
         /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
         /// thrown.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// If a cancellation of the operation has been requested, then an <see cref="OperationCanceledException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
