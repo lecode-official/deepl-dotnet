@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -130,10 +131,10 @@ namespace DeepL
         /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
         /// <exception cref="ArgumentException">
         /// If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.
-        /// </parameter>
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </parameter>
+        /// </exception>
         /// <returns>Returns the built URL as a string.</returns>
         private string BuildUrl(string path, IEnumerable<string> pathParameters, IDictionary<string, string> queryParameters = null)
         {
@@ -173,10 +174,10 @@ namespace DeepL
         /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
         /// <exception cref="ArgumentException">
         /// If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.
-        /// </parameter>
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </parameter>
+        /// </exception>
         /// <returns>Returns the built URL as a string.</returns>
         private string BuildUrl(
             string path,
@@ -189,7 +190,7 @@ namespace DeepL
         /// <param name="responseMessage">The HTTP response that is to be checked.</param>
         /// <exception cref="ArgumentNullException">
         /// If the response message is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </parameter>
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When the status code represents an error, then a <see cref="DeepLException"/> is thrown. This occurs in the
         /// following cases:
@@ -968,7 +969,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
@@ -1069,7 +1071,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1116,7 +1119,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1163,7 +1167,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1207,7 +1212,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1255,7 +1261,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1300,7 +1307,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguageCode">The source language code.</param>
@@ -1382,7 +1390,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
@@ -1449,7 +1458,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguage">The source language.</param>
@@ -1519,7 +1529,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
@@ -1586,7 +1597,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguage">The source language.</param>
@@ -1655,7 +1667,8 @@ namespace DeepL
         /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
         /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
         /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
-        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/> or
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
@@ -1840,7 +1853,7 @@ namespace DeepL
         /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
         /// thrown.
         /// </exception>
-        /// <exception cref="DirectoryNotFoundException"
+        /// <exception cref="DirectoryNotFoundException">
         /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
         /// </exception>
         /// <exception cref="IOException">
@@ -1885,8 +1898,9 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
-        /// <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(Stream, string, string, string, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
@@ -1962,8 +1976,10 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
-        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
-        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// from the source text, if possible. This method is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, string, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -2005,8 +2021,9 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
-        /// <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(Stream, string, Language, Language, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -2048,8 +2065,10 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
-        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
-        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// from the source text, if possible. This method is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, Language, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -2088,8 +2107,10 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
-        /// <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, SupportedLanguage, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -2132,8 +2153,10 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
-        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
-        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// from the source text, if possible. This method is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -2173,8 +2196,9 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
-        /// <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(string, string, string, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -2267,8 +2291,9 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
-        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
-        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// from the source text, if possible. This method is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(string, string, CancellationToken)"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -2334,8 +2359,9 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
-        /// <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(string, Language, Language, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -2403,8 +2429,9 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
-        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
-        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// from the source text, if possible. This method is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(string, Language, CancellationToken)"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// and <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -2468,8 +2495,10 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
-        /// <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(string, SupportedLanguage, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -2537,8 +2566,10 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
-        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
-        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// from the source text, if possible. This method is a combination of
+        /// <see cref="UploadDocumentForTranslationAsync(string, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
