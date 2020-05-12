@@ -292,11 +292,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -387,11 +387,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -431,11 +431,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -475,11 +475,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -518,11 +518,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -562,11 +562,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty, or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the texts or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -605,11 +605,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -661,11 +661,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -705,11 +705,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -749,11 +749,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the text is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -792,11 +792,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -836,11 +836,11 @@ namespace DeepL
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
         /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
-        /// <exception cref="ArgumentNullException">
-        /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
-        /// </exception>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// When the text or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1188,12 +1188,18 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1242,14 +1248,21 @@ namespace DeepL
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
-        /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
-        /// </exception>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <exception cref="ArgumentException">
+        /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1285,12 +1298,19 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1326,12 +1346,19 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1366,12 +1393,19 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1407,12 +1441,19 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1538,7 +1579,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file to which the downloaded document is to be written.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty, only consists of white spaces, or contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception name="ArgumentNullException">
         /// If the document translation or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
@@ -1546,8 +1587,7 @@ namespace DeepL
         /// <exception cref="UnauthorizedAccessException">
         /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
         /// </exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
         /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
         /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
         /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
@@ -1854,19 +1894,19 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, or the source file name or the target file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// If the caller does not have the required permission, the specified source file is read-only, or the specified source file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the source or target file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the source or target file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the source or target file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the source file, then a <see cref="SecurityException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1916,19 +1956,18 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, or the source file name or the target file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// If the caller does not have the required permission, the specified source file is read-only, or the specified source file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the source or target file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the source or target file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the source or target file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the source file, then a <see cref="SecurityException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1965,16 +2004,15 @@ namespace DeepL
         /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, or the source file name or the target file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// If the caller does not have the required permission, the specified source file is read-only, or the specified source file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the source or target file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the source or target file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the source or target file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the source file, then a <see cref="SecurityException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2008,19 +2046,18 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, or the source file name or the target file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// If the caller does not have the required permission, the specified source file is read-only, or the specified source file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the source or target file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the source or target file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the source or target file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the source file, then a <see cref="SecurityException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2053,19 +2090,18 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, or the source file name or the target file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// If the caller does not have the required permission, the specified source file is read-only, or the specified source file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the source or target file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the source or target file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the source or target file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the source file, then a <see cref="SecurityException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2099,19 +2135,18 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the source file name, or the target file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the source file name, the target file name, or the target language code are empty or only consist of white spaces, or the source file name or the target file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// If the caller does not have the required permission, the specified source file is read-only, or the specified source file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the source or target file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the source or target file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the source or target file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception name="SecurityException">If the caller does not have the required permission to the read the source file, then a <see cref="SecurityException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
