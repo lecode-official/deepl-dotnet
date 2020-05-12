@@ -13,6 +13,42 @@ A .NET wrapper for the [DeepL](https://www.deepl.com/translator) translation ser
 - Translate text containing XML
 - Translate documents (Word, PowerPoint, HTML, and raw text documents)
 
+## Getting Started
+
+To get started you have to add the package reference to your project:
+
+```bash
+Install-Package DeepL -Version 0.1.0 # Package Manager
+dotnet add package DeepL --version 0.1.0 # .NET CLI
+paket add DeepL --version 0.1.0 # Paket CLI
+```
+
+or manually add a reference to your project file:
+
+```xml
+<PackageReference Include="DeepL" Version="0.1.0" />
+```
+
+Then you can start translating texts:
+
+```csharp
+using DeepL;
+
+using (DeepLClient client = new DeepLClient("<authentication key>")
+{
+    try
+    {
+        Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
+        Console.WriteLine(translation.DetectedSourceLanguage);
+        Console.WriteLine(translation.Text);
+    }
+    catch (DeepLException exception)
+    {
+        Console.WriteLine($"An error occurred: {exception.Message}");
+    }
+}
+```
+
 ## Developing
 
 If you want to develop the project further, please install the [.NET Core SDK](https://dotnet.microsoft.com/download) and, if necessary, [Git](https://git-scm.com/downloads). After that you are ready to clone the repository and build the project:
