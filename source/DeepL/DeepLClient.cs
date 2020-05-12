@@ -1130,6 +1130,7 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1152,6 +1153,8 @@ namespace DeepL
             // Validates the parameters
             if (string.IsNullOrWhiteSpace(fileName))
                 throw new ArgumentNullException(nameof(fileName));
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException($"The file \"{fileName}\" could not be found.");
 
             // Opens the file and uploads it to the DeepL API
             using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
@@ -1178,6 +1181,7 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1215,6 +1219,7 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1252,6 +1257,7 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1288,6 +1294,7 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file name, the source language, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1325,6 +1332,7 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1744,6 +1752,14 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1753,13 +1769,6 @@ namespace DeepL
         /// 5. An internal server error has occurred.
         /// 6. The DeepL API server is unavailable.
         /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public async Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1772,6 +1781,8 @@ namespace DeepL
                 throw new ArgumentNullException(nameof(sourceFileName));
             if (string.IsNullOrWhiteSpace(targetFileName))
                 throw new ArgumentNullException(nameof(targetFileName));
+            if (!File.Exists(sourceFileName))
+                throw new FileNotFoundException($"The file \"{sourceFileName}\" could not be found.");
 
             // Opens the file and uploads it to the DeepL API for translation and downloads the result
             using (FileStream inputFileStream = new FileStream(sourceFileName, FileMode.Open))
@@ -1796,6 +1807,14 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1805,13 +1824,6 @@ namespace DeepL
         /// 5. An internal server error has occurred.
         /// 6. The DeepL API server is unavailable.
         /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1838,6 +1850,14 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1847,13 +1867,6 @@ namespace DeepL
         /// 5. An internal server error has occurred.
         /// 6. The DeepL API server is unavailable.
         /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1880,6 +1893,14 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the source file name or the target file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1889,13 +1910,6 @@ namespace DeepL
         /// 5. An internal server error has occurred.
         /// 6. The DeepL API server is unavailable.
         /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1921,6 +1935,14 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1930,13 +1952,6 @@ namespace DeepL
         /// 5. An internal server error has occurred.
         /// 6. The DeepL API server is unavailable.
         /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
@@ -1963,6 +1978,14 @@ namespace DeepL
         /// <exception cref="ArgumentNullException">
         /// If the source file name, the target file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
+        /// <exception name="FileNotFoundException">If the specified source file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
+        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
+        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
+        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1972,13 +1995,6 @@ namespace DeepL
         /// 5. An internal server error has occurred.
         /// 6. The DeepL API server is unavailable.
         /// </exception>
-        /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="ArgumentException">If the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file is exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         public Task TranslateDocumentAsync(
             string sourceFileName,
             string targetFileName,
