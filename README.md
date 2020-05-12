@@ -60,7 +60,7 @@ namespace Application
 }
 ```
 
-For a more complete example, please refer to the [test project](https://github.com/lecode-official/deepl-dotnet/tree/master/source/DeepL.Test), which demonstrates a wide variety of features.
+For a more complete example, please refer to the [test project](https://github.com/lecode-official/deepl-dotnet/tree/master/source/DeepL.Test), which demonstrates a wide variety of features. For a complete overview of DeepL.NET, please refer to the [documentation](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/documentation.md).
 
 ## Developing
 
