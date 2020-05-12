@@ -28,7 +28,8 @@ namespace DeepL
         public TranslationState Status { get; private set; }
 
         /// <summary>
-        /// Gets the estimated number of seconds until the translation is done. This parameter is only included while the translation is ongoing.
+        /// Gets the estimated number of seconds until the translation is done. This parameter is only included while the translation is
+        /// ongoing.
         /// </summary>
         [JsonProperty("seconds_remaining")]
         public Nullable<int> SecondsRemaining { get; private set; }

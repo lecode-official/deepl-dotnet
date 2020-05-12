@@ -8,7 +8,8 @@ using System;
 namespace DeepL
 {
     /// <summary>
-    /// Represents an exception, which is thrown by the <see cref="DeepLClient"/> to signal any errors during the parsing process. Having a single exception type makes error handling much easier.
+    /// Represents an exception, which is thrown by the <see cref="DeepLClient"/> to signal any errors during the parsing process. Having a
+    /// single exception type makes error handling much easier.
     /// </summary>
     public class DeepLException : Exception
     {

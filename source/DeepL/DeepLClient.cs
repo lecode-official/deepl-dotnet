@@ -60,8 +60,8 @@ namespace DeepL
         private static readonly string translatePath = "translate";
 
         /// <summary>
-        /// Contains the path to the set of actions that translate documents (Microsoft Word documents, Microsoft PowerPoint
-        /// documents, HTML documents, and plain text documents are supported).
+        /// Contains the path to the set of actions that translate documents (Microsoft Word documents, Microsoft PowerPoint documents, HTML
+        /// documents, and plain text documents are supported).
         /// </summary>
         private static readonly string translateDocumentPath = "document";
 
@@ -127,8 +127,12 @@ namespace DeepL
         /// <param name="path">The path of the URL.</param>
         /// <param name="pathParameters">The parameters that are added to the path of the URL.</param>
         /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
-        /// <exception cref="ArgumentException">If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.</parameter>
-        /// <exception cref="ArgumentNullException">If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.</parameter>
+        /// <exception cref="ArgumentException">
+        /// If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </parameter>
+        /// <exception cref="ArgumentNullException">
+        /// If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </parameter>
         /// <returns>Returns the built URL as a string.</returns>
         private string BuildUrl(string path, IEnumerable<string> pathParameters, IDictionary<string, string> queryParameters = null)
         {
@@ -151,7 +155,10 @@ namespace DeepL
             queryParameters.Add("auth_key", this.authenticationKey);
 
             // Converts the query parameters to a string and appends them to the URL
-            string queryString = string.Join("&", queryParameters.Select(keyValuePair => $"{keyValuePair.Key}={HttpUtility.HtmlEncode(keyValuePair.Value)}"));
+            string queryString = string.Join(
+                "&",
+                queryParameters.Select(keyValuePair => $"{keyValuePair.Key}={HttpUtility.HtmlEncode(keyValuePair.Value)}")
+            );
             url = string.Concat(url, "?", queryString);
 
             // Returns the built URL
@@ -163,16 +170,25 @@ namespace DeepL
         /// </summary>
         /// <param name="path">The path of the URL.</param>
         /// <param name="queryParameters">The query parameters that are to be added to the URL.</param>
-        /// <exception cref="ArgumentException">If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.</parameter>
-        /// <exception cref="ArgumentNullException">If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.</parameter>
+        /// <exception cref="ArgumentException">
+        /// If the path is empty or only consists of whitespaces, then an <see cref="ArgumentException"/> is thrown.
+        /// </parameter>
+        /// <exception cref="ArgumentNullException">
+        /// If the path is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </parameter>
         /// <returns>Returns the built URL as a string.</returns>
-        private string BuildUrl(string path, IDictionary<string, string> queryParameters = null) => this.BuildUrl(path, null, queryParameters);
+        private string BuildUrl(
+            string path,
+            IDictionary<string, string> queryParameters = null
+        ) => this.BuildUrl(path, null, queryParameters);
 
         /// <summary>
         /// Checks the status code of the HTTP response and throws an exception if the status code represents an error.
         /// </summary>
         /// <param name="responseMessage">The HTTP response that is to be checked.</param>
-        /// <exception cref="ArgumentNullException">If the response message is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.</parameter>
+        /// <exception cref="ArgumentNullException">
+        /// If the response message is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// </parameter>
         /// <exception cref="DeepLException">
         /// When the status code represents an error, then a <see cref="DeepLException"/> is thrown. This occurs in the
         /// following cases:
@@ -231,7 +247,8 @@ namespace DeepL
         #region Public Methods
 
         /// <summary>
-        /// Gets the usage statistics of the DeepL API plan, i.e. the number of characters that may be translated and the number of characters that have been translated so far.
+        /// Gets the usage statistics of the DeepL API plan, i.e. the number of characters that may be translated and the number of
+        /// characters that have been translated so far.
         /// </summary>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="DeepLException">
@@ -268,7 +285,8 @@ namespace DeepL
         /// 4. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>Returns a list of the supported languages.</returns>
-        public async Task<IEnumerable<SupportedLanguage>> GetSupportedLanguagesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IEnumerable<SupportedLanguage>> GetSupportedLanguagesAsync(
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             // Sends a request to the DeepL API to retrieve the supported languages
             HttpResponseMessage responseMessage = await this.httpClient.GetAsync(
@@ -290,10 +308,13 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of
+        /// white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
@@ -379,16 +400,20 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source
+        /// text, if possible.
         /// </summary>
         /// <param name="texts">A list of texts that are to be translated.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// When the list of texts is empty, one or more texts are <c>null</c>, or the target language code is empty or only consists of
+        /// white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the texts or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
@@ -429,7 +454,9 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
@@ -467,14 +494,17 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source
+        /// text, if possible.
         /// </summary>
         /// <param name="texts">A list of texts that are to be translated.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
-        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.
+        /// </param>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
@@ -516,7 +546,9 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
@@ -554,13 +586,16 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source
+        /// text, if possible.
         /// </summary>
         /// <param name="texts">A list of texts that are to be translated.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// When the list of texts is empty, or one or more texts are <c>null</c>, then an <see cref="ArgumentException"/> is thrown.
@@ -603,10 +638,13 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
@@ -653,16 +691,20 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source
+        /// text, if possible.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// When the text or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// When the text or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
@@ -703,7 +745,9 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -741,13 +785,16 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source
+        /// text, if possible.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -790,7 +837,9 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -828,13 +877,16 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source text, if possible.
+        /// Translates the specified text to the specified target language. The source language is automatically inferred from the source
+        /// text, if possible.
         /// </summary>
         /// <param name="text">The text that is to be translated.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
-        /// <param name="xmlHandling">Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
+        /// <param name="xmlHandling">
+        /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// When the text is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -870,10 +922,10 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
@@ -881,10 +933,12 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
+        /// is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -896,8 +950,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public async Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             Stream fileStream,
@@ -922,15 +976,15 @@ namespace DeepL
             string boundary = $"--{Guid.NewGuid().ToString()}";
             using (MultipartFormDataContent httpContent = new MultipartFormDataContent(boundary))
             {
-                // Manually sets the content type, because the HTTP request message parser of the DeepL API does not seem to be
-                // standards conform (by default, the System.Net.HttpClient puts the boundary string in quotes, but this causes
-                // the HTTP parser of the DeepL API to not read the request properly)
+                // Manually sets the content type, because the HTTP request message parser of the DeepL API does not seem to be standards
+                // conform (by default, the System.Net.HttpClient puts the boundary string in quotes, but this causes the HTTP parser of the
+                // DeepL API to not read the request properly)
                 httpContent.Headers.ContentType = new MediaTypeHeaderValue($"multipart/form-data");
                 httpContent.Headers.ContentType.Parameters.Add(new NameValueHeaderValue("boundary", boundary));
 
-                // Adds the file to the content of the HTTP request (again, the content disposition is set by hand, because, by
-                // default, the System.Net.HttpClient does not quote the name and file name, but the DeepL API HTTP parser does
-                // not support unquoted parameter values)
+                // Adds the file to the content of the HTTP request (again, the content disposition is set by hand, because, by  default,
+                // the System.Net.HttpClient does not quote the name and file name, but the DeepL API HTTP parser does not support unquoted
+                // parameter values)
                 var fileContent = new StreamContent(fileStream);
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
                 fileContent.Headers.ContentDisposition.Name = "\"file\"";
@@ -941,9 +995,9 @@ namespace DeepL
                 Console.WriteLine(contentType);
                 httpContent.Add(fileContent, "file", fileName);
 
-                // Adds the parameters to the content of the HTTP request (again, the content disposition is set by hand, because,
-                // by default, the System.Net.HttpClient does not quote the name, but the DeepL API HTTP parser does not support
-                // unquoted parameter values)
+                // Adds the parameters to the content of the HTTP request (again, the content disposition is set by hand, because, by
+                // default, the System.Net.HttpClient does not quote the name, but the DeepL API HTTP parser does not support unquoted
+                // parameter values)
                 var targetLanguageContent = new StringContent(targetLanguageCode);
                 targetLanguageContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
                 targetLanguageContent.Headers.ContentDisposition.Name = "\"target_lang\"";
@@ -966,20 +1020,22 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
+        /// is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -991,8 +1047,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             Stream fileStream,
@@ -1008,10 +1064,10 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1034,8 +1090,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             Stream fileStream,
@@ -1052,10 +1108,10 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1077,8 +1133,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             Stream fileStream,
@@ -1093,10 +1149,10 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1107,7 +1163,8 @@ namespace DeepL
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1119,8 +1176,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             Stream fileStream,
@@ -1137,10 +1194,10 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1150,7 +1207,8 @@ namespace DeepL
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1162,8 +1220,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             Stream fileStream,
@@ -1178,28 +1236,44 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more
+        /// invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
-        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.
+        /// </exception>
+        /// <exception name="UnauthorizedAccessException">
+        /// If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception name="IOException">
+        /// If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1210,8 +1284,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public async Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
@@ -1241,28 +1315,45 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more
+        /// invalid characters, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
-        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.
+        /// </exception>
+        /// <exception name="UnauthorizedAccessException">
+        /// If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception name="IOException">
+        /// If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1273,8 +1364,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
@@ -1288,29 +1379,47 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
+        /// <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
-        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.
+        /// </exception>
+        /// <exception name="UnauthorizedAccessException">
+        /// If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception name="IOException">
+        /// If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1321,8 +1430,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
@@ -1337,28 +1446,46 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
+        /// <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name is <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
-        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.
+        /// </exception>
+        /// <exception name="UnauthorizedAccessException">
+        /// If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception name="IOException">
+        /// If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1369,8 +1496,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
@@ -1383,29 +1510,46 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
+        /// <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
-        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.
+        /// </exception>
+        /// <exception name="UnauthorizedAccessException">
+        /// If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception name="IOException">
+        /// If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1416,8 +1560,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
@@ -1432,28 +1576,46 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents
-        /// are supported) for translation. The method returns immediately after the upload of the document. The translation status
-        /// can be checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated
-        /// document can be downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Uploads a document (Microsoft Word documents, Microsoft PowerPoint documents, HTML documents, and plain text documents are
+        /// supported) for translation. The method returns immediately after the upload of the document. The translation status can be
+        /// checked using <see cref="CheckTranslationStatusAsync"/>. When the translation has finished, then the translated document can be
+        /// downloaded via <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
+        /// <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the file name or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception name="FileNotFoundException">If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.</exception>
-        /// <exception name="UnauthorizedAccessException">If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception name="IOException">If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the file, then a <see cref="SecurityException"/> is thrown.
+        /// </exception>
+        /// <exception name="UnauthorizedAccessException">
+        /// If the file is read-only, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception name="IOException">
+        /// If an I/O error occurs during the opening or reading of the file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1464,8 +1626,8 @@ namespace DeepL
         /// 6. The DeepL API server is unavailable.
         /// </exception>
         /// <returns>
-        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status
-        /// and to download the translated document.
+        /// Returns an object that represents the ongoing translation of the document. This can be used to check translation status and to
+        /// download the translated document.
         /// </returns>
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
@@ -1579,18 +1741,27 @@ namespace DeepL
         /// <param name="fileName">The name of the file to which the downloaded document is to be written.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name is empty, only consists of white spaces, or contains one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name is empty, only consists of white spaces, or contains one or more invalid characters, then an
+        /// <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception name="ArgumentNullException">
         /// If the document translation or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
         /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// If the caller does not have the required permission, the specified file is read-only, or the specified file is hidden, then an
+        /// <see cref="UnauthorizedAccessException"/> is thrown.
         /// </exception>
-        /// <exception cref="PathTooLongException">If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the specified file exceeds the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException"
+        /// If the path to the specified file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// If a I/O error occurs during the creation of the file or while writing to the file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
         /// <exception cref="DeepLException">
         /// When an error occurred, then a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The authentication key is invalid.
@@ -1620,9 +1791,9 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream from the specified source language to the specified target language. This method
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
@@ -1630,10 +1801,12 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
+        /// is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1678,9 +1851,9 @@ namespace DeepL
                 if (translationStatus.Status == TranslationState.Done)
                     break;
 
-                // In order to not send too many requests to the server, we wait for a short amount of time, before sending
-                // another request (when the tranlation has started, then the translation status actually contains the estimated
-                // number of seconds remaining, if they are not in the translation status, then we default to 1/2 second)
+                // In order to not send too many requests to the server, we wait for a short amount of time, before sending another request
+                // (when the tranlation has started, then the translation status actually contains the estimated number of seconds
+                // remaining, if they are not in the translation status, then we default to 1/2 second)
                 await Task.Delay(
                     translationStatus.SecondsRemaining.HasValue ? translationStatus.SecondsRemaining.Value * 1000 : 1000,
                     cancellationToken
@@ -1692,19 +1865,21 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
+        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
+        /// is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1730,9 +1905,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream from the specified source language to the specified target language. This method
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1770,9 +1945,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
+        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1807,9 +1982,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream from the specified source language to the specified target language. This method
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1820,7 +1995,8 @@ namespace DeepL
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1847,9 +2023,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
+        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
@@ -1859,7 +2035,8 @@ namespace DeepL
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the file stream, the target language, or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the file stream, the target language, or the file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
@@ -1884,9 +2061,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream from the specified source language to the specified target language. This method
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -1894,19 +2071,38 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
+        /// input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the input file name, the output file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are <c>null</c>, then an
+        /// <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
         /// <exception cref="UnauthorizedAccessException">
-        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is
+        /// hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1938,7 +2134,12 @@ namespace DeepL
             // Opens the file and uploads it to the DeepL API for translation and downloads the result
             using (FileStream inputFileStream = new FileStream(inputFileName, FileMode.Open))
             {
-                using (Stream outputFileStream = await this.TranslateDocumentAsync(inputFileStream, Path.GetFileName(inputFileName), sourceLanguageCode, targetLanguageCode, cancellationToken))
+                using (Stream outputFileStream = await this.TranslateDocumentAsync(
+                    inputFileStream,
+                    Path.GetFileName(inputFileName),
+                    sourceLanguageCode,
+                    targetLanguageCode,
+                    cancellationToken))
                 {
                     using (FileStream fileStream = File.Create(outputFileName))
                         await outputFileStream.CopyToAsync(fileStream);
@@ -1947,27 +2148,47 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
+        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
+        /// input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the input file name, the output file name, or the target language code are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are <c>null</c>, then an
+        /// <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is
+        /// hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -1991,9 +2212,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream from the specified source language to the specified target language. This method
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -2001,18 +2222,38 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the input file name, or the output file name are empty or only consist of white spaces, then an <see cref="ArgumentException"/> is thrown.
+        /// If the input file name, or the output file name are empty or only consist of white spaces, then an
+        /// <see cref="ArgumentException"/> is thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
+        /// input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is
+        /// hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2037,27 +2278,46 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
+        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
+        /// input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
         /// If the input file name or the output file name are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is
+        /// hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2080,9 +2340,9 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream from the specified source language to the specified target language.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream from the specified source language to the specified target language. This method
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>, and
+        /// <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
@@ -2090,18 +2350,38 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
+        /// input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the input file name, the output file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the input file name, the output file name, or the target language are <c>null</c>, then an
+        /// <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is
+        /// hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2126,27 +2406,47 @@ namespace DeepL
         );
 
         /// <summary>
-        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred from the source text, if possible.
-        /// This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>, <see cref="CheckTranslationStatusAsync"/>,
-        /// and <see cref="DownloadTranslatedDocumentAsync"/>.
+        /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
+        /// from the source text, if possible. This method is a combination of <see cref="UploadDocumentForTranslationAsync"/>,
+        /// <see cref="CheckTranslationStatusAsync"/>, and <see cref="DownloadTranslatedDocumentAsync"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
-        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is thrown.
+        /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
+        /// input file name or the output file name contain one or more invalid characters, then an <see cref="ArgumentException"/> is
+        /// thrown.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// If the input file name, the output file name, or the target language are <c>null</c>, then an <see cref="ArgumentNullException"/> is thrown.
+        /// If the input file name, the output file name, or the target language are <c>null</c>, then an
+        /// <see cref="ArgumentNullException"/> is thrown.
         /// </exception>
-        /// <exception name="FileNotFoundException">If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.</exception>
-        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.</exception>
-        /// <exception cref="PathTooLongException">If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is thrown.</exception>
-        /// <exception cref="DirectoryNotFoundException">If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.</exception>
-        /// <exception cref="IOException">If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.</exception>
-        /// <exception cref="NotSupportedException">If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.</exception>
-        /// <exception name="SecurityException">If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is thrown.</exception>
+        /// <exception name="FileNotFoundException">
+        /// If the specified input file does not exist, then a <see cref="FileNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">
+        /// If the caller does not have the required permission, the specified input file is read-only, or the specified input file is
+        /// hidden, then an <see cref="UnauthorizedAccessException"/> is thrown.
+        /// </exception>
+        /// <exception cref="PathTooLongException">
+        /// If the path of the input or output file exceed the system-defined maximum length, then a <see cref="PathTooLongException"/> is
+        /// thrown.
+        /// </exception>
+        /// <exception cref="DirectoryNotFoundException">
+        /// If the path to the input or output file is invalid or does not exist, then a <see cref="DirectoryNotFoundException"/> is thrown.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// If a I/O error occurs during the reading or writing of a file, then an <see cref="IOException"/> is thrown.
+        /// </exception>
+        /// <exception cref="NotSupportedException">
+        /// If the input or output file name has an invalid format, then a <see cref="NotSupportedException"/> is thrown.
+        /// </exception>
+        /// <exception name="SecurityException">
+        /// If the caller does not have the required permission to the read the input file, then a <see cref="SecurityException"/> is
+        /// thrown.
+        /// </exception>
         /// <exception cref="DeepLException">
         /// When an error occurs a <see cref="DeepLException"/> is thrown. This occurs in the following cases:
         /// 1. The parameters are invalid (e.g. the source or target language are not supported).
@@ -2185,9 +2485,12 @@ namespace DeepL
         }
 
         /// <summary>
-        /// Disposes of all the resources acquired by the <see cref="DeepLClient"/>. This method can be overridden by sub-classes to dispose of further resources.
+        /// Disposes of all the resources acquired by the <see cref="DeepLClient"/>. This method can be overridden by sub-classes to dispose
+        /// of further resources.
         /// </summary>
-        /// <param name="disposingManagedResources">Determines whether managed resources should be disposed of or only unmanaged resources.</param>
+        /// <param name="disposingManagedResources">
+        /// Determines whether managed resources should be disposed of or only unmanaged resources.
+        /// </param>
         protected virtual void Dispose(bool disposingManagedResources)
         {
             // Checks if the DeepL API client has already been disposed of

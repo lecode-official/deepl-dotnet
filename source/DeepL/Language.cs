@@ -2,9 +2,9 @@
 namespace DeepL
 {
     /// <summary>
-    /// Represents an enumeration for the supported languages of the DeepL translation engine. This list contains all
-    /// supported languages as of the time of writing this .NET implementation. In order to get the current list of
-    /// supported languages use the <see cref="DeepLClient.GetSupportedLanguagesAsync"/> method.
+    /// Represents an enumeration for the supported languages of the DeepL translation engine. This list contains all supported languages as
+    /// of the time of writing this .NET implementation. In order to get the current list of supported languages use the
+    /// <see cref="DeepLClient.GetSupportedLanguagesAsync"/> method.
     /// </summary>
     public enum Language
     {
@@ -54,8 +54,8 @@ namespace DeepL
         Portuguese,
 
         /// <summary>
-        /// The Portuguese (Brazilian) language (language code "PT-BR"). This language may only be used as a target
-        /// language, but not as a source language.
+        /// The Portuguese (Brazilian) language (language code "PT-BR"). This language may only be used as a target language, but not as a
+        /// source language.
         /// </summary>
         BrazilianPortuguese,
 

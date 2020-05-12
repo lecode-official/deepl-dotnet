@@ -9,7 +9,7 @@ namespace DeepL
 {
     /// <summary>
     /// Represents the result, when an error occurs in the DeepL API.
-    /// /// </summary>
+    /// </summary>
     internal class ErrorResult
     {
         #region Public Properties

@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 namespace DeepL
 {
     /// <summary>
-    /// Represents a language that is supported by the DeepL API. While the <see cref="Language"/> enumeration contains the
-    /// languages that are supported at the writing of this .NET implementation, a <see cref="SupportedLanguage"/> comes
-    /// directly from the DeepL API itself and may therefore change over time.
+    /// Represents a language that is supported by the DeepL API. While the <see cref="Language"/> enumeration contains the languages that
+    /// are supported at the writing of this .NET implementation, a <see cref="SupportedLanguage"/> comes directly from the DeepL API itself
+    /// and may therefore change over time.
     /// </summary>
     public class SupportedLanguage
     {

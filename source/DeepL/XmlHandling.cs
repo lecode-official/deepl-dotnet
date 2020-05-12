@@ -8,8 +8,8 @@ using System.Collections.Generic;
 namespace DeepL
 {
     /// <summary>
-    /// Represents the options for the handling of XML of the DeepL translation engine. At the time of writing this .NET
-    /// implementation, XML handling for Japanese or Chinese texts is not supported by the DeepL API.
+    /// Represents the options for the handling of XML of the DeepL translation engine. At the time of writing this .NET implementation, XML
+    /// handling for Japanese or Chinese texts is not supported by the DeepL API.
     /// </summary>
     public class XmlHandling
     {
@@ -31,9 +31,9 @@ namespace DeepL
         public IEnumerable<string> IgnoreTags { get; set; }
 
         /// <summary>
-        /// Gets or sets a value that determines whether the outline of an XML document is automatically detected. Automatic
-        /// outline detection may not always provide the best translation results, therefore it can make sense to disable it
-        /// and provide a custom list of splitting and non-splitting tags.
+        /// Gets or sets a value that determines whether the outline of an XML document is automatically detected. Automatic outline
+        /// detection may not always provide the best translation results, therefore it can make sense to disable it and provide a custom
+        /// list of splitting and non-splitting tags.
         /// </summary>
         public bool OutlineDetection { get; set; } = true;
 
