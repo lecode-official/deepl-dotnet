@@ -1,10 +1,28 @@
 
 <Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Target Framework -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <!-- Assembly Info -->
+  <PropertyGroup>
+    <AssemblyTitle>DeepL.NET Test Application</AssemblyTitle>
+    <Version>0.1.0</Version>
+    <Copyright>Copyright © 2016-2020 David Neumann</Copyright>
+    <Product>DeepL.NET - A .NET wrapper for the DeepL translation service</Product>
+    <Description>A simple test application for DeepL.NET.</Description>
+  </PropertyGroup>
+
+  <!-- General Assembly Properties -->
+  <PropertyGroup>
+    <RootNamespace>DeepL.Test</RootNamespace>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- Referenced Projects & NuGet Packages -->
   <ItemGroup>
     <ProjectReference Include="..\DeepL\DeepL.csproj" />
   </ItemGroup>
