@@ -34,20 +34,33 @@ Then you can start translating texts:
 ```csharp
 using DeepL;
 
-using (DeepLClient client = new DeepLClient("<authentication key>")
+namespace Application
 {
-    try
+    public class Program
     {
-        Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
-        Console.WriteLine(translation.DetectedSourceLanguage);
-        Console.WriteLine(translation.Text);
-    }
-    catch (DeepLException exception)
-    {
-        Console.WriteLine($"An error occurred: {exception.Message}");
+        public static void Main(string[] arguments) => Program.MainAsync(arguments).Wait();
+
+        public static async Task MainAsync(string[] arguments)
+        {
+            using (DeepLClient client = new DeepLClient("<authentication key>")
+            {
+                try
+                {
+                    Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
+                    Console.WriteLine(translation.DetectedSourceLanguage);
+                    Console.WriteLine(translation.Text);
+                }
+                catch (DeepLException exception)
+                {
+                    Console.WriteLine($"An error occurred: {exception.Message}");
+                }
+            }
+        }
     }
 }
 ```
+
+For a more complete example, please refer to the [test project](https://github.com/lecode-official/deepl-dotnet/tree/master/source/DeepL.Test), which demonstrates a wide variety of features.
 
 ## Developing
 
