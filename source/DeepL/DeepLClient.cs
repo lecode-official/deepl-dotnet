@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -34,7 +35,7 @@ namespace DeepL
             this.authenticationKey = authenticationKey;
 
             this.httpClient = new HttpClient();
-            this.httpClient.DefaultRequestHeaders.Add("User-Agent", "DeepL.NET/0.1");
+            this.httpClient.DefaultRequestHeaders.Add("User-Agent", $"DeepL.NET/{Assembly.GetEntryAssembly().GetName().Version}");
             this.httpClient.DefaultRequestHeaders.Add("Accept", "*/*");
 
             this.fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
