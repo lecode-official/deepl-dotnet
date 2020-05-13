@@ -2,15 +2,14 @@
 
 ![DeepL.NET Logo](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/images/banner.png "DeepL.NET Logo")
 
-A .NET wrapper for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This wrapper only supports v2 of the API as v1 of the API has been deprecated for new DeepL API plans available from October 2018.
+A .NET wrapper for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This wrapper only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
 
 ## Features
 
 - .NET Core and .NET Framework compatible
 - Completely asynchronous (using the async-await pattern)
-- Covers the complete DeepL API surface area
-- Translate text
-- Translate text containing XML
+- Covers the complete surface area of the DeepL API
+- Translate text (including text with XML markup)
 - Translate documents (Word, PowerPoint, HTML, and raw text documents)
 
 ## Getting Started

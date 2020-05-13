@@ -20,7 +20,7 @@ Alternatively, you can also manually add a reference to your project file:
 
 ## Getting Started
 
-After installing the NuGet package, you can start using DeepL.NET. All functionality of DeepL.NET resides in the namespace `DeepL`, so make sure to import the namespace (`using DeepL`). The central class in the library is the `DeepLClient`, which you have to instantiate to access DeepL API. `DeepLClient` implements `IDisposable`, so it is recommended that you either encapsulate its usage in a `using` block or implement `IDisposable` yourself. The `DeepLClient` has no internal state so a single instance can be used throughout you whole application. The only argument of the `DeepLClient` constructor is the authentication key for the DeepL API, which you will find in the [account settings](https://www.deepl.com/pro-account.html) after creating a DeepL API subscription.
+After installing the NuGet package, you can start using DeepL.NET. All functionality of DeepL.NET resides in the namespace `DeepL`, so make sure to import the namespace (`using DeepL`). The central class in the library is the `DeepLClient`, which you have to instantiate to access the DeepL API. `DeepLClient` implements `IDisposable`, so it is recommended that you either encapsulate its usage in a `using` block or implement `IDisposable` yourself. The `DeepLClient` has no internal state so a single instance can be used throughout the whole lifetime of your application. The only argument of the `DeepLClient` constructor is the authentication key for the DeepL API, which you will find in the [account settings](https://www.deepl.com/pro-account.html) after creating a DeepL API subscription.
 
 ```csharp
 using (DeepLClient client = new DeepLClient("<authentication key>")
@@ -28,7 +28,7 @@ using (DeepLClient client = new DeepLClient("<authentication key>")
 }
 ```
 
-The easiest way to translate text is via the `TranslateAsync` method, which takes a text and a target language as arguments and returns a `Translation` object. The `Translation` object contains the translated text as well as the source language that was automatically inferred from the text.
+The easiest way to translate text is via the `TranslateAsync` method, which takes a text and a target language as arguments and returns a `Translation` object. The `Translation` object contains the translated text as well as the source language that was automatically inferred from the text, if possible.
 
 ```csharp
 Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
@@ -38,7 +38,7 @@ Console.WriteLine(translation.Text);
 
 ## Further Topics
 
-For more advanced topics you may refer to the following topics.
+For more advanced topics you may refer to the following documents:
 
 - [Translating Text](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/translating-text.md)
 - [Translating Documents](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/translating-documents.md)
