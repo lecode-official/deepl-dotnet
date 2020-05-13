@@ -36,6 +36,57 @@ Console.WriteLine(translation.DetectedSourceLanguage);
 Console.WriteLine(translation.Text);
 ```
 
+## Error Handling
+
+For any error that may occur during the translation, the `DeepLClient` throws a `DeepLException`. Errors that may happen during translation are the following:
+
+1. The parameters are invalid (e.g. the source or target language are not supported)
+1. The authentication key is invalid
+1. The resource could not be found (e.g. when the specified document translation does not exist anymore)
+1. The text that is to be translated is too large
+1. Too many requests have been made in a short period of time
+1. The translation quota has been exceeded
+1. An internal server error has occurred
+1. The DeepL API server is unavailable
+
+Besides that the `DeepLClient` may also throw other common .NET exceptions, e.g. `ArgumentException` or `ArgumentNullException` for invalid arguments, or I/O related exceptions when uploading or downloading documents. Every method has extensive documentation about each exception that it may throw, but in general it may be enough to just catch `DeepLException`s.
+
+## Asynchronicity
+
+All methods of the `DeepLClient` are asynchronous and non-blocking. The familiar async-await pattern (also known as Task Awaitable Pattern, or TAP) is used throughout the library, so you have to return a `Task` object and mark your methods as `async`.
+
+```csharp
+Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
+```
+
+In case you absolutely have to use DeepL.NET in a synchronous way, store the returned `Task` object, synchronously wait for it to finish, and then retrieve the result (**but this is definitely not recommended**):
+
+```csharp
+Task<Translation> task = client.TranslateAsync("This is a test sentence.", Language.German);
+task.Wait();
+Translation translation = task.Result;
+```
+
+If you want to use DeepL.NET from the your `Main` method, then create a second asynchronous `MainAsync` method like so:
+
+```csharp
+public static void Main(string[] arguments) => Program.MainAsync(arguments).Wait();
+
+public static async Task MainAsync(string[] arguments)
+{
+}
+```
+
+All asynchronous methods of the `DeepLClient` offer a `CancellationToken` parameter, which can be used to cancel long-running requests to the DeepL API.
+
+```csharp
+CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German, cancellationTokenSource.Token);
+Console.WriteLine("Press enter to cancel the translation...");
+Console.ReadLine();
+cancellationTokenSource.Cancel();
+```
+
 ## Further Topics
 
 For more advanced topics you may refer to the following documents:

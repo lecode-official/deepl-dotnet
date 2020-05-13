@@ -13,8 +13,6 @@ using (DeepLClient client = new DeepLClient("<authentication key>")
 }
 ```
 
-Like all asynchronous methods of the `DeepLClient`, the `GetUsageStatisticsAsync` method accepts a `CancellationToken`.
-
 ## Listing Supported Languages
 
 The `GetSupportedLanguagesAsync` method of the `DeepLClient` lists all languages that are supported by the DeepL API. The method returns `IEnumerable<SupportedLanguage>`. Each `SupportedLanguage` object contains the language code (`LanguageCode`) and the name of the language (`Name`). `SupportedLanguage` objects can be used as arguments for all translation-related methods in the `DeepLClient` instead of the raw language code or the `Language` enumeration.
@@ -34,5 +32,3 @@ using (DeepLClient client = new DeepLClient("<authentication key>")
     Console.WriteLine(translation.Text);
 }
 ```
-
-Like all asynchronous methods of the `DeepLClient`, the `GetSupportedLanguagesAsync` method accepts a `CancellationToken`.
