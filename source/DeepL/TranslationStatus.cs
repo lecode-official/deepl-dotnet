@@ -25,7 +25,7 @@ namespace DeepL
         /// Gets the state that the document translation process is currently in.
         /// </summary>
         [JsonProperty("status")]
-        public TranslationState Status { get; private set; }
+        public TranslationState State { get; private set; }
 
         /// <summary>
         /// Gets the estimated number of seconds until the translation is done. This parameter is only included while the translation is
