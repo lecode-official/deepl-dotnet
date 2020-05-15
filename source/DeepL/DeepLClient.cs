@@ -1036,7 +1036,7 @@ namespace DeepL
                 var fileContent = new StreamContent(fileStream);
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
                 fileContent.Headers.ContentDisposition.Name = "\"file\"";
-                fileContent.Headers.ContentDisposition.FileName = $"\"{fileName}\"";
+                fileContent.Headers.ContentDisposition.FileName = $"\"{Path.GetFileName(fileName)}\"";
                 if (!this.fileExtensionContentTypeProvider.TryGetContentType(fileName, out string contentType))
                     contentType = "text/plain";
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
@@ -1378,7 +1378,7 @@ namespace DeepL
             {
                 return await this.UploadDocumentForTranslationAsync(
                     fileStream,
-                    Path.GetFileName(fileName),
+                    fileName,
                     sourceLanguageCode,
                     targetLanguageCode,
                     cancellationToken
@@ -2274,7 +2274,7 @@ namespace DeepL
             {
                 using (Stream outputFileStream = await this.TranslateDocumentAsync(
                     inputFileStream,
-                    Path.GetFileName(inputFileName),
+                    inputFileName,
                     sourceLanguageCode,
                     targetLanguageCode,
                     cancellationToken))
