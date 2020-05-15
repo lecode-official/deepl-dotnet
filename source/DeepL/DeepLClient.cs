@@ -1958,7 +1958,7 @@ namespace DeepL
                 );
 
                 // If the translation is done, then the loop can be exited and the translated document can be downloaded
-                if (translationStatus.Status == TranslationState.Done)
+                if (translationStatus.State == TranslationState.Done)
                     break;
 
                 // In order to not send too many requests to the server, we wait for a short amount of time, before sending another request
