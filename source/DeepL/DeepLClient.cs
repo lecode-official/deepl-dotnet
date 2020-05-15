@@ -1960,6 +1960,10 @@ namespace DeepL
                 if (translationStatus.State == TranslationState.Done)
                     break;
 
+                // If an error occurred during the translation, then an exception is thrown
+                if (translationStatus.State == TranslationState.Error)
+                    throw new DeepLException("An unknown error occurred during the translation of the document.");
+
                 // In order to not send too many requests to the server, we wait for a short amount of time, before sending another request
                 // (when the tranlation has started, then the translation status actually contains the estimated number of seconds
                 // remaining, if they are not in the translation status, then we default to 1/2 second)
