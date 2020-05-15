@@ -23,8 +23,8 @@ using (DeepLClient client = new DeepLClient("<authentication key>")
     IEnumerable<SupportedLanguage> languages = await client.GetSupportedLanguagesAsync();
     foreach (SupportedLanguage language in languages)
     {
-        Console.WriteLine(usageStatistics.Name);
-        Console.WriteLine(usageStatistics.LanguageCode);
+        Console.WriteLine(language.Name);
+        Console.WriteLine(language.LanguageCode);
     }
 
     Translation translation = await client.TranslateAsync(
