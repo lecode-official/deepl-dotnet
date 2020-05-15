@@ -25,6 +25,24 @@ For uploading documents, the `DeepLClient` offers the `UploadDocumentForTranslat
 
 All of these translation methods return an instance of `DocumentTranslation`, which contains the ID of the document (`DocumentId`) and an encryption key (`DocumentKey`). The `DocumentTranslation` must be specified when checking the translation status or when downloading the translated document.
 
+```csharp
+// Uploading a document from a file for translation
+DocumentTranslation documentTranslation = await client.UploadDocumentForTranslationAsync(
+    "document.docx",
+    Language.German
+);
+
+// Uploads a document from a stream for translation
+using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
+{
+    DocumentTranslation documentTranslation = this.UploadDocumentForTranslationAsync(
+        fileStream,
+        fileName,
+        Language.German
+    );
+}
+```
+
 ## Checking Translation Status
 
 Using the method `CheckTranslationStatusAsync` you can check the translation status of a document uploaded using `UploadDocumentForTranslationAsync`. It takes the `DocumentTranslation` instance retrieved from the call to `UploadDocumentForTranslationAsync` as an argument and returns an instance of `TranslationStatus`, which contains, at a bare minimum the `State` and `DocumentId`. The `DocumentId` reflects the ID specified in the `DocumentTranslation`. `State` can have the following values:
@@ -38,12 +56,43 @@ Using the method `CheckTranslationStatusAsync` you can check the translation sta
 
 When the state of the translation is `TranslationState.Translating`, then the `TranslationStatus` also contains a property `SecondsRemaining`, which is the estimated number of seconds until the translation is done. Furthermore, when the translation is in the state `TranslationState.Done`, then the `TranslationStatus` contains `BilledCharacters`, which is the number of characters that were billed to your account for translating the document.
 
+```csharp
+TranslationStatus translationStatus = await this.CheckTranslationStatusAsync(documentTranslation);
+```
+
 > **IMPORTANT**: Please note that, as of the time of writing this documentation (May, 2020), when translating Microsoft Word or Microsoft PowerPoint documents, at least 50,000 characters will be billed to your account.
 
 ## Downloading Translated Documents
 
 When the state of the `DocumentTranslation` is `TranslationState.Done`, then the translated document can be downloaded via `DownloadTranslatedDocumentAsync` method. It takes the `DocumentTranslation` as a parameter. It has two overloads: one that returns a `Stream` containing the translated document and one that expects a file name as an argument and writes the document to the specified file.
 
+```csharp
+// Downloading a translated document to a stream
+Stream document = await this.DownloadTranslatedDocumentAsync(documentTranslation);
+
+// Downloading a translated document to a file
+await this.DownloadTranslatedDocumentAsync(documentTranslation, "translated.docx");
+```
+
 ## All-in-One Document Translation
 
 For your convenience, the `DeepLClient` has the `TranslateDocumentAsync` family of methods, which automatically upload a document, intelligently poll for its status, and download the document when its translation has finished. There are two types of overloads for this method: one that takes a `Stream`, a file name, an optional source language, and a target language and return a `Stream` and one that takes an input file name, an output file name, an optional source language, and a target language and saves the downloaded document to the specified output file.
+
+```csharp
+// Translating a document from a stream and downloading it into a stream
+using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
+{
+    Stream outputStream = await this.TranslateDocumentAsync(
+        fileStream,
+        fileName,
+        Language.German
+    );
+}
+
+// Translating a document from a file and directly downloading it into another file
+await client.TranslateDocumentAsync(
+    "document.docx",
+    "translated.docx",
+    Language.German
+);
+```
