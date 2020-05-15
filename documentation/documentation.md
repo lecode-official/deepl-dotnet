@@ -31,7 +31,10 @@ using (DeepLClient client = new DeepLClient("<authentication key>")
 The easiest way to translate text is via the `TranslateAsync` method, which takes a text and a target language as arguments and returns a `Translation` object. The `Translation` object contains the translated text as well as the source language that was automatically inferred from the text, if possible.
 
 ```csharp
-Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
+Translation translation = await client.TranslateAsync(
+    "This is a test sentence.",
+    Language.German
+);
 Console.WriteLine(translation.DetectedSourceLanguage);
 Console.WriteLine(translation.Text);
 ```
@@ -56,13 +59,19 @@ Besides that the `DeepLClient` may also throw other common .NET exceptions, e.g.
 All methods of the `DeepLClient` are asynchronous and non-blocking. The familiar async-await pattern (also known as Task Awaitable Pattern, or TAP) is used throughout the library, so you have to return a `Task` object and mark your methods as `async`.
 
 ```csharp
-Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
+Translation translation = await client.TranslateAsync(
+    "This is a test sentence.",
+    Language.German
+);
 ```
 
 In case you absolutely have to use DeepL.NET in a synchronous way, store the returned `Task` object, synchronously wait for it to finish, and then retrieve the result (**but this is definitely not recommended**):
 
 ```csharp
-Task<Translation> task = client.TranslateAsync("This is a test sentence.", Language.German);
+Task<Translation> task = client.TranslateAsync(
+    "This is a test sentence.",
+    Language.German
+);
 task.Wait();
 Translation translation = task.Result;
 ```
@@ -81,7 +90,11 @@ All asynchronous methods of the `DeepLClient` offer a `CancellationToken` parame
 
 ```csharp
 CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German, cancellationTokenSource.Token);
+Translation translation = await client.TranslateAsync(
+    "This is a test sentence.",
+    Language.German,
+    cancellationTokenSource.Token
+);
 Console.WriteLine("Press enter to cancel the translation...");
 Console.ReadLine();
 cancellationTokenSource.Cancel();

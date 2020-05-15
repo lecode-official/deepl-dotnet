@@ -27,7 +27,10 @@ using (DeepLClient client = new DeepLClient("<authentication key>")
         Console.WriteLine(usageStatistics.LanguageCode);
     }
 
-    Translation translation = await client.TranslateAsync("This is a test sentence.", languages.First());
+    Translation translation = await client.TranslateAsync(
+        "This is a test sentence.",
+        languages.First()
+    );
     Console.WriteLine(translation.DetectedSourceLanguage);
     Console.WriteLine(translation.Text);
 }
