@@ -30,7 +30,7 @@ namespace DeepL
         /// <summary>
         /// Initializes a new <see cref="DeepLClient"/> instance.
         /// </summary>
-        /// <param name="authenticationKey">he authentication key for the DeepL API.</param>
+        /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
         public DeepLClient(string authenticationKey)
         {
             this.authenticationKey = authenticationKey;
@@ -88,7 +88,7 @@ namespace DeepL
             [Language.Portuguese] = "PT",
             [Language.BrazilianPortuguese] = "PT-BR",
             [Language.Russian] = "RU",
-            [Language.Chinese] = "ZH",
+            [Language.Chinese] = "ZH"
         };
 
         #endregion
@@ -1040,7 +1040,6 @@ namespace DeepL
                 if (!this.fileExtensionContentTypeProvider.TryGetContentType(fileName, out string contentType))
                     contentType = "text/plain";
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                Console.WriteLine(contentType);
                 httpContent.Add(fileContent, "file", fileName);
 
                 // Adds the parameters to the content of the HTTP request (again, the content disposition is set by hand, because, by
