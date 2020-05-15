@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 #endregion
 
-namespace DeepL.Test
+namespace DeepL.Sample
 {
     /// <summary>
     /// Represents the DeepL test application, which showcases the usage of the DeepL.NET library.
@@ -263,16 +263,16 @@ namespace DeepL.Test
             Console.WriteLine("DeepL command line tool.");
             Console.WriteLine();
             Console.WriteLine("Usage:");
-            Console.WriteLine("    deepl translate [authentication-key] [text] [source-language] [target-language]");
-            Console.WriteLine("    deepl translate [authentication-key] [text] [target-language]");
+            Console.WriteLine("    deepl-cli translate [authentication-key] [text] [source-language] [target-language]");
+            Console.WriteLine("    deepl-cli translate [authentication-key] [text] [target-language]");
             Console.WriteLine(
-                "    deepl translate-document [authentication-key] [input-file] [output-file] [source-language] [target-language]"
+                "    deepl-cli translate-document [authentication-key] [input-file] [output-file] [source-language] [target-language]"
             );
-            Console.WriteLine("    deepl translate-document [authentication-key] [input-file] [output-file] [target-language]");
-            Console.WriteLine("    deepl get-usage-statistics [authentication-key]");
-            Console.WriteLine("    deepl get-supported-languages [authentication-key]");
-            Console.WriteLine("    deepl -h | --help");
-            Console.WriteLine("    deepl --version");
+            Console.WriteLine("    deepl-cli translate-document [authentication-key] [input-file] [output-file] [target-language]");
+            Console.WriteLine("    deepl-cli get-usage-statistics [authentication-key]");
+            Console.WriteLine("    deepl-cli get-supported-languages [authentication-key]");
+            Console.WriteLine("    deepl-cli -h | --help");
+            Console.WriteLine("    deepl-cli --version");
 
             // Exits the application with an error code
             Environment.Exit(1);
@@ -291,10 +291,10 @@ namespace DeepL.Test
                 Console.WriteLine("DeepL command line tool.");
                 Console.WriteLine();
                 Console.WriteLine("Usage:");
-                Console.WriteLine("    deepl [command] [authentication-key] [command-arguments]");
-                Console.WriteLine("    deepl --help|-h");
-                Console.WriteLine("    deepl [command] --help|-h");
-                Console.WriteLine("    deepl --version");
+                Console.WriteLine("    deepl-cli [command] [authentication-key] [command-arguments]");
+                Console.WriteLine("    deepl-cli --help|-h");
+                Console.WriteLine("    deepl-cli [command] --help|-h");
+                Console.WriteLine("    deepl-cli --version");
                 Console.WriteLine();
                 Console.WriteLine("options:");
                 Console.WriteLine("    --help|-h                 Show this help and exit.");
@@ -318,9 +318,9 @@ namespace DeepL.Test
                     Console.WriteLine("Translate text.");
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
-                    Console.WriteLine("    deepl translate [authentication-key] [text] [source-language] [target-language]");
-                    Console.WriteLine("    deepl translate [authentication-key] [text] [target-language]");
-                    Console.WriteLine("    deepl translate --help|-h");
+                    Console.WriteLine("    deepl-cli translate [authentication-key] [text] [source-language] [target-language]");
+                    Console.WriteLine("    deepl-cli translate [authentication-key] [text] [target-language]");
+                    Console.WriteLine("    deepl-cli translate --help|-h");
                     Console.WriteLine();
                     Console.WriteLine("options:");
                     Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
@@ -337,10 +337,10 @@ namespace DeepL.Test
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
                     Console.WriteLine(
-                        "    deepl translate-document [authentication-key] [input-file] [output-file] [source-language] [target-language]"
+                        "    deepl-cli translate-document [authentication-key] [input-file] [output-file] [source-language] [target-language]"
                     );
-                    Console.WriteLine("    deepl translate-document [authentication-key] [input-file] [output-file] [target-language]");
-                    Console.WriteLine("    deepl translate --help|-h");
+                    Console.WriteLine("    deepl-cli translate-document [authentication-key] [input-file] [output-file] [target-language]");
+                    Console.WriteLine("    deepl-cli translate --help|-h");
                     Console.WriteLine();
                     Console.WriteLine("options:");
                     Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
@@ -357,8 +357,8 @@ namespace DeepL.Test
                     Console.WriteLine("Get the number of characters billed to your account and your limits.");
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
-                    Console.WriteLine("    deepl get-usage-statistics [authentication-key]");
-                    Console.WriteLine("    deepl translate --help|-h");
+                    Console.WriteLine("    deepl-cli get-usage-statistics [authentication-key]");
+                    Console.WriteLine("    deepl-cli translate --help|-h");
                     Console.WriteLine();
                     Console.WriteLine("options:");
                     Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
@@ -370,8 +370,8 @@ namespace DeepL.Test
                     Console.WriteLine("List the languages currently supported by DeepL.");
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
-                    Console.WriteLine("    deepl get-supported-languages [authentication-key]");
-                    Console.WriteLine("    deepl translate --help|-h");
+                    Console.WriteLine("    deepl-cli get-supported-languages [authentication-key]");
+                    Console.WriteLine("    deepl-cli translate --help|-h");
                     Console.WriteLine();
                     Console.WriteLine("options:");
                     Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
