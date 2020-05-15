@@ -45,7 +45,10 @@ namespace Application
             {
                 try
                 {
-                    Translation translation = await client.TranslateAsync("This is a test sentence.", Language.German);
+                    Translation translation = await client.TranslateAsync(
+                        "This is a test sentence.",
+                        Language.German
+                    );
                     Console.WriteLine(translation.DetectedSourceLanguage);
                     Console.WriteLine(translation.Text);
                 }

@@ -57,7 +57,9 @@ Using the method `CheckTranslationStatusAsync` you can check the translation sta
 When the state of the translation is `TranslationState.Translating`, then the `TranslationStatus` also contains a property `SecondsRemaining`, which is the estimated number of seconds until the translation is done. Furthermore, when the translation is in the state `TranslationState.Done`, then the `TranslationStatus` contains `BilledCharacters`, which is the number of characters that were billed to your account for translating the document.
 
 ```csharp
-TranslationStatus translationStatus = await this.CheckTranslationStatusAsync(documentTranslation);
+TranslationStatus translationStatus = await this.CheckTranslationStatusAsync(
+    documentTranslation
+);
 ```
 
 > **IMPORTANT**: Please note that, as of the time of writing this documentation (May, 2020), when translating Microsoft Word or Microsoft PowerPoint documents, at least 50,000 characters will be billed to your account.
