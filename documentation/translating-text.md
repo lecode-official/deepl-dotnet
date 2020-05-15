@@ -9,7 +9,7 @@ The `DeepLClient.TranslateAsync(string, ...)` family of methods can be used to t
 | `text` | `string` | ✗ | The text that is to be translated. |
 | `sourceLanguageCode` or `sourceLanguage` | `string`, `Language`, or `SupportedLanguage` | ✓ | The language of the text that is to be translated. If not specified, the language is inferred from the text, if possible. |
 | `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗ | The language into which the text is to be translated. |
-| `splitting` | `Splitting` | ✓ | Determines how the text is split into sentences on the server-side. Defaults to InterpunctionAndNewLines. |
+| `splitting` | `Splitting` | ✓ | Determines how the text is split into sentences by the translation engine. Defaults to `Splitting.InterpunctionAndNewLines`. |
 | `preserveFormatting` | `bool` | ✓ | Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects. This includes capitalization at the beginning of sentences and interpunction. Defaults to `false`. |
 | `xmlHandling` | `XmlHandling` | ✓ | Determines how XML tags are handled by the translation engine. Defaults to `null`. |
 | `cancellationToken` | `CancellationToken` | ✓ | Can be used to cancel a long running translation. Defaults to `null`. |
@@ -68,6 +68,8 @@ As of writing this documentation (May, 2020), the DeepL API supports the followi
 | Russian | RU | `Language.Russian` |
 | Japanese | JA | `Language.Japanese` |
 | Chinese | ZH | `Language.Chinese` |
+
+> **IMPORTANT**: Please note that Brazilian Portuguese (PT-BR) is only supported as a target language and not as a source language. Portuguese (PT) includes all varieties of Portuguese including Brazilian Portuguese.
 
 Every translation method has an overload that accepts the language code as a string. For your convenience, there is also the `Language` enumeration, which contains all languages (supported as of May, 2020). Furthermore, the source or target language can also be specified as an instance of `SupportedLanguage`. A list of all supported languages can be retrieved using the `GetSupportedLanguagesAsync` method. For further information see ["Listing Supported Languages"](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md#listing-supported-languages). This is helpful for inclusion in user interfaces or in case a new supported language is added, but DeepL.NET has not been updated to include it.
 
