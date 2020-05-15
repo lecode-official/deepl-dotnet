@@ -1,5 +1,7 @@
 # DeepL.NET Documentation
 
+![DeepL.NET Logo](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/images/banner.png "DeepL.NET Logo")
+
 Welcome to the documentation of DeepL.NET. DeepL.NET is a C# library for accessing the DeepL translation REST API. Please note that DeepL.NET only support v2 of the API, as v1 is now a deprecated. In oder to use DeepL.NET you need to have a [DeepL API subscription](https://www.deepl.com/pro.html#developer). For further information about the DeepL API, please refer to the [official documentation](https://www.deepl.com/docs-api/introduction/).
 
 ## Installation
