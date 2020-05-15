@@ -9,7 +9,7 @@ Instead of translating large volumes of text manually, the DeepL API also suppor
 
 Translating documents is fully asynchronous, which means that the document is first uploaded to the DeepL API, then the status of the translation can be polled, and finally, when the translation has finished, the translated document can be downloaded.
 
-> **IMPORTANT**: Please note that, as of the time of writing this documentation (May, 2020), the document translation is still in beta and may cause problems.
+> **IMPORTANT**: Please note that, as of the time of writing this documentation (May, 2020), the document translation is still in beta and may cause problems. Please report issues to support@deepl.com.
 
 ## Uploading Documents
 
