@@ -10,21 +10,23 @@
   <PropertyGroup>
     <AssemblyTitle>DeepL.NET</AssemblyTitle>
     <Version>0.1.0</Version>
-    <Copyright>Copyright © 2016-2020 David Neumann</Copyright>
-    <Product>DeepL.NET - A .NET wrapper for the DeepL translation service</Product>
+    <Copyright>Copyright © 2020 David Neumann</Copyright>
+    <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
     <Description>DeepL.NET is a fully-featured .NET client for the DeepL translation service.</Description>
   </PropertyGroup>
 
   <!-- NuGet Info -->
   <PropertyGroup>
     <Title>DeepL.NET</Title>
-    <Authors>David Neumann</Authors>
+    <Authors>lecodeofficial</Authors>
     <PackageId>DeepL</PackageId>
-    <PackageTags>DeepL</PackageTags>
+    <PackageTags>deepl;translation</PackageTags>
     <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/lecode-official/deepl-dotnet</PackageProjectUrl>
     <PackageIcon>logo64x64.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/lecode-official/deepl-dotnet.git</RepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>

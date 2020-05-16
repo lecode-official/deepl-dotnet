@@ -2,7 +2,7 @@
 
 ![DeepL.NET Logo](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/images/banner.png "DeepL.NET Logo")
 
-A .NET wrapper for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This wrapper only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
+A fully-featured .NET client for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This API client only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
 
 ## Features
 
