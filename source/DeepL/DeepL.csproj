@@ -19,7 +19,6 @@
   <PropertyGroup>
     <Title>DeepL.NET</Title>
     <Authors>David Neumann</Authors>
-    <Owners>lecodeofficial</Owners>
     <PackageId>DeepL</PackageId>
     <PackageTags>DeepL</PackageTags>
     <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
