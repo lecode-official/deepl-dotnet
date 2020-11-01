@@ -14,9 +14,14 @@ namespace DeepL
         German,
 
         /// <summary>
-        /// The English language (language code "EN").
+        /// The British English language (language code "EN-GB").
         /// </summary>
-        English,
+        BritishEnglish,
+
+        /// <summary>
+        /// The American English language (language code "EN-US").
+        /// </summary>
+        AmericanEnglish,
 
         /// <summary>
         /// The French language (language code "FR").

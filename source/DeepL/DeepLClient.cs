@@ -78,7 +78,8 @@ namespace DeepL
         private static readonly Dictionary<Language, string> languageCodeConversionMap = new Dictionary<Language, string>
         {
             [Language.German] = "DE",
-            [Language.English] = "EN",
+            [Language.BritishEnglish] = "EN-GB",
+            [Language.AmericanEnglish] = "EN-US",
             [Language.French] = "FR",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
