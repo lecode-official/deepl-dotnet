@@ -25,7 +25,7 @@ Alternatively, you can also manually add a reference to your project file:
 After installing the NuGet package, you can start using DeepL.NET. All functionality of DeepL.NET resides in the namespace `DeepL`, so make sure to import the namespace (`using DeepL`). The central class in the library is the `DeepLClient`, which you have to instantiate to access the DeepL API. `DeepLClient` implements `IDisposable`, so it is recommended that you either encapsulate its usage in a `using` block or implement `IDisposable` yourself. The `DeepLClient` has no internal state so a single instance can be used throughout the whole lifetime of your application. The only argument of the `DeepLClient` constructor is the authentication key for the DeepL API, which you will find in the [account settings](https://www.deepl.com/pro-account.html) after creating a DeepL API subscription.
 
 ```csharp
-using (DeepLClient client = new DeepLClient("<authentication key>")
+using (DeepLClient client = new DeepLClient("<authentication key>"))
 {
 }
 ```
