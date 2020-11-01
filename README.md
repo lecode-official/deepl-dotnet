@@ -41,7 +41,7 @@ namespace Application
 
         public static async Task MainAsync(string[] arguments)
         {
-            using (DeepLClient client = new DeepLClient("<authentication key>")
+            using (DeepLClient client = new DeepLClient("<authentication key>"))
             {
                 try
                 {
