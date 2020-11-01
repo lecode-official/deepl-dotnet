@@ -4,15 +4,15 @@
 
 The `DeepLClient.TranslateAsync(string, ...)` family of methods can be used to translate texts. At a bare minimum, the text that is to be translated and the target language have to be specified. Below you find a table with all possible arguments. All methods return a `Translation` object, which contains the translated text (`Text`) as well as the source language (`DetectedSourceLanguage`). The source language either reflects the source language specified as an argument or it is the language that the translation engine inferred from the source text.
 
-| Parameter | Type | Optional | Description |
-|-----------|------|:--------:|-------------|
-| `text` | `string` | ✗ | The text that is to be translated. |
-| `sourceLanguageCode` or `sourceLanguage` | `string`, `Language`, or `SupportedLanguage` | ✓ | The language of the text that is to be translated. If not specified, the language is inferred from the text, if possible. |
-| `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗ | The language into which the text is to be translated. |
-| `splitting` | `Splitting` | ✓ | Determines how the text is split into sentences by the translation engine. Defaults to `Splitting.InterpunctionAndNewLines`. |
-| `preserveFormatting` | `bool` | ✓ | Determines whether the translation engine should respect the original formatting, even if it would usually correct some aspects. This includes capitalization at the beginning of sentences and interpunction. Defaults to `false`. |
-| `xmlHandling` | `XmlHandling` | ✓ | Determines how XML tags are handled by the translation engine. Defaults to `null`. |
-| `cancellationToken` | `CancellationToken` | ✓ | Can be used to cancel a long running translation. Defaults to `default(CancellationToken)`. |
+| Parameter                                | Type                                         | Optional | Description                                                                                                                                                                                                                         |
+|------------------------------------------|----------------------------------------------|:--------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `text`                                   | `string`                                     | ✗        | The text that is to be translated.                                                                                                                                                                                                  |
+| `sourceLanguageCode` or `sourceLanguage` | `string`, `Language`, or `SupportedLanguage` | ✓        | The language of the text that is to be translated. If not specified, the language is inferred from the text, if possible.                                                                                                           |
+| `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗        | The language into which the text is to be translated.                                                                                                                                                                               |
+| `splitting`                              | `Splitting`                                  | ✓        | Determines how the text is split into sentences by the translation engine. Defaults to `Splitting.InterpunctionAndNewLines`.                                                                                                        |
+| `preserveFormatting`                     | `bool`                                       | ✓        | Determines whether the translation engine should respect the original formatting, even if it would usually correct some aspects. This includes capitalization at the beginning of sentences and interpunction. Defaults to `false`. |
+| `xmlHandling`                            | `XmlHandling`                                | ✓        | Determines how XML tags are handled by the translation engine. Defaults to `null`.                                                                                                                                                  |
+| `cancellationToken`                      | `CancellationToken`                          | ✓        | Can be used to cancel a long running translation. Defaults to `default(CancellationToken)`.                                                                                                                                         |
 
 ```csharp
 Translation translation = await client.TranslateAsync(
@@ -84,11 +84,11 @@ There are two scenarios where it is helpful to handle XML input when translating
 
 Every overload of the `TranslateAsync` method has a parameter of type `XmlHandling`, which can be used to specify how XMl is to be handled. By default the XML handling is disabled. XML handling can be activated by adding a default instance of `XmlHandling` as an argument. By default, the XML tags are just ignored and copied into the translation. Please note that XML tags are always anchored to the word directly preceding it and will be added to corresponding translated word in the translation. So the actual positioning of the XML tags in the translation may change, but is semantically correct. The `XmlHandling` class also has some properties, which can be used to tailor the handling of the translation engine of XML to your needs.
 
-| Property | Description |
-|----------|-------------|
-| `NonSplittingTags` | A list (`IEnumerable<string>`) of XML tags which never split sentences. |
-| `SplittingTags` | A list (`IEnumerable<string>`) of XML tags which always split sentences. |
-| `IgnoreTags` | A list (`IEnumerable<string>`) of XML tags that indicate text not to be translated. |
+| Property           | Description                                                                                                                                                                                                                                                                                |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `NonSplittingTags` | A list (`IEnumerable<string>`) of XML tags which never split sentences.                                                                                                                                                                                                                    |
+| `SplittingTags`    | A list (`IEnumerable<string>`) of XML tags which always split sentences.                                                                                                                                                                                                                   |
+| `IgnoreTags`       | A list (`IEnumerable<string>`) of XML tags that indicate text not to be translated.                                                                                                                                                                                                        |
 | `OutlineDetection` | Determines whether the outline of an XML document is automatically detected. Automatic outline detection may not always provide the best translation results, therefore it can make sense to disable it and provide a custom list of splitting and non-splitting tags. Defaults to `true`. |
 
 When translating whole XML documents (in contrast to simple texts, that only contain a few tags), it makes sense to set the splitting argument to `Splitting.Interpunction` to make sure that newlines do not alter the results.

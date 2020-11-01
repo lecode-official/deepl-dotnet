@@ -15,13 +15,13 @@ Translating documents is fully asynchronous, which means that the document is fi
 
 For uploading documents, the `DeepLClient` offers the `UploadDocumentForTranslationAsync` family of methods. These methods come in two flavors: upload the document from a `Stream` or upload the document directly from a file. When uploading from a stream, then a file name has to be specified in order to determine the MIME type of the file. The methods have the following parameters:
 
-| Parameter | Type | Optional | Description |
-|-----------|------|:--------:|-------------|
-| `stream` | `Stream` | ✓ | The stream that contains the data of the document that is to be uploaded. |
-| `fileName` | `string` | ✗ | The name of the file that is to be uploaded. When no stream was specified, then this must be a full qualified path to an existing file. Otherwise a simple file name with a proper extension suffices. |
-| `sourceLanguageCode` or `sourceLanguage` | `string`, `Language`, or `SupportedLanguage` | ✓ | The language of the document that is to be translated. If not specified, the language is inferred from the text, if possible. |
-| `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗ | The language into which the document is to be translated. |
-| `cancellationToken` | `CancellationToken` | ✓ | Can be used to cancel a long running translation. Defaults to `default(CancellationToken)`. |
+| Parameter                                | Type                                         | Optional | Description                                                                                                                                                                                            |
+|------------------------------------------|----------------------------------------------|:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `stream`                                 | `Stream`                                     | ✓        | The stream that contains the data of the document that is to be uploaded.                                                                                                                              |
+| `fileName`                               | `string`                                     | ✗        | The name of the file that is to be uploaded. When no stream was specified, then this must be a full qualified path to an existing file. Otherwise a simple file name with a proper extension suffices. |
+| `sourceLanguageCode` or `sourceLanguage` | `string`, `Language`, or `SupportedLanguage` | ✓        | The language of the document that is to be translated. If not specified, the language is inferred from the text, if possible.                                                                          |
+| `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗        | The language into which the document is to be translated.                                                                                                                                              |
+| `cancellationToken`                      | `CancellationToken`                          | ✓        | Can be used to cancel a long running translation. Defaults to `default(CancellationToken)`.                                                                                                            |
 
 All of these translation methods return an instance of `DocumentTranslation`, which contains the ID of the document (`DocumentId`) and an encryption key (`DocumentKey`). The `DocumentTranslation` must be specified when checking the translation status or when downloading the translated document.
 
@@ -47,12 +47,12 @@ using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
 
 Using the method `CheckTranslationStatusAsync` you can check the translation status of a document uploaded using `UploadDocumentForTranslationAsync`. It takes the `DocumentTranslation` instance retrieved from the call to `UploadDocumentForTranslationAsync` as an argument and returns an instance of `TranslationStatus`, which contains, at a bare minimum the `State` and `DocumentId`. The `DocumentId` reflects the ID specified in the `DocumentTranslation`. `State` can have the following values:
 
-| Value | Description |
-|-------|-------------|
-| `TranslationState.Queued` | The document was successfully uploaded and is now queued for translation. |
-| `TranslationState.Translating` | The document is being translated. |
-| `TranslationState.Done` | The document was translated and can now be downloaded. |
-| `TranslationState.Error` | An error occurred during the translation. Try to re-upload the document. |
+| Value                          | Description                                                               |
+|--------------------------------|---------------------------------------------------------------------------|
+| `TranslationState.Queued`      | The document was successfully uploaded and is now queued for translation. |
+| `TranslationState.Translating` | The document is being translated.                                         |
+| `TranslationState.Done`        | The document was translated and can now be downloaded.                    |
+| `TranslationState.Error`       | An error occurred during the translation. Try to re-upload the document.  |
 
 When the state of the translation is `TranslationState.Translating`, then the `TranslationStatus` also contains a property `SecondsRemaining`, which is the estimated number of seconds until the translation is done. Furthermore, when the translation is in the state `TranslationState.Done`, then the `TranslationStatus` contains `BilledCharacters`, which is the number of characters that were billed to your account for translating the document.
 
