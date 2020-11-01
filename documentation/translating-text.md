@@ -54,22 +54,23 @@ When you are trying to translate a large volume of text, then you should conside
 
 As of writing this documentation (May, 2020), the DeepL API supports the following languages:
 
-| Language | Code | `Language` Enumeration |
-|----------|------|------------------------|
-| German | DE | `Language.German` |
-| English | EN | `Language.English` |
-| Spanish | ES | `Language.Spanish` |
-| French | FR | `Language.French` |
-| Italian | IT | `Language.Italian` |
-| Dutch | NL | `Language.Dutch` |
-| Polish | PL | `Language.Polish` |
-| Portuguese | PT | `Language.Portuguese` |
-| Portuguese (Brazilian) | PT-BR | `Language.BrazilianPortuguese` |
-| Russian | RU | `Language.Russian` |
-| Japanese | JA | `Language.Japanese` |
-| Chinese | ZH | `Language.Chinese` |
-
-> **IMPORTANT**: Please note that Brazilian Portuguese (PT-BR) is only supported as a target language and not as a source language. Portuguese (PT) includes all varieties of Portuguese including Brazilian Portuguese.
+| Language                  | Code  | `Language` Enumeration         | Source Language | Target Language |
+|---------------------------|-------|--------------------------------|-----------------|-----------------|
+| German                    | DE    | `Language.German`              | ✓               | ✓               |
+| English                   | EN    | `Language.English`             | ✓               | ✗               |
+| British English           | EN-GB | `Language.BritishEnglish`      | ✗               | ✓               |
+| American English          | EN-US | `Language.AmericanEnglish`     | ✗               | ✓               |
+| French                    | FR    | `Language.French`              | ✓               | ✓               |
+| Italian                   | IT    | `Language.Italian`             | ✓               | ✓               |
+| Japanese                  | JA    | `Language.Japanese`            | ✓               | ✓               |
+| Spanish                   | ES    | `Language.Spanish`             | ✓               | ✓               |
+| Dutch                     | NL    | `Language.Dutch`               | ✓               | ✓               |
+| Polish                    | PL    | `Language.Polish`              | ✓               | ✓               |
+| Portuguese (all variants) | PT    | `Language.Portuguese`          | ✓               | ✗               |
+| Portuguese (no Brazilian) | PT-PT | `Language.Portuguese`          | ✗               | ✓               |
+| Portuguese (Brazilian)    | PT-BR | `Language.BrazilianPortuguese` | ✗               | ✓               |
+| Russian                   | RU    | `Language.Russian`             | ✓               | ✓               |
+| Chinese                   | ZH    | `Language.Chinese`             | ✓               | ✓               |
 
 Every translation method has an overload that accepts the language code as a string. For your convenience, there is also the `Language` enumeration, which contains all languages (supported as of May, 2020). Furthermore, the source or target language can also be specified as an instance of `SupportedLanguage`. A list of all supported languages can be retrieved using the `GetSupportedLanguagesAsync` method. For further information see ["Listing Supported Languages"](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md#listing-supported-languages). This is helpful for inclusion in user interfaces or in case a new supported language is added, but DeepL.NET has not been updated to include it.
 
