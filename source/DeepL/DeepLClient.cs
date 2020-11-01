@@ -73,13 +73,14 @@ namespace DeepL
         private static readonly string supportedLanguagesPath = "languages";
 
         /// <summary>
-        /// Contains a map, which converts languages enumeration values to language codes.
+        /// Contains a map, which converts <see cref="Language"/> enumeration values to language codes for source languages.
         /// </summary>
-        private static readonly Dictionary<Language, string> languageCodeConversionMap = new Dictionary<Language, string>
+        private static readonly Dictionary<Language, string> sourceLanguageCodeConversionMap = new Dictionary<Language, string>
         {
             [Language.German] = "DE",
-            [Language.BritishEnglish] = "EN-GB",
-            [Language.AmericanEnglish] = "EN-US",
+            [Language.English] = "EN",
+            [Language.BritishEnglish] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
+            [Language.AmericanEnglish] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
             [Language.French] = "FR",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
@@ -87,6 +88,27 @@ namespace DeepL
             [Language.Dutch] = "NL",
             [Language.Polish] = "PL",
             [Language.Portuguese] = "PT",
+            [Language.BrazilianPortuguese] = "PT",
+            [Language.Russian] = "RU",
+            [Language.Chinese] = "ZH"
+        };
+
+        /// <summary>
+        /// Contains a map, which converts <see cref="Language"/> enumeration values to language codes for target languages.
+        /// </summary>
+        private static readonly Dictionary<Language, string> targetLanguageCodeConversionMap = new Dictionary<Language, string>
+        {
+            [Language.German] = "DE",
+            [Language.BritishEnglish] = "EN-GB",
+            [Language.AmericanEnglish] = "EN-US",
+            [Language.English] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
+            [Language.French] = "FR",
+            [Language.Italian] = "IT",
+            [Language.Japanese] = "JA",
+            [Language.Spanish] = "ES",
+            [Language.Dutch] = "NL",
+            [Language.Polish] = "PL",
+            [Language.Portuguese] = "PT-PT",
             [Language.BrazilianPortuguese] = "PT-BR",
             [Language.Russian] = "RU",
             [Language.Chinese] = "ZH"
@@ -503,8 +525,8 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
             texts,
-            DeepLClient.languageCodeConversionMap[sourceLanguage],
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
             xmlHandling,
@@ -552,7 +574,7 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
             texts,
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
             xmlHandling,
@@ -812,8 +834,8 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
             text,
-            DeepLClient.languageCodeConversionMap[sourceLanguage],
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
             xmlHandling,
@@ -861,7 +883,7 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
             text,
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
             xmlHandling,
@@ -1158,8 +1180,8 @@ namespace DeepL
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
-            DeepLClient.languageCodeConversionMap[sourceLanguage],
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 
@@ -1204,7 +1226,7 @@ namespace DeepL
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 
@@ -1520,8 +1542,8 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
-            DeepLClient.languageCodeConversionMap[sourceLanguage],
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 
@@ -1589,7 +1611,7 @@ namespace DeepL
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 
@@ -2062,8 +2084,8 @@ namespace DeepL
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
-            DeepLClient.languageCodeConversionMap[sourceLanguage],
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 
@@ -2105,7 +2127,7 @@ namespace DeepL
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 
@@ -2426,8 +2448,8 @@ namespace DeepL
         ) => this.TranslateDocumentAsync(
             inputFileName,
             outputFileName,
-            DeepLClient.languageCodeConversionMap[sourceLanguage],
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 
@@ -2493,7 +2515,7 @@ namespace DeepL
         ) => this.TranslateDocumentAsync(
             inputFileName,
             outputFileName,
-            DeepLClient.languageCodeConversionMap[targetLanguage],
+            DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             cancellationToken
         );
 

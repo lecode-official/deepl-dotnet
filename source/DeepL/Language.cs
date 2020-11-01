@@ -24,6 +24,12 @@ namespace DeepL
         AmericanEnglish,
 
         /// <summary>
+        /// An unspecified variant of the English language (language code "EN"). This language may only be used as a target language, but
+        /// not as a source language.
+        /// </summary>
+        English,
+
+        /// <summary>
         /// The French language (language code "FR").
         /// </summary>
         French,
@@ -54,12 +60,14 @@ namespace DeepL
         Polish,
 
         /// <summary>
-        /// The Portuguese language (all Portuguese varieties excluding Brazilian Portuguese, language code "PT").
+        /// The Portuguese language. When used as a source language, then this represents all Portuguese varieties mixed (langauge code
+        /// "PT"). When used as a target language, then this represents all Portuguese varieties excluding Brazilian Portuguese (language
+        /// code "PT-PT").
         /// </summary>
         Portuguese,
 
         /// <summary>
-        /// The Portuguese (Brazilian) language (language code "PT-BR"). This language may only be used as a target language, but not as a
+        /// The Brazilian Portuguese language (language code "PT-BR"). This language may only be used as a target language, but not as a
         /// source language.
         /// </summary>
         BrazilianPortuguese,
