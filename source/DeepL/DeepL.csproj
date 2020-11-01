@@ -18,7 +18,7 @@
   <!-- NuGet Info -->
   <PropertyGroup>
     <Title>DeepL.NET</Title>
-    <Authors>lecodeofficial</Authors>
+    <Authors>David Neumann</Authors>
     <PackageId>DeepL</PackageId>
     <PackageTags>deepl;translation</PackageTags>
     <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
