@@ -2,7 +2,7 @@
 
 ![DeepL.NET Logo](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/images/banner.png "DeepL.NET Logo")
 
-Welcome to the documentation of DeepL.NET. DeepL.NET is a C# library for accessing the DeepL translation REST API. Please note that DeepL.NET only support v2 of the API, as v1 is now a deprecated. In oder to use DeepL.NET you need to have a [DeepL API subscription](https://www.deepl.com/pro.html#developer). For further information about the DeepL API, please refer to the [official documentation](https://www.deepl.com/docs-api/introduction/).
+Welcome to the documentation of DeepL.NET. DeepL.NET is a C# library for accessing the DeepL translation REST API. Please note that DeepL.NET only supports v2 of the API, as v1 is deprecated. In order to use DeepL.NET you need to have a [DeepL API subscription](https://www.deepl.com/pro.html#developer). For further information about the DeepL API, please refer to the [official documentation](https://www.deepl.com/docs-api/introduction/).
 
 ## Installation
 
@@ -43,12 +43,12 @@ Console.WriteLine(translation.Text);
 
 ## Error Handling
 
-For any error that may occur during the translation, the `DeepLClient` throws a `DeepLException`. Errors that may happen during translation are the following:
+For any error that may occur during the translation, the `DeepLClient` throws a `DeepLException`. Errors that may happen during translation are as follows:
 
 1. The parameters are invalid (e.g. the source or target language are not supported)
 1. The authentication key is invalid
 1. The resource could not be found (e.g. when the specified document translation does not exist anymore)
-1. The text that is to be translated is too large
+1. The text that is to be translated is too large (although DeepL is known to return the text untranslated in some cases)
 1. Too many requests have been made in a short period of time
 1. The translation quota has been exceeded
 1. An internal server error has occurred

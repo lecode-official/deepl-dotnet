@@ -1,6 +1,6 @@
 # Translating Documents
 
-Instead of translating large volumes of text manually, the DeepL API also supports the translation of whole documents. At the time of writing this documentation (May, 2020) the following document formats are supported:
+Instead of translating large volumes of text manually, the DeepL API also supports the translation of whole documents. At the time of writing this documentation (November, 2020) the following document formats are supported:
 
 - Microsoft Word documents
 - Microsoft PowerPoint documents
@@ -9,11 +9,11 @@ Instead of translating large volumes of text manually, the DeepL API also suppor
 
 Translating documents is fully asynchronous, which means that the document is first uploaded to the DeepL API, then the status of the translation can be polled, and finally, when the translation has finished, the translated document can be downloaded.
 
-> **IMPORTANT**: Please note that, as of the time of writing this documentation (May, 2020), the document translation is still in beta and may cause problems. Please report issues to support@deepl.com.
+> **IMPORTANT**: Please note that, as of the time of writing this documentation (November, 2020), the document translation is still in beta and may cause problems. Please report issues to support@deepl.com.
 
 ## Uploading Documents
 
-For uploading documents, the `DeepLClient` offers the `UploadDocumentForTranslationAsync` family of methods. These methods come in two flavors: upload the document from a `Stream` or upload the document directly from a file. When uploading from a stream, the a file name has to be specified in order to determine the MIME type of the file. The methods have the following parameters:
+For uploading documents, the `DeepLClient` offers the `UploadDocumentForTranslationAsync` family of methods. These methods come in two flavors: upload the document from a `Stream` or upload the document directly from a file. When uploading from a stream, then a file name has to be specified in order to determine the MIME type of the file. The methods have the following parameters:
 
 | Parameter | Type | Optional | Description |
 |-----------|------|:--------:|-------------|
@@ -21,7 +21,7 @@ For uploading documents, the `DeepLClient` offers the `UploadDocumentForTranslat
 | `fileName` | `string` | ✗ | The name of the file that is to be uploaded. When no stream was specified, then this must be a full qualified path to an existing file. Otherwise a simple file name with a proper extension suffices. |
 | `sourceLanguageCode` or `sourceLanguage` | `string`, `Language`, or `SupportedLanguage` | ✓ | The language of the document that is to be translated. If not specified, the language is inferred from the text, if possible. |
 | `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗ | The language into which the document is to be translated. |
-| `cancellationToken` | `CancellationToken` | ✓ | Can be used to cancel a long running translation. Defaults to `null`. |
+| `cancellationToken` | `CancellationToken` | ✓ | Can be used to cancel a long running translation. Defaults to `default(CancellationToken)`. |
 
 All of these translation methods return an instance of `DocumentTranslation`, which contains the ID of the document (`DocumentId`) and an encryption key (`DocumentKey`). The `DocumentTranslation` must be specified when checking the translation status or when downloading the translated document.
 
@@ -62,7 +62,7 @@ TranslationStatus translationStatus = await this.CheckTranslationStatusAsync(
 );
 ```
 
-> **IMPORTANT**: Please note that, as of the time of writing this documentation (May, 2020), when translating Microsoft Word or Microsoft PowerPoint documents, at least 50,000 characters will be billed to your account.
+> **IMPORTANT**: Please note that, as of the time of writing this documentation (November, 2020), when translating Microsoft Word or Microsoft PowerPoint documents, at least 50,000 characters will be billed to your account.
 
 ## Downloading Translated Documents
 
@@ -78,7 +78,7 @@ await this.DownloadTranslatedDocumentAsync(documentTranslation, "translated.docx
 
 ## All-in-One Document Translation
 
-For your convenience, the `DeepLClient` has the `TranslateDocumentAsync` family of methods, which automatically upload a document, intelligently poll for its status, and download the document when its translation has finished. There are two types of overloads for this method: one that takes a `Stream`, a file name, an optional source language, and a target language and return a `Stream` and one that takes an input file name, an output file name, an optional source language, and a target language and saves the downloaded document to the specified output file.
+For your convenience, the `DeepLClient` has the `TranslateDocumentAsync` family of methods, which automatically upload a document, intelligently poll for its status, and download the document when its translation has finished. There are two types of overloads for this method: one that takes a `Stream`, a file name, an optional source language, and a target language and returns a `Stream` and one that takes an input file name, an output file name, an optional source language, and a target language and saves the downloaded document to the specified output file.
 
 ```csharp
 // Translating a document from a stream and downloading it into a stream

@@ -2,7 +2,7 @@
 
 ## Translating Simple Text
 
-The `DeepLClient.TranslateAsync(string, ...)` family of methods can be used to translate texts. At the bare minimum, the text that is to be translated and the target language have to be specified. Below you find a table with all possible arguments. All methods return a `Translation` object, which contains the translated text (`Text`) as well as the source language (`DetectedSourceLanguage`). The source language either reflects the source language specified as an argument or it is the language that the translation engine inferred from the source text.
+The `DeepLClient.TranslateAsync(string, ...)` family of methods can be used to translate texts. At a bare minimum, the text that is to be translated and the target language have to be specified. Below you find a table with all possible arguments. All methods return a `Translation` object, which contains the translated text (`Text`) as well as the source language (`DetectedSourceLanguage`). The source language either reflects the source language specified as an argument or it is the language that the translation engine inferred from the source text.
 
 | Parameter | Type | Optional | Description |
 |-----------|------|:--------:|-------------|
@@ -10,9 +10,9 @@ The `DeepLClient.TranslateAsync(string, ...)` family of methods can be used to t
 | `sourceLanguageCode` or `sourceLanguage` | `string`, `Language`, or `SupportedLanguage` | ✓ | The language of the text that is to be translated. If not specified, the language is inferred from the text, if possible. |
 | `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗ | The language into which the text is to be translated. |
 | `splitting` | `Splitting` | ✓ | Determines how the text is split into sentences by the translation engine. Defaults to `Splitting.InterpunctionAndNewLines`. |
-| `preserveFormatting` | `bool` | ✓ | Sets whether the translation engine should respect the original formatting, even if it would usually correct some aspects. This includes capitalization at the beginning of sentences and interpunction. Defaults to `false`. |
+| `preserveFormatting` | `bool` | ✓ | Determines whether the translation engine should respect the original formatting, even if it would usually correct some aspects. This includes capitalization at the beginning of sentences and interpunction. Defaults to `false`. |
 | `xmlHandling` | `XmlHandling` | ✓ | Determines how XML tags are handled by the translation engine. Defaults to `null`. |
-| `cancellationToken` | `CancellationToken` | ✓ | Can be used to cancel a long running translation. Defaults to `null`. |
+| `cancellationToken` | `CancellationToken` | ✓ | Can be used to cancel a long running translation. Defaults to `default(CancellationToken)`. |
 
 ```csharp
 Translation translation = await client.TranslateAsync(
@@ -78,8 +78,6 @@ Every translation method has an overload that accepts the language code as a str
 The translation engine has a maximum number of characters it can translate at a time, so, by default, it tries to split your text into smaller chunks by breaking it at interpunction (sentence delimiters like periods, question marks, or exclamation marks) or at line breaks. Sometimes the splitting does not yield satisfactory results, so this behavior can be controlled using the `splitting` parameter available in all translation methods of `DeepLClient`. It supports values of `Splitting.None`, meaning the text is never split automatically, `Splitting.Interpunction`, meaning the text is split at interpunction symbols, and `Splitting.InterpunctionAndNewLines`, meaning the text is split at interpunction symbols and line breaks. Another way of handling splitting is by splitting the text manually and sending the chunks separately to the DeepL API.
 
 ## Handling XML
-
-> **IMPORTANT**: As of writing this documentation (May, 2020), the API does not yet support XML handling for Japanese or Chinese texts.
 
 There are two scenarios where it is helpful to handle XML input when translating texts. The first scenario is obviously when the text in question already contains XML markup. In that case using XML handling can help the translation engine to correctly handle the tags used in text. The second scenario is not as obvious: sometimes texts contains characters or character sequences that may have a special meaning to the application. When translating these kind of texts, the special characters or character sequences may either be removed from the translation or may be translated as well. In order to prevent this from happening, the application can convert these characters or character sequences to XML tags and use XML handling to prevent the translation engine from doing anything with these characters or character sequences.
 
