@@ -80,6 +80,71 @@ namespace DeepL
         /// <summary>
         /// The Chinese language (language code "ZH").
         /// </summary>
-        Chinese
+        Chinese,
+        
+        /// <summary>
+        /// The Bulgarian language (language code "BG").
+        /// </summary>
+        Bulgarian,
+        
+        /// <summary>
+        /// The Czech language (language code "CS").
+        /// </summary>
+        Czech,
+        
+        /// <summary>
+        /// The Danish language (language code "DA").
+        /// </summary>
+        Danish,
+        
+        /// <summary>
+        /// The Greek language (language code "EL").
+        /// </summary>
+        Greek,
+        
+        /// <summary>
+        /// The Estonian language (language code "ET").
+        /// </summary>
+        Estonian,
+        
+        /// <summary>
+        /// The Finnish language (language code "FI").
+        /// </summary>
+        Finnish,
+        
+        /// <summary>
+        /// The Hungarian language (language code "HU").
+        /// </summary>
+        Hungarian,
+        
+        /// <summary>
+        /// The Lithuanian language (language code "LT").
+        /// </summary>
+        Lithuanian,
+        
+        /// <summary>
+        /// The Latvian language (language code "LV").
+        /// </summary>
+        Latvian,
+        
+        /// <summary>
+        /// The Romanian language (language code "RO").
+        /// </summary>
+        Romanian,
+        
+        /// <summary>
+        /// The Slovak language (language code "SK").
+        /// </summary>
+        Slovak,
+        
+        /// <summary>
+        /// The Slovenian language (language code "SL").
+        /// </summary>
+        Slovenian,
+        
+        /// <summary>
+        /// The Swedish language (language code "SV").
+        /// </summary>
+        Swedish
     }
 }
