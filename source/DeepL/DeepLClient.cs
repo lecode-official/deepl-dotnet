@@ -90,7 +90,20 @@ namespace DeepL
             [Language.Portuguese] = "PT",
             [Language.BrazilianPortuguese] = "PT",
             [Language.Russian] = "RU",
-            [Language.Chinese] = "ZH"
+            [Language.Chinese] = "ZH",
+            [Language.Bulgarian] = "BG",
+            [Language.Czech] = "CS",
+            [Language.Danish] = "DA",
+            [Language.Greek] = "EL",
+            [Language.Estonian] = "ET",
+            [Language.Finnish] = "FI",
+            [Language.Hungarian] = "HU",
+            [Language.Lithuanian] = "LT",
+            [Language.Latvian] = "LV",
+            [Language.Romanian] = "RO",
+            [Language.Slovak] = "SK",
+            [Language.Slovenian] = "SL",
+            [Language.Swedish] = "SV"
         };
 
         /// <summary>
@@ -111,7 +124,20 @@ namespace DeepL
             [Language.Portuguese] = "PT-PT",
             [Language.BrazilianPortuguese] = "PT-BR",
             [Language.Russian] = "RU",
-            [Language.Chinese] = "ZH"
+            [Language.Chinese] = "ZH",
+            [Language.Bulgarian] = "BG",
+            [Language.Czech] = "CS",
+            [Language.Danish] = "DA",
+            [Language.Greek] = "EL",
+            [Language.Estonian] = "ET",
+            [Language.Finnish] = "FI",
+            [Language.Hungarian] = "HU",
+            [Language.Lithuanian] = "LT",
+            [Language.Latvian] = "LV",
+            [Language.Romanian] = "RO",
+            [Language.Slovak] = "SK",
+            [Language.Slovenian] = "SL",
+            [Language.Swedish] = "SV"
         };
 
         #endregion

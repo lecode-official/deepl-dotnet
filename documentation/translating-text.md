@@ -71,6 +71,19 @@ As of writing this documentation (May, 2020), the DeepL API supports the followi
 | Portuguese (Brazilian)    | PT-BR | `Language.BrazilianPortuguese` | ✗               | ✓               |
 | Russian                   | RU    | `Language.Russian`             | ✓               | ✓               |
 | Chinese                   | ZH    | `Language.Chinese`             | ✓               | ✓               |
+| Bulgarian                 | BG    | `Language.Bulgarian`           | ✓               | ✓               |
+| Czech                     | CS    | `Language.Czech`               | ✓               | ✓               |
+| Danish                    | DA    | `Language.Danish`              | ✓               | ✓               |
+| Greek                     | EL    | `Language.Greek`               | ✓               | ✓               |
+| Estonian                  | ET    | `Language.Estonian`            | ✓               | ✓               |
+| Finnish                   | FI    | `Language.Finnish`             | ✓               | ✓               |
+| Hungarian                 | HU    | `Language.Hungarian`           | ✓               | ✓               |
+| Lithuanian                | LT    | `Language.Lithuanian`          | ✓               | ✓               |
+| Latvian                   | LV    | `Language.Latvian`             | ✓               | ✓               |
+| Romanian                  | RO    | `Language.Romanian`            | ✓               | ✓               |
+| Slovak                    | SK    | `Language.Slovak`              | ✓               | ✓               |
+| Slovenian                 | SL    | `Language.Slovenian`           | ✓               | ✓               |
+| Swedish                   | SV    | `Language.Swedish`             | ✓               | ✓               |
 
 Every translation method has an overload that accepts the language code as a string. For your convenience, there is also the `Language` enumeration, which contains all languages (supported as of May, 2020). Furthermore, the source or target language can also be specified as an instance of `SupportedLanguage`. A list of all supported languages can be retrieved using the `GetSupportedLanguagesAsync` method. For further information see ["Listing Supported Languages"](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md#listing-supported-languages). This is helpful for inclusion in user interfaces or in case a new supported language is added, but DeepL.NET has not been updated to include it.
 
