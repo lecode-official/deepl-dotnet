@@ -11,7 +11,7 @@
   <PropertyGroup>
     <AssemblyTitle>DeepL.NET Sample Application</AssemblyTitle>
     <AssemblyName>deepl-cli</AssemblyName>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Copyright>Copyright © 2020 David Neumann</Copyright>
     <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
     <Description>A sample application for DeepL.NET, which offers a CLI for the DeepL API.</Description>
