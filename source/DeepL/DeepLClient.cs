@@ -36,7 +36,7 @@ namespace DeepL
             this.authenticationKey = authenticationKey;
 
             this.httpClient = new HttpClient();
-            this.httpClient.DefaultRequestHeaders.Add("User-Agent", $"DeepL.NET/{Assembly.GetEntryAssembly().GetName().Version}");
+            this.httpClient.DefaultRequestHeaders.Add("User-Agent", $"DeepL.NET/{Assembly.GetExecutingAssembly().GetName().Version}");
             this.httpClient.DefaultRequestHeaders.Add("Accept", "*/*");
 
             this.fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
