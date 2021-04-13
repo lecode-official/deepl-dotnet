@@ -9,15 +9,15 @@ Welcome to the documentation of DeepL.NET. DeepL.NET is a C# library for accessi
 To get started you have to add the package reference to your project. Use one of the following commands depending on your development environment (Package Manager, if you use Visual Studio, .NET CLI if you use .NET on the command line or Visual Studio Code, or Paket CLI, if you use the Paket package manager):
 
 ```bash
-Install-Package DeepL -Version 0.2.0 # Package Manager
-dotnet add package DeepL --version 0.2.0 # .NET CLI
-paket add DeepL --version 0.2.0 # Paket CLI
+Install-Package DeepL -Version 0.2.1 # Package Manager
+dotnet add package DeepL --version 0.2.1 # .NET CLI
+paket add DeepL --version 0.2.1 # Paket CLI
 ```
 
 Alternatively, you can also manually add a reference to your project file:
 
 ```xml
-<PackageReference Include="DeepL" Version="0.2.0" />
+<PackageReference Include="DeepL" Version="0.2.1" />
 ```
 
 ## Getting Started

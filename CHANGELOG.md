@@ -34,3 +34,16 @@ This release was made possible by the following contributors:
 
 - [Markus Mattes](https://github.com/mmattes)
 - [Patrick Beer](https://github.com/vandebeer)
+
+## 0.2.1
+
+Released on April 13, 2021
+
+- Fixed the version number that is used in the `User-Agent` string
+  - Previously, the version number of the application using the DeepL.NET library was used (`Assembly.GetEntryAssembly()`)
+  - Now, the version number of the DeepL.NET library itself is used (`Assembly.GetExecutingAssembly()`)
+  - In certain circumstances, using `Assembly.GetEntryAssembly()` returns `null`, which resulted in a `NullReferenceException` in the constructor of `DeepLClient`
+
+This release was made possible by the following contributors:
+
+- [jcmag](https://github.com/jcmag)
