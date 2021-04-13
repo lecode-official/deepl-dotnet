@@ -10,7 +10,7 @@
   <PropertyGroup>
     <AssemblyTitle>DeepL.NET</AssemblyTitle>
     <Version>0.2.1</Version>
-    <Copyright>Copyright © 2020 David Neumann</Copyright>
+    <Copyright>Copyright © 2021 David Neumann</Copyright>
     <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
     <Description>DeepL.NET is a fully-featured .NET client for the DeepL translation service.</Description>
   </PropertyGroup>
@@ -22,14 +22,14 @@
     <PackageId>DeepL</PackageId>
     <PackageTags>deepl;translation</PackageTags>
     <PackageReleaseNotes>
-      - Fixed the version number that is used in the `User-Agent` string
-        - Previously, the version number of the application using the DeepL.NET library was used (`Assembly.GetEntryAssembly()`)
-        - Now, the version number of the DeepL.NET library itself is used (`Assembly.GetExecutingAssembly()`)
-        - In certain circumstances, using `Assembly.GetEntryAssembly()` returns `null`, which resulted in a `NullReferenceException` in the constructor of `DeepLClient`
+      - Fixed the version number that is used in the User-Agent string
+        - Previously, the version number of the application using the DeepL.NET library was used (Assembly.GetEntryAssembly())
+        - Now, the version number of the DeepL.NET library itself is used (Assembly.GetExecutingAssembly())
+        - In certain circumstances, using Assembly.GetEntryAssembly() returns null, which resulted in a NullReferenceException in the constructor of DeepLClient
 
       This release was made possible by the following contributors:
 
-      - [jcmag](https://github.com/jcmag)
+      - jcmag (https://github.com/jcmag)
     </PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
