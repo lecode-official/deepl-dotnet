@@ -31,6 +31,7 @@ namespace DeepL
         /// Initializes a new <see cref="DeepLClient"/> instance.
         /// </summary>
         /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
+        /// <param name="isFree">Flag to determine if free version of DeepL API should be used</param>
         public DeepLClient(string authenticationKey, bool isFree = false)
         {
             this.authenticationKey = authenticationKey;
