@@ -41,6 +41,15 @@ namespace DeepL
 
             this.fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
         }
+        /// <summary>
+        /// Initializes a new <see cref="DeepLClient"/> instance.
+        /// </summary>
+        /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
+        /// <param name="alternaleBaseUrl">Alternative baseUrl e.g. for free api.</param>
+        public DeepLClient(string authenticationKey,string alternaleBaseUrl):this(authenticationKey)
+        {
+            baseUrl = alternaleBaseUrl;
+        }
 
         #endregion
 
@@ -49,7 +58,7 @@ namespace DeepL
         /// <summary>
         /// Contains the DeepL API base URL.
         /// </summary>
-        private static readonly string baseUrl = "https://api.deepl.com/v2";
+        private static /*readonly*/ string baseUrl = "https://api.deepl.com/v2";
 
         /// <summary>
         /// Contains the path to the action that retrieves usage statistics from the API.
