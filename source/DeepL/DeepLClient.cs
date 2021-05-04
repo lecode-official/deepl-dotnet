@@ -31,9 +31,10 @@ namespace DeepL
         /// Initializes a new <see cref="DeepLClient"/> instance.
         /// </summary>
         /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
-        public DeepLClient(string authenticationKey)
+        public DeepLClient(string authenticationKey, bool isFree = false)
         {
             this.authenticationKey = authenticationKey;
+            this.isFree = isFree;
 
             this.httpClient = new HttpClient();
             this.httpClient.DefaultRequestHeaders.Add("User-Agent", $"DeepL.NET/{Assembly.GetExecutingAssembly().GetName().Version}");
@@ -47,9 +48,14 @@ namespace DeepL
         #region Private Static Fields
 
         /// <summary>
-        /// Contains the DeepL API base URL.
+        /// Contains the DeepL API Pro base URL.
         /// </summary>
         private static readonly string baseUrl = "https://api.deepl.com/v2";
+
+        /// <summary>
+        /// Contains the DeepL API Free base URL.
+        /// </summary>
+        private static readonly string baseFreeUrl = "https://api-free.deepl.com/v2";
 
         /// <summary>
         /// Contains the path to the action that retrieves usage statistics from the API.
@@ -151,6 +157,11 @@ namespace DeepL
         private readonly string authenticationKey;
 
         /// <summary>
+        /// Determines which url should be used for DeepL API.
+        /// </summary>
+        private readonly bool isFree;
+
+        /// <summary>
         /// Contains an HTTP client, which is used to call the DeepL API.
         /// </summary>
         private readonly HttpClient httpClient;
@@ -195,7 +206,7 @@ namespace DeepL
                 throw new ArgumentException("The path must not be empty.");
 
             // Concatenates the path to the base URL
-            string url = $"{DeepLClient.baseUrl}/{path}";
+            string url = $"{(this.isFree ? DeepLClient.baseFreeUrl : DeepLClient.baseUrl)}/{path}";
 
             // Adds the path parameters
             if (pathParameters != null && pathParameters.Any())
