@@ -5,3 +5,4 @@
 - [Patrick Beer](https://github.com/vandebeer)
 - [jcmag](https://github.com/jcmag)
 - [Michal Cadecky](https://github.com/MichalCadecky)
+- [Raoul Jacobs](https://github.com/RaoulJacobs)
