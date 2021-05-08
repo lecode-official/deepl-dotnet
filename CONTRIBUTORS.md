@@ -4,3 +4,4 @@
 - [Markus Mattes](https://github.com/mmattes)
 - [Patrick Beer](https://github.com/vandebeer)
 - [jcmag](https://github.com/jcmag)
+- [Michal Cadecky](https://github.com/MichalCadecky)
