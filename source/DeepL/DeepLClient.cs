@@ -31,11 +31,11 @@ namespace DeepL
         /// Initializes a new <see cref="DeepLClient"/> instance.
         /// </summary>
         /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
-        /// <param name="isFree">Flag to determine if free version of DeepL API should be used</param>
-        public DeepLClient(string authenticationKey, bool isFree = false)
+        /// <param name="useFreeApi">Flag to determine if free version of DeepL API should be used</param>
+        public DeepLClient(string authenticationKey, bool useFreeApi = false)
         {
             this.authenticationKey = authenticationKey;
-            this.isFree = isFree;
+            this.useFreeApi = useFreeApi;
 
             this.httpClient = new HttpClient();
             this.httpClient.DefaultRequestHeaders.Add("User-Agent", $"DeepL.NET/{Assembly.GetExecutingAssembly().GetName().Version}");
@@ -51,12 +51,12 @@ namespace DeepL
         /// <summary>
         /// Contains the DeepL API Pro base URL.
         /// </summary>
-        private static readonly string baseUrl = "https://api.deepl.com/v2";
+        private static readonly string proApiBaseUrl = "https://api.deepl.com/v2";
 
         /// <summary>
         /// Contains the DeepL API Free base URL.
         /// </summary>
-        private static readonly string baseFreeUrl = "https://api-free.deepl.com/v2";
+        private static readonly string freeApiBaseUrl = "https://api-free.deepl.com/v2";
 
         /// <summary>
         /// Contains the path to the action that retrieves usage statistics from the API.
@@ -160,7 +160,7 @@ namespace DeepL
         /// <summary>
         /// Determines which url should be used for DeepL API.
         /// </summary>
-        private readonly bool isFree;
+        private readonly bool useFreeApi;
 
         /// <summary>
         /// Contains an HTTP client, which is used to call the DeepL API.
@@ -207,7 +207,7 @@ namespace DeepL
                 throw new ArgumentException("The path must not be empty.");
 
             // Concatenates the path to the base URL
-            string url = $"{(this.isFree ? DeepLClient.baseFreeUrl : DeepLClient.baseUrl)}/{path}";
+            string url = $"{(this.useFreeApi ? DeepLClient.freeApiBaseUrl : DeepLClient.proApiBaseUrl)}/{path}";
 
             // Adds the path parameters
             if (pathParameters != null && pathParameters.Any())
