@@ -144,41 +144,109 @@ namespace DeepL.Cli
             "get-supported-languages"
         };
 
+        /// <summary>
+        /// Contains a map, which converts language names to language codes for source languages.
+        /// </summary>
+        private static readonly Dictionary<string, string> sourceLanguageCodeConversionMap = new Dictionary<string, string>
+        {
+            ["german"] = "DE",
+            ["english"] = "EN",
+            ["british-english"] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
+            ["american-english"] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
+            ["french"] = "FR",
+            ["italian"] = "IT",
+            ["japanese"] = "JA",
+            ["spanish"] = "ES",
+            ["dutch"] = "NL",
+            ["polish"] = "PL",
+            ["portuguese"] = "PT",
+            ["brazilian-portuguese"] = "PT", // Region-specific variants are actually not supported, but are here to prevent errors
+            ["russian"] = "RU",
+            ["chinese"] = "ZH",
+            ["bulgarian"] = "BG",
+            ["czech"] = "CS",
+            ["danish"] = "DA",
+            ["greek"] = "EL",
+            ["estonian"] = "ET",
+            ["finnish"] = "FI",
+            ["hungarian"] = "HU",
+            ["lithuanian"] = "LT",
+            ["latvian"] = "LV",
+            ["romanian"] = "RO",
+            ["slovak"] = "SK",
+            ["slovenian"] = "SL",
+            ["swedish"] = "SV"
+        };
+
+        /// <summary>
+        /// Contains a map, which converts language names to language codes for target languages.
+        /// </summary>
+        private static readonly Dictionary<string, string> targetLanguageCodeConversionMap = new Dictionary<string, string>
+        {
+            ["german"] = "DE",
+            ["english"] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
+            ["british-english"] = "EN-GB",
+            ["american-english"] = "EN-US",
+            ["french"] = "FR",
+            ["italian"] = "IT",
+            ["japanese"] = "JA",
+            ["spanish"] = "ES",
+            ["dutch"] = "NL",
+            ["polish"] = "PL",
+            ["portuguese"] = "PT-PT",
+            ["brazilian-portuguese"] = "PT-BR",
+            ["russian"] = "RU",
+            ["chinese"] = "ZH",
+            ["bulgarian"] = "BG",
+            ["czech"] = "CS",
+            ["danish"] = "DA",
+            ["greek"] = "EL",
+            ["estonian"] = "ET",
+            ["finnish"] = "FI",
+            ["hungarian"] = "HU",
+            ["lithuanian"] = "LT",
+            ["latvian"] = "LV",
+            ["romanian"] = "RO",
+            ["slovak"] = "SK",
+            ["slovenian"] = "SL",
+            ["swedish"] = "SV"
+        };
+
         #endregion
 
         #region Private Static Methods
 
         /// <summary>
-        /// Converts a language name to a language code.
+        /// Converts a language name to a language code for source languages.
         /// </summary>
-        /// <param name="languageName">The name of the language that is to be converted.</param>
+        /// <param name="languageName">The name of the source language that is to be converted.</param>
         /// <returns>
         /// Returns the converted language code. If the language name is not known, then it is assumed, that the language name is already a
         /// language code.
         /// </returns>
-        private static string GetLanguageCode(string languageName)
+        private static string GetSourceLanguageCode(string languageName)
         {
-            // Defines a conversion map from language name to language code
-            Dictionary<string, string> languageNameConversionMap = new Dictionary<string, string>
-            {
-                ["german"] = "DE",
-                ["english"] = "EN",
-                ["french"] = "FR",
-                ["italian"] = "IT",
-                ["japanese"] = "JA",
-                ["spanish"] = "ES",
-                ["dutch"] = "NL",
-                ["polish"] = "PL",
-                ["portuguese"] = "PT",
-                ["brazilian-portuguese"] = "PT-BR",
-                ["russian"] = "RU",
-                ["chinese"] = "ZH"
-            };
-
             // If the specified language is one of the known language names, then it is converted to its language code, otherwise it is
             // assumed that the specified language already is a language code
-            if (languageNameConversionMap.ContainsKey(languageName.ToLowerInvariant()))
-                return languageNameConversionMap[languageName.ToLowerInvariant()];
+            if (Program.sourceLanguageCodeConversionMap.ContainsKey(languageName.ToLowerInvariant()))
+                return Program.sourceLanguageCodeConversionMap[languageName.ToLowerInvariant()];
+            return languageName;
+        }
+
+        /// <summary>
+        /// Converts a language name to a language code for target languages.
+        /// </summary>
+        /// <param name="languageName">The name of the target language that is to be converted.</param>
+        /// <returns>
+        /// Returns the converted language code. If the language name is not known, then it is assumed, that the language name is already a
+        /// language code.
+        /// </returns>
+        private static string GetTargetLanguageCode(string languageName)
+        {
+            // If the specified language is one of the known language names, then it is converted to its language code, otherwise it is
+            // assumed that the specified language already is a language code
+            if (Program.targetLanguageCodeConversionMap.ContainsKey(languageName.ToLowerInvariant()))
+                return Program.targetLanguageCodeConversionMap[languageName.ToLowerInvariant()];
             return languageName;
         }
 
@@ -196,8 +264,8 @@ namespace DeepL.Cli
             {
                 Translation translation = await client.TranslateAsync(
                     text,
-                    sourceLanguage == null ? null : Program.GetLanguageCode(sourceLanguage),
-                    Program.GetLanguageCode(targetLanguage)
+                    sourceLanguage == null ? null : Program.GetSourceLanguageCode(sourceLanguage),
+                    Program.GetTargetLanguageCode(targetLanguage)
                 );
 
                 if (sourceLanguage == null)
@@ -233,8 +301,8 @@ namespace DeepL.Cli
                 await client.TranslateDocumentAsync(
                     inputFile,
                     outputFile,
-                    sourceLanguage == null ? null : Program.GetLanguageCode(sourceLanguage),
-                    Program.GetLanguageCode(targetLanguage)
+                    sourceLanguage == null ? null : Program.GetSourceLanguageCode(sourceLanguage),
+                    Program.GetTargetLanguageCode(targetLanguage)
                 );
             }
         }
