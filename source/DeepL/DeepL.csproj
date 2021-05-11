@@ -9,7 +9,7 @@
   <!-- Assembly Info -->
   <PropertyGroup>
     <AssemblyTitle>DeepL.NET</AssemblyTitle>
-    <Version>0.2.1</Version>
+    <Version>0.3.0</Version>
     <Copyright>Copyright © 2021 David Neumann</Copyright>
     <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
     <Description>DeepL.NET is a fully-featured .NET client for the DeepL translation service.</Description>
@@ -22,14 +22,16 @@
     <PackageId>DeepL</PackageId>
     <PackageTags>deepl;translation</PackageTags>
     <PackageReleaseNotes>
-      - Fixed the version number that is used in the User-Agent string
-        - Previously, the version number of the application using the DeepL.NET library was used (Assembly.GetEntryAssembly())
-        - Now, the version number of the DeepL.NET library itself is used (Assembly.GetExecutingAssembly())
-        - In certain circumstances, using Assembly.GetEntryAssembly() returns null, which resulted in a NullReferenceException in the constructor of DeepLClient
+      - It is now possible to choose between the free and the pro version of the DeepL API
+      - Cleaned up the documentation and integrated the new constructor argument of the DeepLClient
+      - Renamed the sample project to CLI, because it is more than just a sample
+      - Integrated the option for the free API into the CLI as well
+      - Integrated the new languages that were introduced in 0.2.0 into the CLI
 
       This release was made possible by the following contributors:
 
-      - jcmag (https://github.com/jcmag)
+      - Michal Cadecky (https://github.com/MichalCadecky)
+      - Raoul Jacobs (https://github.com/RaoulJacobs)
     </PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>

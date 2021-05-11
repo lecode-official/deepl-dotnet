@@ -47,3 +47,18 @@ Released on April 13, 2021
 This release was made possible by the following contributors:
 
 - [jcmag](https://github.com/jcmag)
+
+## 0.3.0
+
+Released on May 11, 2021
+
+- It is now possible to choose between the free and the pro version of the DeepL API
+- Cleaned up the documentation and integrated the new constructor argument of the `DeepLClient`
+- Renamed the sample project to CLI, because it is more than just a sample
+- Integrated the option for the free API into the CLI as well
+- Integrated the new languages that were introduced in 0.2.0 into the CLI
+
+This release was made possible by the following contributors:
+
+- [Michal Cadecky](https://github.com/MichalCadecky)
+- [Raoul Jacobs](https://github.com/RaoulJacobs)
