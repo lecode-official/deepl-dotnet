@@ -128,7 +128,6 @@ namespace DeepL
             [Language.Spanish] = "ES",
             [Language.Dutch] = "NL",
             [Language.Polish] = "PL",
-            [Language.Portuguese] = "PT", // Unspecified variant for backward compatibility; please select PT-PT or PT-BR instead
             [Language.Portuguese] = "PT-PT",
             [Language.BrazilianPortuguese] = "PT-BR",
             [Language.Russian] = "RU",
