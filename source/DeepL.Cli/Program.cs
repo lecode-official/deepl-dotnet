@@ -57,15 +57,23 @@ namespace DeepL.Cli
             // Executes the command specified by the user
             try
             {
+                // Checks if the user wants to use the free API, if so, the argument is popped from the arguments array, so that not every single command has to deal with it
+                bool useFreeApi = false;
+                if (arguments.Last() == "--use-free-api" || arguments.Last() == "-f")
+                {
+                    useFreeApi = true;
+                    arguments = arguments.Take(arguments.Count() - 1).ToArray();
+                }
+
                 if (arguments.First() == "translate")
                 {
                     if (arguments.Length == 4)
                     {
-                        await Program.TranslateAsync(arguments[1], arguments[2], null, arguments[3]);
+                        await Program.TranslateAsync(arguments[1], arguments[2], null, arguments[3], useFreeApi);
                     }
                     else if (arguments.Length == 5)
                     {
-                        await Program.TranslateAsync(arguments[1], arguments[2], arguments[3], arguments[4]);
+                        await Program.TranslateAsync(arguments[1], arguments[2], arguments[3], arguments[4], useFreeApi);
                     }
                     else
                     {
@@ -77,11 +85,11 @@ namespace DeepL.Cli
                 {
                     if (arguments.Length == 5)
                     {
-                        await Program.TranslateDocumentAsync(arguments[1], arguments[2], arguments[3], null, arguments[4]);
+                        await Program.TranslateDocumentAsync(arguments[1], arguments[2], arguments[3], null, arguments[4], useFreeApi);
                     }
                     else if (arguments.Length == 6)
                     {
-                        await Program.TranslateDocumentAsync(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+                        await Program.TranslateDocumentAsync(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], useFreeApi);
                     }
                     else
                     {
@@ -93,7 +101,7 @@ namespace DeepL.Cli
                 {
                     if (arguments.Length == 2)
                     {
-                        await Program.GetUsageStatisticsAsync(arguments[1]);
+                        await Program.GetUsageStatisticsAsync(arguments[1], useFreeApi);
                     }
                     else
                     {
@@ -105,7 +113,7 @@ namespace DeepL.Cli
                 {
                     if (arguments.Length == 2)
                     {
-                        await Program.GetSupportedLanguagesAsync(arguments[1]);
+                        await Program.GetSupportedLanguagesAsync(arguments[1], useFreeApi);
                     }
                     else
                     {
@@ -162,7 +170,6 @@ namespace DeepL.Cli
                 ["dutch"] = "NL",
                 ["polish"] = "PL",
                 ["portuguese"] = "PT",
-                ["brazilianportuguese"] = "PT-BR",
                 ["brazilian-portuguese"] = "PT-BR",
                 ["russian"] = "RU",
                 ["chinese"] = "ZH"
@@ -182,9 +189,10 @@ namespace DeepL.Cli
         /// <param name="text">The text that is to be translated.</param>
         /// <param name="sourceLanguage">The language of the text.</param>
         /// <param name="targetLanguage">The language into which the text is to be converted.</param>
-        private static async Task TranslateAsync(string authenticationKey, string text, string sourceLanguage, string targetLanguage)
+        /// <param name="useFreeApi">Determines whether the free or the pro DeepL API is used.</param>
+        private static async Task TranslateAsync(string authenticationKey, string text, string sourceLanguage, string targetLanguage, bool useFreeApi)
         {
-            using (DeepLClient client = new DeepLClient(authenticationKey))
+            using (DeepLClient client = new DeepLClient(authenticationKey, useFreeApi))
             {
                 Translation translation = await client.TranslateAsync(
                     text,
@@ -192,8 +200,11 @@ namespace DeepL.Cli
                     Program.GetLanguageCode(targetLanguage)
                 );
 
-                Console.WriteLine($"Detected source language: {translation.DetectedSourceLanguage}");
-                Console.WriteLine();
+                if (sourceLanguage == null)
+                {
+                    Console.WriteLine($"Detected source language: {translation.DetectedSourceLanguage}");
+                    Console.WriteLine();
+                }
                 Console.WriteLine("Translation:");
                 Console.WriteLine(translation.Text);
             }
@@ -208,14 +219,16 @@ namespace DeepL.Cli
         /// <param name="outputFile">The file into which the translated document is to be saved.</param>
         /// <param name="sourceLanguage">The language of the text.</param>
         /// <param name="targetLanguage">The language into which the text is to be converted.</param>
+        /// <param name="useFreeApi">Determines whether the free or the pro DeepL API is used.</param>
         private static async Task TranslateDocumentAsync(
             string authenticationKey,
             string inputFile,
             string outputFile,
             string sourceLanguage,
-            string targetLanguage)
+            string targetLanguage,
+            bool useFreeApi)
         {
-            using (DeepLClient client = new DeepLClient(authenticationKey))
+            using (DeepLClient client = new DeepLClient(authenticationKey, useFreeApi))
             {
                 await client.TranslateDocumentAsync(
                     inputFile,
@@ -230,9 +243,10 @@ namespace DeepL.Cli
         /// Gets the usage statistics and writes the to the console.
         /// </summary>
         /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
-        private static async Task GetUsageStatisticsAsync(string authenticationKey)
+        /// <param name="useFreeApi">Determines whether the free or the pro DeepL API is used.</param>
+        private static async Task GetUsageStatisticsAsync(string authenticationKey, bool useFreeApi)
         {
-            using (DeepLClient client = new DeepLClient(authenticationKey))
+            using (DeepLClient client = new DeepLClient(authenticationKey, useFreeApi))
             {
                 UsageStatistics usageStatistics = await client.GetUsageStatisticsAsync();
                 Console.WriteLine($"Currently billed characters: {usageStatistics.CharacterCount}");
@@ -244,9 +258,9 @@ namespace DeepL.Cli
         /// Gets the supported languages and writes them to the console.
         /// </summary>
         /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
-        private static async Task GetSupportedLanguagesAsync(string authenticationKey)
+        private static async Task GetSupportedLanguagesAsync(string authenticationKey, bool useFreeApi)
         {
-            using (DeepLClient client = new DeepLClient(authenticationKey))
+            using (DeepLClient client = new DeepLClient(authenticationKey, useFreeApi))
             {
                 IEnumerable<SupportedLanguage> supportedLanguages = await client.GetSupportedLanguagesAsync();
                 foreach (SupportedLanguage supportedLanguage in supportedLanguages)
@@ -263,15 +277,13 @@ namespace DeepL.Cli
             Console.WriteLine("DeepL command line tool.");
             Console.WriteLine();
             Console.WriteLine("Usage:");
-            Console.WriteLine("    deepl-cli translate [authentication-key] [text] [source-language] [target-language]");
-            Console.WriteLine("    deepl-cli translate [authentication-key] [text] [target-language]");
-            Console.WriteLine(
-                "    deepl-cli translate-document [authentication-key] [input-file] [output-file] [source-language] [target-language]"
-            );
-            Console.WriteLine("    deepl-cli translate-document [authentication-key] [input-file] [output-file] [target-language]");
-            Console.WriteLine("    deepl-cli get-usage-statistics [authentication-key]");
-            Console.WriteLine("    deepl-cli get-supported-languages [authentication-key]");
-            Console.WriteLine("    deepl-cli -h | --help");
+            Console.WriteLine("    deepl-cli translate <authentication-key> <text> <source-language> <target-language> [--use-free-api|-f]");
+            Console.WriteLine("    deepl-cli translate <authentication-key> <text> <target-language> [--use-free-api|-f]");
+            Console.WriteLine("    deepl-cli translate-document <authentication-key> <input-file> <output-file> <source-language> <target-language> [--use-free-api|-f]");
+            Console.WriteLine("    deepl-cli translate-document <authentication-key> <input-file> <output-file> <target-language> [--use-free-api|-f]");
+            Console.WriteLine("    deepl-cli get-usage-statistics <authentication-key> [--use-free-api|-f]");
+            Console.WriteLine("    deepl-cli get-supported-languages <authentication-key> [--use-free-api|-f]");
+            Console.WriteLine("    deepl-cli --help|-h");
             Console.WriteLine("    deepl-cli --version");
 
             // Exits the application with an error code
@@ -291,25 +303,27 @@ namespace DeepL.Cli
                 Console.WriteLine("DeepL command line tool.");
                 Console.WriteLine();
                 Console.WriteLine("Usage:");
-                Console.WriteLine("    deepl-cli [command] [authentication-key] [command-arguments]");
+                Console.WriteLine("    deepl-cli <command> <authentication-key> [<command-arguments>]");
                 Console.WriteLine("    deepl-cli --help|-h");
-                Console.WriteLine("    deepl-cli [command] --help|-h");
+                Console.WriteLine("    deepl-cli <command> --help|-h");
                 Console.WriteLine("    deepl-cli --version");
                 Console.WriteLine();
-                Console.WriteLine("options:");
+                Console.WriteLine("Options:");
                 Console.WriteLine("    --help|-h                 Show this help and exit.");
                 Console.WriteLine("    --version                 Show the version.");
                 Console.WriteLine();
-                Console.WriteLine("command:");
+                Console.WriteLine("Commands:");
                 Console.WriteLine("    translate                 Translate text.");
                 Console.WriteLine("    translate-document        Translate Word, PowerPoint, HTML, or text documents.");
                 Console.WriteLine("    get-usage-statistics      Get the number of characters billed to your account and your limits.");
                 Console.WriteLine("    get-supported-languages   List the languages currently supported by DeepL.");
                 Console.WriteLine();
-                Console.WriteLine("command options:");
+                Console.WriteLine("Command options:");
                 Console.WriteLine("    --help|-h                 Show detailed help for the specified command.");
-                Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in the");
+                Console.WriteLine("    <authentication-key>      Your authentication key for the DeepL API, which you will find in the");
                 Console.WriteLine("                              account settings https://www.deepl.com/pro-account.");
+                Console.WriteLine();
+                Console.WriteLine("See 'deep-cli <command> --help' for more information on a specific command.");
             }
             else
             {
@@ -318,17 +332,18 @@ namespace DeepL.Cli
                     Console.WriteLine("Translate text.");
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
-                    Console.WriteLine("    deepl-cli translate [authentication-key] [text] [source-language] [target-language]");
-                    Console.WriteLine("    deepl-cli translate [authentication-key] [text] [target-language]");
+                    Console.WriteLine("    deepl-cli translate <authentication-key> <text> <source-language> <target-language> [--use-free-api|-f]");
+                    Console.WriteLine("    deepl-cli translate <authentication-key> <text> <target-language> [--use-free-api|-f]");
                     Console.WriteLine("    deepl-cli translate --help|-h");
                     Console.WriteLine();
-                    Console.WriteLine("options:");
-                    Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
+                    Console.WriteLine("Options:");
+                    Console.WriteLine("    <authentication-key>      Your authentication key for the DeepL API, which you will find in");
                     Console.WriteLine("                              the account settings https://www.deepl.com/pro-account.");
-                    Console.WriteLine("    [text]                    The text that is to be translated.");
-                    Console.WriteLine("    [source-language]         The language of the text that is to be translated. If not specified,");
+                    Console.WriteLine("    <text>                    The text that is to be translated.");
+                    Console.WriteLine("    <source-language>         The language of the text that is to be translated. If not specified,");
                     Console.WriteLine("                              the source language is inferred from the text, if possible.");
-                    Console.WriteLine("    [target-language]         The language into which the text is to be translated.");
+                    Console.WriteLine("    <target-language>         The language into which the text is to be translated.");
+                    Console.WriteLine("    --use-free-api|-f         Use the free DeepL API instead of the pro API.");
                     Console.WriteLine("    --help|-h                 Shows this help and exits.");
                 }
                 else if (command == "translate-document")
@@ -336,20 +351,19 @@ namespace DeepL.Cli
                     Console.WriteLine("Translate Word, PowerPoint, HTML, or text documents.");
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
-                    Console.WriteLine(
-                        "    deepl-cli translate-document [authentication-key] [input-file] [output-file] [source-language] [target-language]"
-                    );
-                    Console.WriteLine("    deepl-cli translate-document [authentication-key] [input-file] [output-file] [target-language]");
-                    Console.WriteLine("    deepl-cli translate --help|-h");
+                    Console.WriteLine("    deepl-cli translate-document <authentication-key> <input-file> <output-file> <source-language> <target-language> [--use-free-api|-f]");
+                    Console.WriteLine("    deepl-cli translate-document <authentication-key> <input-file> <output-file> <target-language> [--use-free-api|-f]");
+                    Console.WriteLine("    deepl-cli translate-document --help|-h");
                     Console.WriteLine();
-                    Console.WriteLine("options:");
-                    Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
+                    Console.WriteLine("Options:");
+                    Console.WriteLine("    <authentication-key>      Your authentication key for the DeepL API, which you will find in");
                     Console.WriteLine("                              the account settings https://www.deepl.com/pro-account.");
-                    Console.WriteLine("    [input-file]              The path to the document is to be translated.");
-                    Console.WriteLine("    [output-file]             The path to a file to which the translated document is to be saved.");
-                    Console.WriteLine("    [source-language]         The language of the text that is to be translated. If not specified,");
+                    Console.WriteLine("    <input-file>              The path to the document is to be translated.");
+                    Console.WriteLine("    <output-file>             The path to a file to which the translated document is to be saved.");
+                    Console.WriteLine("    <source-language>         The language of the text that is to be translated. If not specified,");
                     Console.WriteLine("                              the source language is inferred from the text, if possible.");
-                    Console.WriteLine("    [target-language]         The language into which the text is to be translated.");
+                    Console.WriteLine("    <target-language>         The language into which the text is to be translated.");
+                    Console.WriteLine("    --use-free-api|-f         Use the free DeepL API instead of the pro API.");
                     Console.WriteLine("    --help|-h                 Shows this help and exits.");
                 }
                 else if (command == "get-usage-statistics")
@@ -357,12 +371,13 @@ namespace DeepL.Cli
                     Console.WriteLine("Get the number of characters billed to your account and your limits.");
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
-                    Console.WriteLine("    deepl-cli get-usage-statistics [authentication-key]");
-                    Console.WriteLine("    deepl-cli translate --help|-h");
+                    Console.WriteLine("    deepl-cli get-usage-statistics <authentication-key> [--use-free-api|-f]");
+                    Console.WriteLine("    deepl-cli get-usage-statistics --help|-h");
                     Console.WriteLine();
-                    Console.WriteLine("options:");
-                    Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
+                    Console.WriteLine("Options:");
+                    Console.WriteLine("    <authentication-key>      Your authentication key for the DeepL API, which you will find in");
                     Console.WriteLine("                              the account settings https://www.deepl.com/pro-account.");
+                    Console.WriteLine("    --use-free-api|-f         Use the free DeepL API instead of the pro API.");
                     Console.WriteLine("    --help|-h                 Shows this help and exits.");
                 }
                 else if (command == "get-supported-languages")
@@ -370,12 +385,13 @@ namespace DeepL.Cli
                     Console.WriteLine("List the languages currently supported by DeepL.");
                     Console.WriteLine();
                     Console.WriteLine("Usage:");
-                    Console.WriteLine("    deepl-cli get-supported-languages [authentication-key]");
-                    Console.WriteLine("    deepl-cli translate --help|-h");
+                    Console.WriteLine("    deepl-cli get-supported-languages <authentication-key> [--use-free-api|-f]");
+                    Console.WriteLine("    deepl-cli get-supported-languages --help|-h");
                     Console.WriteLine();
-                    Console.WriteLine("options:");
-                    Console.WriteLine("    [authentication-key]      Your authentication key for the DeepL API, which you will find in");
+                    Console.WriteLine("Options:");
+                    Console.WriteLine("    <authentication-key>      Your authentication key for the DeepL API, which you will find in");
                     Console.WriteLine("                              the account settings https://www.deepl.com/pro-account.");
+                    Console.WriteLine("    --use-free-api|-f         Use the free DeepL API instead of the pro API.");
                     Console.WriteLine("    --help|-h                 Shows this help and exits.");
                 }
             }
