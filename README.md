@@ -89,7 +89,7 @@ Before a releasing a new version to NuGet, do the following things:
   - `documentation/documentation.md`
   - `DeepL.csproj`
   - `DeepL.Sample.csproj`
-- Add the the list of changes to the `<PackageReleaseNotes>` in `DeepL.csproj`
+- Add the the list of changes to the `<PackageReleaseNotes>` in `DeepL.csproj` (no Markdown allowed, do not indent)
 - Do not forget to build the NuGet package in release configuration: `dotnet pack --configuration Release`
 
 ## License
