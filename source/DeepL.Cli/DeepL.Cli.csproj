@@ -9,17 +9,17 @@
 
   <!-- Assembly Info -->
   <PropertyGroup>
-    <AssemblyTitle>DeepL.NET Sample Application</AssemblyTitle>
+    <AssemblyTitle>DeepL.NET CLI</AssemblyTitle>
     <AssemblyName>deepl-cli</AssemblyName>
     <Version>0.2.1</Version>
     <Copyright>Copyright © 2021 David Neumann</Copyright>
     <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
-    <Description>A sample application for DeepL.NET, which offers a CLI for the DeepL API.</Description>
+    <Description>A command line interface for the DeepL.NET API.</Description>
   </PropertyGroup>
 
   <!-- General Assembly Properties -->
   <PropertyGroup>
-    <RootNamespace>DeepL.Sample</RootNamespace>
+    <RootNamespace>DeepL.Cli</RootNamespace>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 

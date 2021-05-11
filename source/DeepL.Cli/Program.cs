@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 #endregion
 
-namespace DeepL.Sample
+namespace DeepL.Cli
 {
     /// <summary>
-    /// Represents the DeepL test application, which showcases the usage of the DeepL.NET library.
+    /// Represents the DeepL application, which provides a command line interface to the DeepL.NET API.
     /// </summary>
     public class Program
     {
         #region Public Static Methods
 
         /// <summary>
-        /// The entry point to the DeepL test application.
+        /// The entry point to the DeepL CLI application.
         /// </summary>
         /// <param name="arguments">The command line arguments, which should be empty, because they are not used.</param>
         public static void Main(string[] arguments) => Program.MainAsync(arguments).Wait();
