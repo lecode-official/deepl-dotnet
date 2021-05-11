@@ -31,7 +31,7 @@ namespace DeepL
         /// Initializes a new <see cref="DeepLClient"/> instance.
         /// </summary>
         /// <param name="authenticationKey">The authentication key for the DeepL API.</param>
-        /// <param name="useFreeApi">Flag to determine if free version of DeepL API should be used</param>
+        /// <param name="useFreeApi">Determines whether the free or pro version of the DeepL API should be used</param>
         public DeepLClient(string authenticationKey, bool useFreeApi = false)
         {
             this.authenticationKey = authenticationKey;
@@ -49,7 +49,7 @@ namespace DeepL
         #region Private Static Fields
 
         /// <summary>
-        /// Contains the DeepL API Pro base URL.
+        /// Contains the DeepL API pro base URL.
         /// </summary>
         private static readonly string proApiBaseUrl = "https://api.deepl.com/v2";
 
@@ -158,7 +158,7 @@ namespace DeepL
         private readonly string authenticationKey;
 
         /// <summary>
-        /// Determines which url should be used for DeepL API.
+        /// Contains a value that determines whether the free or the pro version of the DeepL API should be used.
         /// </summary>
         private readonly bool useFreeApi;
 
