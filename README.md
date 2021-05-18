@@ -76,14 +76,14 @@ dotnet build
 
 ## Contributing
 
-If you'd like to contribute, there are multiple ways you can help out. If you find a bug or have a feature request, please feel free to open an issue on [GitHub](https://github.com/lecode-official/deepl-dotnet/issues). If you want to contribute code, please fork the repository and use a feature branch. Pull requests are always welcome. Before forking, please open an issue where you describe what you want to do. This helps to align your ideas with mine and may prevent you from doing work, that I am already planning on doing. If you have contributed to the project, please add yourself to the contributors list (CONTRIBUTORS.md). To help speed up the merging of your pull request, please comment and document your code extensively and try to emulate the coding style of the project.
+If you'd like to contribute, there are multiple ways you can help out. If you find a bug or have a feature request, please feel free to open an issue on [GitHub](https://github.com/lecode-official/deepl-dotnet/issues). If you want to contribute code, please fork the repository and use a feature branch. Pull requests are always welcome. Before forking, please open an issue where you describe what you want to do. This helps to align your ideas with mine and may prevent you from doing work, that I am already planning on doing. If you have contributed to the project, please add yourself to the contributors list (CONTRIBUTORS.md). Also, if necessary, update the [documentation](https://github.com/lecode-official/deepl-dotnet/tree/master/documentation) and the [DeepL CLI](https://github.com/lecode-official/deepl-dotnet/tree/master/source/DeepL.Cli). To help speed up the merging of your pull request, please comment and document your code extensively and try to emulate the coding style of the project.
 
 ## Releasing the NuGet Package
 
 Before a releasing a new version to NuGet, do the following things:
 
 - Update the changelog by adding a list of changes that were made since the last release in `CHANGELOG.md`
-- Add all contributors to the `CONTRIBUTORS.md`
+- Add all contributors to the `CONTRIBUTORS.md` and add the people that have contributed to the current release to the changelog
 - Update the version number in the following files
   - `README.md`
   - `documentation/documentation.md`
@@ -91,6 +91,7 @@ Before a releasing a new version to NuGet, do the following things:
   - `DeepL.Sample.csproj`
 - Add the the list of changes to the `<PackageReleaseNotes>` in `DeepL.csproj` (no Markdown allowed, do not indent)
 - Do not forget to build the NuGet package in release configuration: `dotnet pack --configuration Release`
+- Upload both the `.nupkg` and the `.snupkg` to NuGet
 
 ## License
 
