@@ -62,7 +62,7 @@ namespace Application
 }
 ```
 
-For a more complex example, please refer to the [sample application](https://github.com/lecode-official/deepl-dotnet/tree/master/source/DeepL.Sample), which demonstrates a wide variety of features. For a complete overview of DeepL.NET, please refer to the [documentation](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/documentation.md).
+For a more complex example, please refer to the [sample application](https://github.com/lecode-official/deepl-dotnet/tree/master/source/DeepL.Cli), which is a fully-featured command line tool that demonstrates the usage of all DeepL.NET features. For a complete overview of DeepL.NET, please refer to the [documentation](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/documentation.md).
 
 ## Developing
 
