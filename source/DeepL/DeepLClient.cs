@@ -280,7 +280,7 @@ namespace DeepL
                 case HttpStatusCode.BadRequest:
                     try
                     {
-                        string content = await responseMessage.Content.ReadAsStringAsync();
+                        string content = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                         ErrorResult errorResult = JsonConvert.DeserializeObject<ErrorResult>(content);
                         throw new DeepLException($"Bad request. Please check error message and your parameters. {errorResult.Message}");
                     }
@@ -331,11 +331,11 @@ namespace DeepL
             HttpResponseMessage responseMessage = await this.httpClient.GetAsync(
                 this.BuildUrl(DeepLClient.usageStatisticsPath),
                 cancellationToken
-            );
-            await this.CheckResponseStatusCodeAsync(responseMessage);
+            ).ConfigureAwait(false);
+            await this.CheckResponseStatusCodeAsync(responseMessage).ConfigureAwait(false);
 
             // Retrieves the returned JSON and parses it into a .NET object
-            string usageStatisticsContent = await responseMessage.Content.ReadAsStringAsync();
+            string usageStatisticsContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject<UsageStatistics>(usageStatisticsContent);
         }
 
@@ -361,11 +361,11 @@ namespace DeepL
             HttpResponseMessage responseMessage = await this.httpClient.GetAsync(
                 this.BuildUrl(DeepLClient.supportedLanguagesPath),
                 cancellationToken
-            );
-            await this.CheckResponseStatusCodeAsync(responseMessage);
+            ).ConfigureAwait(false);
+            await this.CheckResponseStatusCodeAsync(responseMessage).ConfigureAwait(false);
 
             // Retrieves the returned JSON and parses it into a .NET object
-            string supportedLanguagesContent = await responseMessage.Content.ReadAsStringAsync();
+            string supportedLanguagesContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject<IEnumerable<SupportedLanguage>>(supportedLanguagesContent);
         }
 
@@ -462,11 +462,11 @@ namespace DeepL
                     this.BuildUrl(DeepLClient.translatePath),
                     httpContent,
                     cancellationToken
-                );
-                await this.CheckResponseStatusCodeAsync(responseMessage);
+                ).ConfigureAwait(false);
+                await this.CheckResponseStatusCodeAsync(responseMessage).ConfigureAwait(false);
 
                 // Retrieves the returned JSON and parses it into a .NET object
-                string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
+                string translationResultContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<TranslationResult>(translationResultContent).Translations;
             }
         }
@@ -774,7 +774,7 @@ namespace DeepL
                 preserveFormatting,
                 xmlHandling,
                 cancellationToken
-            );
+            ).ConfigureAwait(false);
 
             // Since only one text was translated, the first translation is returned
             return translations.FirstOrDefault();
@@ -1118,11 +1118,11 @@ namespace DeepL
                     this.BuildUrl(DeepLClient.translateDocumentPath),
                     httpContent,
                     cancellationToken
-                );
-                await this.CheckResponseStatusCodeAsync(responseMessage);
+                ).ConfigureAwait(false);
+                await this.CheckResponseStatusCodeAsync(responseMessage).ConfigureAwait(false);
 
                 // Retrieves the returned JSON and parses it into a .NET object
-                string translationResultContent = await responseMessage.Content.ReadAsStringAsync();
+                string translationResultContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<DocumentTranslation>(translationResultContent);
             }
         }
@@ -1442,7 +1442,7 @@ namespace DeepL
                     sourceLanguageCode,
                     targetLanguageCode,
                     cancellationToken
-                );
+                ).ConfigureAwait(false);
             }
         }
 
@@ -1832,11 +1832,11 @@ namespace DeepL
                     this.BuildUrl(DeepLClient.translateDocumentPath, new List<string> { documentTranslation.DocumentId }),
                     httpContent,
                     cancellationToken
-                );
-                await this.CheckResponseStatusCodeAsync(responseMessage);
+                ).ConfigureAwait(false);
+                await this.CheckResponseStatusCodeAsync(responseMessage).ConfigureAwait(false);
 
                 // Retrieves the returned JSON and parses it into a .NET object
-                string translationStatusContent = await responseMessage.Content.ReadAsStringAsync();
+                string translationStatusContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<TranslationStatus>(translationStatusContent);
             }
         }
@@ -1882,11 +1882,11 @@ namespace DeepL
                     this.BuildUrl(DeepLClient.translateDocumentPath, new List<string> { documentTranslation.DocumentId, "result" }),
                     httpContent,
                     cancellationToken
-                );
-                await this.CheckResponseStatusCodeAsync(responseMessage);
+                ).ConfigureAwait(false);
+                await this.CheckResponseStatusCodeAsync(responseMessage).ConfigureAwait(false);
 
                 // Retrieves the returned JSON and parses it into a .NET object
-                Stream stream = await responseMessage.Content.ReadAsStreamAsync();
+                Stream stream = await responseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 stream.Seek(0, SeekOrigin.Begin);
                 return stream;
             }
@@ -1945,14 +1945,14 @@ namespace DeepL
                 throw new ArgumentException("The file name must not be empty or only consist of white spaces.");
 
             // Downloads the document from the DeepL API
-            using (Stream stream = await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken))
+            using (Stream stream = await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken).ConfigureAwait(false))
             {
                 // Writes the downloaded document to file (the CopyToAsync method does not have an overload where only a stream and a
                 // cancellation token can be specified, so the one with the explicit buffer size is used; the buffer size specified here is
                 // the default buffer size specified in the source of the Stream class, see
                 // https://github.com/dotnet/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/IO/Stream.cs#L34)
                 using (FileStream fileStream = File.Create(fileName))
-                    await stream.CopyToAsync(fileStream, bufferSize: 81920, cancellationToken);
+                    await stream.CopyToAsync(fileStream, bufferSize: 81920, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -2002,7 +2002,7 @@ namespace DeepL
                 sourceLanguageCode,
                 targetLanguageCode,
                 cancellationToken
-            );
+            ).ConfigureAwait(false);
 
             // Periodically checks if the document translation has finished
             while (true)
@@ -2015,7 +2015,7 @@ namespace DeepL
                 TranslationStatus translationStatus = await this.CheckTranslationStatusAsync(
                     documentTranslation,
                     cancellationToken
-                );
+                ).ConfigureAwait(false);
 
                 // If the translation is done, then the loop can be exited and the translated document can be downloaded
                 if (translationStatus.State == TranslationState.Done)
@@ -2031,11 +2031,11 @@ namespace DeepL
                 await Task.Delay(
                     translationStatus.SecondsRemaining.HasValue ? translationStatus.SecondsRemaining.Value * 1000 : 1000,
                     cancellationToken
-                );
+                ).ConfigureAwait(false);
             }
 
             // Finally, since the document has now been translated, it can be downloaded
-            return await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken);
+            return await this.DownloadTranslatedDocumentAsync(documentTranslation, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2341,14 +2341,14 @@ namespace DeepL
                     inputFileName,
                     sourceLanguageCode,
                     targetLanguageCode,
-                    cancellationToken))
+                    cancellationToken).ConfigureAwait(false))
                 {
                     // Writes the downloaded stream to a file (the CopyToAsync method does not have an overload where only a stream and a
                     // cancellation token can be specified, so the one with the explicit buffer size is used; the buffer size specified here
                     // is the default buffer size specified in the source of the Stream class, see
                     // https://github.com/dotnet/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/IO/Stream.cs#L34)
                     using (FileStream fileStream = File.Create(outputFileName))
-                        await outputFileStream.CopyToAsync(fileStream, bufferSize: 81920, cancellationToken);
+                        await outputFileStream.CopyToAsync(fileStream, bufferSize: 81920, cancellationToken).ConfigureAwait(false);
                 }
             }
         }
