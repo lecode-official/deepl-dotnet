@@ -19,16 +19,10 @@ namespace DeepL.Cli
         #region Public Static Methods
 
         /// <summary>
-        /// The entry point to the DeepL CLI application.
-        /// </summary>
-        /// <param name="arguments">The command line arguments, which should be empty, because they are not used.</param>
-        public static void Main(string[] arguments) => Program.MainAsync(arguments).Wait();
-
-        /// <summary>
         /// Represents the asynchronous entry point to the application, which makes it possible to call asynchronous methods.
         /// </summary>
         /// <param name="arguments">The command line arguments, which should be empty, because they are not used.</param>
-        public static async Task MainAsync(string[] arguments)
+        public static async Task Main(string[] arguments)
         {
             // Checks if the user specified any arguments, if not, then the usage of the application is printed out
             if (!arguments.Any())
