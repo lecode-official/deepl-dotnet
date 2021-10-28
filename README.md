@@ -2,6 +2,8 @@
 
 ![DeepL.NET Logo](https://raw.githubusercontent.com/lecode-official/deepl-dotnet/master/documentation/images/banner.png "DeepL.NET Logo")
 
+> **IMPORTANT** This is not an official .NET binding for DeepL and is neither created nor officially supported by DeepL.
+
 A fully-featured .NET client for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This API client only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
 
 ## Features
