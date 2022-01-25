@@ -36,7 +36,7 @@ This release was made possible by the following contributors:
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/lecode-official/deepl-dotnet</PackageProjectUrl>
-    <PackageIcon>logo64x64.png</PackageIcon>
+    <PackageIcon>logo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/lecode-official/deepl-dotnet.git</RepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
@@ -52,7 +52,7 @@ This release was made possible by the following contributors:
   <!-- Includes the logo of the project into the NuGet package -->
   <ItemGroup>
     <None
-      Include="$([MSBuild]::NormalizePath('../../documentation/images/logo64x64.png'))"
+      Include="$([MSBuild]::NormalizePath('../../documentation/images/logo.png'))"
       Pack="true"
       PackagePath="$([MSBuild]::NormalizePath('/'))" />
   </ItemGroup>

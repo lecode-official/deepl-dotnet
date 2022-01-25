@@ -43,9 +43,7 @@ namespace Application
 {
     public class Program
     {
-        public static void Main(string[] arguments) => Program.MainAsync(arguments).Wait();
-
-        public static async Task MainAsync(string[] arguments)
+        public static async Task Main(string[] arguments)
         {
             using (DeepLClient client = new DeepLClient("<authentication key>", useFreeApi: false))
             {
