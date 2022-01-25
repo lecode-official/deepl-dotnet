@@ -11,8 +11,8 @@
     <AssemblyTitle>DeepL.NET</AssemblyTitle>
     <Version>0.3.0</Version>
     <Copyright>Copyright © 2021 David Neumann</Copyright>
-    <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
-    <Description>DeepL.NET is a fully-featured .NET client for the DeepL translation service.</Description>
+    <Product>DeepL.NET - An unofficial .NET client for the DeepL translation service</Product>
+    <Description>DeepL.NET is an unofficial, fully-featured .NET client for the DeepL translation service.</Description>
   </PropertyGroup>
 
   <!-- NuGet Info -->
@@ -20,7 +20,7 @@
     <Title>DeepL.NET</Title>
     <Authors>David Neumann</Authors>
     <PackageId>DeepL</PackageId>
-    <PackageTags>deepl;translation</PackageTags>
+    <PackageTags>deepl;translation;deep learning;nlp;natural language processing</PackageTags>
     <PackageReleaseNotes>
 - It is now possible to choose between the free and the pro version of the DeepL API
 - Cleaned up the documentation and integrated the new constructor argument of the DeepLClient
