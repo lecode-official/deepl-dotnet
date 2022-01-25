@@ -22,16 +22,13 @@
     <PackageId>DeepL</PackageId>
     <PackageTags>deepl;translation;deep learning;nlp;natural language processing</PackageTags>
     <PackageReleaseNotes>
-- It is now possible to choose between the free and the pro version of the DeepL API
-- Cleaned up the documentation and integrated the new constructor argument of the DeepLClient
-- Renamed the sample project to CLI, because it is more than just a sample
-- Integrated the option for the free API into the CLI as well
-- Integrated the new languages that were introduced in 0.2.0 into the CLI
+- Added the formality parameter, which determines how formal the translation should be
+- Upgraded Newtonsoft.Json to its latest version (12.0.3 -> 13.0.1)
+- Updated the DeepL.NET documentation
 
 This release was made possible by the following contributors:
 
-- Michal Cadecky (https://github.com/MichalCadecky)
-- Raoul Jacobs (https://github.com/RaoulJacobs)
+- Paul-SB (https://github.com/Paul-SB)
     </PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
