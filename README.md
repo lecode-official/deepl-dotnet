@@ -2,6 +2,10 @@
 
 ![DeepL.NET Logo](https://raw.githubusercontent.com/lecode-official/deepl-dotnet/master/documentation/images/banner.png "DeepL.NET Logo")
 
+[![License: MIT](https://img.shields.io/github/license/lecode-official/deepl-dotnet)](https://github.com/lecode-official/deepl-dotnet/blob/master/LICENSE)
+[![Nuget Package](https://img.shields.io/nuget/v/DeepL)](https://www.nuget.org/packages/DeepL)
+[![Nuget Downloads](https://img.shields.io/nuget/dt/DeepL)](https://www.nuget.org/packages/DeepL)
+
 > **IMPORTANT** This is not an official .NET binding for DeepL and is neither created nor officially supported by DeepL. DeepL provides their own .NET client library, which can be found [here](https://github.com/DeepLcom/deepl-dotnet).
 
 A fully-featured .NET client for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This API client only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
