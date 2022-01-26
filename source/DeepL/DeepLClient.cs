@@ -294,14 +294,18 @@ namespace DeepL
                     throw new DeepLException("The requested resource could not be found.");
                 case HttpStatusCode.RequestEntityTooLarge:
                     throw new DeepLException("The request size exceeds the limit.");
+                case HttpStatusCode.RequestUriTooLong:
+                    throw new DeepLException("The request URL is too long. You can avoid this error by using a POST request instead of a GET request, and sending the parameters in the HTTP body.");
                 case (HttpStatusCode)429:
                     throw new DeepLException("Too many requests. Please wait and resend your request.");
                 case (HttpStatusCode)456:
                     throw new DeepLException("Quota exceeded. The character limit has been reached.");
-                case HttpStatusCode.InternalServerError:
-                    throw new DeepLException("An internal server error occurred.");
                 case HttpStatusCode.ServiceUnavailable:
                     throw new DeepLException("Resource currently unavailable. Try again later.");
+                case (HttpStatusCode)529:
+                    throw new DeepLException("Too many requests. Please wait and resend your request.");
+                case HttpStatusCode.InternalServerError:
+                    throw new DeepLException("An internal server error occurred.");
                 default:
                     throw new DeepLException("An unknown error occurred.");
             }
@@ -379,6 +383,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -410,6 +415,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -442,6 +448,18 @@ namespace DeepL
                     break;
                 case Splitting.Interpunction:
                     parameters.Add(new KeyValuePair<string, string>("split_sentences", "nonewlines"));
+                    break;
+            }
+            switch (formality)
+            {
+                case Formality.Default:
+                    parameters.Add(new KeyValuePair<string, string>("formality", "default"));
+                    break;
+                case Formality.More:
+                    parameters.Add(new KeyValuePair<string, string>("formality", "more"));
+                    break;
+                case Formality.Less:
+                    parameters.Add(new KeyValuePair<string, string>("formality", "less"));
                     break;
             }
             parameters.Add(new KeyValuePair<string, string>("preserve_formatting", preserveFormatting ? "1" : "0"));
@@ -481,6 +499,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -511,6 +530,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -519,6 +539,7 @@ namespace DeepL
             targetLanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -531,6 +552,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -561,6 +583,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -569,6 +592,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -581,6 +605,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.
@@ -610,6 +635,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -617,6 +643,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -629,6 +656,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -659,6 +687,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -667,6 +696,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -679,6 +709,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -708,6 +739,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -715,6 +747,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -727,6 +760,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -758,6 +792,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -774,6 +809,7 @@ namespace DeepL
                 targetLanguageCode,
                 splitting,
                 preserveFormatting,
+                formality,
                 xmlHandling,
                 cancellationToken
             ).ConfigureAwait(false);
@@ -790,6 +826,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -820,6 +857,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -828,6 +866,7 @@ namespace DeepL
             targetLanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -840,6 +879,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -870,6 +910,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -878,6 +919,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -890,6 +932,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -919,6 +962,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -926,6 +970,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -938,6 +983,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -968,6 +1014,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -976,6 +1023,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -988,6 +1036,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -1017,6 +1066,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -1024,6 +1074,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
