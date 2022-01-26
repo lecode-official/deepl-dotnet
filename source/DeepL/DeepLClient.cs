@@ -84,33 +84,34 @@ namespace DeepL
         /// </summary>
         private static readonly Dictionary<Language, string> sourceLanguageCodeConversionMap = new Dictionary<Language, string>
         {
+            [Language.Bulgarian] = "BG",
+            [Language.Czech] = "CS",
+            [Language.Danish] = "DA",
             [Language.German] = "DE",
+            [Language.Greek] = "EL",
             [Language.English] = "EN",
             [Language.BritishEnglish] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
             [Language.AmericanEnglish] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
+            [Language.Spanish] = "ES",
+            [Language.Estonian] = "ET",
+            [Language.Finnish] = "FI",
             [Language.French] = "FR",
+            [Language.Hungarian] = "HU",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
-            [Language.Spanish] = "ES",
+            [Language.Lithuanian] = "LT",
+            [Language.Latvian] = "LV",
             [Language.Dutch] = "NL",
             [Language.Polish] = "PL",
             [Language.Portuguese] = "PT",
             [Language.BrazilianPortuguese] = "PT", // Region-specific variants are actually not supported, but are here to prevent errors
-            [Language.Russian] = "RU",
-            [Language.Chinese] = "ZH",
-            [Language.Bulgarian] = "BG",
-            [Language.Czech] = "CS",
-            [Language.Danish] = "DA",
-            [Language.Greek] = "EL",
-            [Language.Estonian] = "ET",
-            [Language.Finnish] = "FI",
-            [Language.Hungarian] = "HU",
-            [Language.Lithuanian] = "LT",
-            [Language.Latvian] = "LV",
             [Language.Romanian] = "RO",
+            [Language.Russian] = "RU",
             [Language.Slovak] = "SK",
             [Language.Slovenian] = "SL",
-            [Language.Swedish] = "SV"
+            [Language.Swedish] = "SV",
+            [Language.Chinese] = "ZH"
+
         };
 
         /// <summary>
@@ -118,33 +119,34 @@ namespace DeepL
         /// </summary>
         private static readonly Dictionary<Language, string> targetLanguageCodeConversionMap = new Dictionary<Language, string>
         {
+            [Language.Bulgarian] = "BG",
+            [Language.Czech] = "CS",
+            [Language.Danish] = "DA",
             [Language.German] = "DE",
+            [Language.Greek] = "EL",
             [Language.BritishEnglish] = "EN-GB",
             [Language.AmericanEnglish] = "EN-US",
             [Language.English] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
+            [Language.Spanish] = "ES",
+            [Language.Estonian] = "ET",
+            [Language.Finnish] = "FI",
             [Language.French] = "FR",
+            [Language.Hungarian] = "HU",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
-            [Language.Spanish] = "ES",
+            [Language.Lithuanian] = "LT",
+            [Language.Latvian] = "LV",
             [Language.Dutch] = "NL",
             [Language.Polish] = "PL",
             [Language.Portuguese] = "PT-PT",
             [Language.BrazilianPortuguese] = "PT-BR",
-            [Language.Russian] = "RU",
-            [Language.Chinese] = "ZH",
-            [Language.Bulgarian] = "BG",
-            [Language.Czech] = "CS",
-            [Language.Danish] = "DA",
-            [Language.Greek] = "EL",
-            [Language.Estonian] = "ET",
-            [Language.Finnish] = "FI",
-            [Language.Hungarian] = "HU",
-            [Language.Lithuanian] = "LT",
-            [Language.Latvian] = "LV",
             [Language.Romanian] = "RO",
+            [Language.Russian] = "RU",
             [Language.Slovak] = "SK",
             [Language.Slovenian] = "SL",
-            [Language.Swedish] = "SV"
+            [Language.Swedish] = "SV",
+            [Language.Chinese] = "ZH"
+
         };
 
         #endregion
