@@ -143,33 +143,34 @@ namespace DeepL.Cli
         /// </summary>
         private static readonly Dictionary<string, string> sourceLanguageCodeConversionMap = new Dictionary<string, string>
         {
+            ["bulgarian"] = "BG",
+            ["czech"] = "CS",
+            ["danish"] = "DA",
             ["german"] = "DE",
-            ["english"] = "EN",
+            ["greek"] = "EL",
             ["british-english"] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
             ["american-english"] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
+            ["english"] = "EN",
+            ["spanish"] = "ES",
+            ["estonian"] = "ET",
+            ["finnish"] = "FI",
             ["french"] = "FR",
+            ["hungarian"] = "HU",
             ["italian"] = "IT",
             ["japanese"] = "JA",
-            ["spanish"] = "ES",
+            ["lithuanian"] = "LT",
+            ["latvian"] = "LV",
             ["dutch"] = "NL",
             ["polish"] = "PL",
             ["portuguese"] = "PT",
             ["brazilian-portuguese"] = "PT", // Region-specific variants are actually not supported, but are here to prevent errors
-            ["russian"] = "RU",
-            ["chinese"] = "ZH",
-            ["bulgarian"] = "BG",
-            ["czech"] = "CS",
-            ["danish"] = "DA",
-            ["greek"] = "EL",
-            ["estonian"] = "ET",
-            ["finnish"] = "FI",
-            ["hungarian"] = "HU",
-            ["lithuanian"] = "LT",
-            ["latvian"] = "LV",
             ["romanian"] = "RO",
+            ["russian"] = "RU",
             ["slovak"] = "SK",
             ["slovenian"] = "SL",
-            ["swedish"] = "SV"
+            ["swedish"] = "SV",
+            ["chinese"] = "ZH"
+
         };
 
         /// <summary>
@@ -177,33 +178,34 @@ namespace DeepL.Cli
         /// </summary>
         private static readonly Dictionary<string, string> targetLanguageCodeConversionMap = new Dictionary<string, string>
         {
+            ["bulgarian"] = "BG",
+            ["czech"] = "CS",
+            ["danish"] = "DA",
             ["german"] = "DE",
-            ["english"] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
+            ["greek"] = "EL",
             ["british-english"] = "EN-GB",
             ["american-english"] = "EN-US",
+            ["english"] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
+            ["spanish"] = "ES",
+            ["estonian"] = "ET",
+            ["finnish"] = "FI",
             ["french"] = "FR",
+            ["hungarian"] = "HU",
             ["italian"] = "IT",
             ["japanese"] = "JA",
-            ["spanish"] = "ES",
+            ["lithuanian"] = "LT",
+            ["latvian"] = "LV",
             ["dutch"] = "NL",
             ["polish"] = "PL",
             ["portuguese"] = "PT-PT",
             ["brazilian-portuguese"] = "PT-BR",
-            ["russian"] = "RU",
-            ["chinese"] = "ZH",
-            ["bulgarian"] = "BG",
-            ["czech"] = "CS",
-            ["danish"] = "DA",
-            ["greek"] = "EL",
-            ["estonian"] = "ET",
-            ["finnish"] = "FI",
-            ["hungarian"] = "HU",
-            ["lithuanian"] = "LT",
-            ["latvian"] = "LV",
             ["romanian"] = "RO",
+            ["russian"] = "RU",
             ["slovak"] = "SK",
             ["slovenian"] = "SL",
-            ["swedish"] = "SV"
+            ["swedish"] = "SV",
+            ["chinese"] = "ZH"
+
         };
 
         #endregion

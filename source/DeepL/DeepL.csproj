@@ -9,10 +9,10 @@
   <!-- Assembly Info -->
   <PropertyGroup>
     <AssemblyTitle>DeepL.NET</AssemblyTitle>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <Copyright>Copyright © 2021 David Neumann</Copyright>
-    <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
-    <Description>DeepL.NET is a fully-featured .NET client for the DeepL translation service.</Description>
+    <Product>DeepL.NET - An unofficial .NET client for the DeepL translation service</Product>
+    <Description>DeepL.NET is an unofficial, fully-featured .NET client for the DeepL translation service.</Description>
   </PropertyGroup>
 
   <!-- NuGet Info -->
@@ -20,23 +20,20 @@
     <Title>DeepL.NET</Title>
     <Authors>David Neumann</Authors>
     <PackageId>DeepL</PackageId>
-    <PackageTags>deepl;translation</PackageTags>
+    <PackageTags>deepl;translation;deep learning;nlp;natural language processing</PackageTags>
     <PackageReleaseNotes>
-- It is now possible to choose between the free and the pro version of the DeepL API
-- Cleaned up the documentation and integrated the new constructor argument of the DeepLClient
-- Renamed the sample project to CLI, because it is more than just a sample
-- Integrated the option for the free API into the CLI as well
-- Integrated the new languages that were introduced in 0.2.0 into the CLI
+- Added the formality parameter, which determines how formal the translation should be
+- Upgraded Newtonsoft.Json to its latest version (12.0.3 -> 13.0.1)
+- Updated the DeepL.NET documentation
 
 This release was made possible by the following contributors:
 
-- Michal Cadecky (https://github.com/MichalCadecky)
-- Raoul Jacobs (https://github.com/RaoulJacobs)
+- Paul-SB (https://github.com/Paul-SB)
     </PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/lecode-official/deepl-dotnet</PackageProjectUrl>
-    <PackageIcon>logo64x64.png</PackageIcon>
+    <PackageIcon>logo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/lecode-official/deepl-dotnet.git</RepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
@@ -52,7 +49,7 @@ This release was made possible by the following contributors:
   <!-- Includes the logo of the project into the NuGet package -->
   <ItemGroup>
     <None
-      Include="$([MSBuild]::NormalizePath('../../documentation/images/logo64x64.png'))"
+      Include="$([MSBuild]::NormalizePath('../../documentation/images/logo.png'))"
       Pack="true"
       PackagePath="$([MSBuild]::NormalizePath('/'))" />
   </ItemGroup>
@@ -60,6 +57,6 @@ This release was made possible by the following contributors:
   <!-- Referenced Projects & NuGet Packages -->
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>

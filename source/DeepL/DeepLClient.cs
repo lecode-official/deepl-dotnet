@@ -84,33 +84,34 @@ namespace DeepL
         /// </summary>
         private static readonly Dictionary<Language, string> sourceLanguageCodeConversionMap = new Dictionary<Language, string>
         {
+            [Language.Bulgarian] = "BG",
+            [Language.Czech] = "CS",
+            [Language.Danish] = "DA",
             [Language.German] = "DE",
+            [Language.Greek] = "EL",
             [Language.English] = "EN",
             [Language.BritishEnglish] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
             [Language.AmericanEnglish] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
+            [Language.Spanish] = "ES",
+            [Language.Estonian] = "ET",
+            [Language.Finnish] = "FI",
             [Language.French] = "FR",
+            [Language.Hungarian] = "HU",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
-            [Language.Spanish] = "ES",
+            [Language.Lithuanian] = "LT",
+            [Language.Latvian] = "LV",
             [Language.Dutch] = "NL",
             [Language.Polish] = "PL",
             [Language.Portuguese] = "PT",
             [Language.BrazilianPortuguese] = "PT", // Region-specific variants are actually not supported, but are here to prevent errors
-            [Language.Russian] = "RU",
-            [Language.Chinese] = "ZH",
-            [Language.Bulgarian] = "BG",
-            [Language.Czech] = "CS",
-            [Language.Danish] = "DA",
-            [Language.Greek] = "EL",
-            [Language.Estonian] = "ET",
-            [Language.Finnish] = "FI",
-            [Language.Hungarian] = "HU",
-            [Language.Lithuanian] = "LT",
-            [Language.Latvian] = "LV",
             [Language.Romanian] = "RO",
+            [Language.Russian] = "RU",
             [Language.Slovak] = "SK",
             [Language.Slovenian] = "SL",
-            [Language.Swedish] = "SV"
+            [Language.Swedish] = "SV",
+            [Language.Chinese] = "ZH"
+
         };
 
         /// <summary>
@@ -118,33 +119,34 @@ namespace DeepL
         /// </summary>
         private static readonly Dictionary<Language, string> targetLanguageCodeConversionMap = new Dictionary<Language, string>
         {
+            [Language.Bulgarian] = "BG",
+            [Language.Czech] = "CS",
+            [Language.Danish] = "DA",
             [Language.German] = "DE",
+            [Language.Greek] = "EL",
             [Language.BritishEnglish] = "EN-GB",
             [Language.AmericanEnglish] = "EN-US",
             [Language.English] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
+            [Language.Spanish] = "ES",
+            [Language.Estonian] = "ET",
+            [Language.Finnish] = "FI",
             [Language.French] = "FR",
+            [Language.Hungarian] = "HU",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
-            [Language.Spanish] = "ES",
+            [Language.Lithuanian] = "LT",
+            [Language.Latvian] = "LV",
             [Language.Dutch] = "NL",
             [Language.Polish] = "PL",
             [Language.Portuguese] = "PT-PT",
             [Language.BrazilianPortuguese] = "PT-BR",
-            [Language.Russian] = "RU",
-            [Language.Chinese] = "ZH",
-            [Language.Bulgarian] = "BG",
-            [Language.Czech] = "CS",
-            [Language.Danish] = "DA",
-            [Language.Greek] = "EL",
-            [Language.Estonian] = "ET",
-            [Language.Finnish] = "FI",
-            [Language.Hungarian] = "HU",
-            [Language.Lithuanian] = "LT",
-            [Language.Latvian] = "LV",
             [Language.Romanian] = "RO",
+            [Language.Russian] = "RU",
             [Language.Slovak] = "SK",
             [Language.Slovenian] = "SL",
-            [Language.Swedish] = "SV"
+            [Language.Swedish] = "SV",
+            [Language.Chinese] = "ZH"
+
         };
 
         #endregion
@@ -292,14 +294,18 @@ namespace DeepL
                     throw new DeepLException("The requested resource could not be found.");
                 case HttpStatusCode.RequestEntityTooLarge:
                     throw new DeepLException("The request size exceeds the limit.");
+                case HttpStatusCode.RequestUriTooLong:
+                    throw new DeepLException("The request URL is too long. You can avoid this error by using a POST request instead of a GET request, and sending the parameters in the HTTP body.");
                 case (HttpStatusCode)429:
                     throw new DeepLException("Too many requests. Please wait and resend your request.");
                 case (HttpStatusCode)456:
                     throw new DeepLException("Quota exceeded. The character limit has been reached.");
-                case HttpStatusCode.InternalServerError:
-                    throw new DeepLException("An internal server error occurred.");
                 case HttpStatusCode.ServiceUnavailable:
                     throw new DeepLException("Resource currently unavailable. Try again later.");
+                case (HttpStatusCode)529:
+                    throw new DeepLException("Too many requests. Please wait and resend your request.");
+                case HttpStatusCode.InternalServerError:
+                    throw new DeepLException("An internal server error occurred.");
                 default:
                     throw new DeepLException("An unknown error occurred.");
             }
@@ -377,6 +383,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -408,6 +415,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -440,6 +448,18 @@ namespace DeepL
                     break;
                 case Splitting.Interpunction:
                     parameters.Add(new KeyValuePair<string, string>("split_sentences", "nonewlines"));
+                    break;
+            }
+            switch (formality)
+            {
+                case Formality.Default:
+                    parameters.Add(new KeyValuePair<string, string>("formality", "default"));
+                    break;
+                case Formality.More:
+                    parameters.Add(new KeyValuePair<string, string>("formality", "more"));
+                    break;
+                case Formality.Less:
+                    parameters.Add(new KeyValuePair<string, string>("formality", "less"));
                     break;
             }
             parameters.Add(new KeyValuePair<string, string>("preserve_formatting", preserveFormatting ? "1" : "0"));
@@ -479,6 +499,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -509,6 +530,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -517,6 +539,7 @@ namespace DeepL
             targetLanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -529,6 +552,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -559,6 +583,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -567,6 +592,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -579,6 +605,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.
@@ -608,6 +635,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -615,6 +643,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -627,6 +656,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -657,6 +687,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -665,6 +696,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -677,6 +709,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -706,6 +739,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -713,6 +747,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -725,6 +760,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -756,6 +792,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -772,6 +809,7 @@ namespace DeepL
                 targetLanguageCode,
                 splitting,
                 preserveFormatting,
+                formality,
                 xmlHandling,
                 cancellationToken
             ).ConfigureAwait(false);
@@ -788,6 +826,7 @@ namespace DeepL
         /// <param name="targetLanguageCode">The target language code.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -818,6 +857,7 @@ namespace DeepL
             string targetLanguageCode,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -826,6 +866,7 @@ namespace DeepL
             targetLanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -838,6 +879,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -868,6 +910,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -876,6 +919,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -888,6 +932,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -917,6 +962,7 @@ namespace DeepL
             Language targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -924,6 +970,7 @@ namespace DeepL
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -936,6 +983,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -966,6 +1014,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -974,6 +1023,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -986,6 +1036,7 @@ namespace DeepL
         /// <param name="targetLanguage">The target language.</param>
         /// <param name="splitting">Determines if and how the text is to be split.</param>
         /// <param name="preserveFormatting">Determines if the formatting of the source text is to be preserved.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="xmlHandling">
         /// Determines how XML documents are handled during translation. If specified, XML handling is enabled.
         /// </param>
@@ -1015,6 +1066,7 @@ namespace DeepL
             SupportedLanguage targetLanguage,
             Splitting splitting = Splitting.InterpunctionAndNewLines,
             bool preserveFormatting = false,
+            Formality formality = Formality.Default,
             XmlHandling xmlHandling = default(XmlHandling),
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateAsync(
@@ -1022,6 +1074,7 @@ namespace DeepL
             targetLanguage.LanguageCode,
             splitting,
             preserveFormatting,
+            formality,
             xmlHandling,
             cancellationToken
         );
@@ -1037,6 +1090,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
@@ -1067,6 +1121,7 @@ namespace DeepL
             string fileName,
             string sourceLanguageCode,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Validates the arguments
@@ -1094,7 +1149,7 @@ namespace DeepL
                 // Adds the file to the content of the HTTP request (again, the content disposition is set by hand, because, by  default,
                 // the System.Net.HttpClient does not quote the name and file name, but the DeepL API HTTP parser does not support unquoted
                 // parameter values)
-                var fileContent = new StreamContent(fileStream);
+                StreamContent fileContent = new StreamContent(fileStream);
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
                 fileContent.Headers.ContentDisposition.Name = "\"file\"";
                 fileContent.Headers.ContentDisposition.FileName = $"\"{Path.GetFileName(fileName)}\"";
@@ -1106,12 +1161,34 @@ namespace DeepL
                 // Adds the parameters to the content of the HTTP request (again, the content disposition is set by hand, because, by
                 // default, the System.Net.HttpClient does not quote the name, but the DeepL API HTTP parser does not support unquoted
                 // parameter values)
-                var targetLanguageContent = new StringContent(targetLanguageCode);
+                StringContent targetLanguageContent = new StringContent(targetLanguageCode);
                 targetLanguageContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
                 targetLanguageContent.Headers.ContentDisposition.Name = "\"target_lang\"";
                 httpContent.Add(targetLanguageContent, "target_lang");
                 if (!string.IsNullOrWhiteSpace(sourceLanguageCode))
-                    httpContent.Add(new StringContent(sourceLanguageCode), "source_lang");
+                {
+                    StringContent sourceLanguageContent = new StringContent(sourceLanguageCode);
+                    sourceLanguageContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                    sourceLanguageContent.Headers.ContentDisposition.Name = "\"source_lang\"";
+                    httpContent.Add(sourceLanguageContent, "source_lang");
+                }
+                string formalityValue;
+                switch (formality)
+                {
+                    case Formality.More:
+                        formalityValue = "more";
+                        break;
+                    case Formality.Less:
+                        formalityValue = "less";
+                        break;
+                    default:
+                        formalityValue = "default";
+                        break;
+                }
+                StringContent formalityContent = new StringContent(formalityValue);
+                formalityContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                formalityContent.Headers.ContentDisposition.Name = "\"formality\"";
+                httpContent.Add(formalityContent, "formality");
 
                 // Sends a request to the DeepL API to upload the document for translations
                 HttpResponseMessage responseMessage = await this.httpClient.PostAsync(
@@ -1137,6 +1214,7 @@ namespace DeepL
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
@@ -1166,12 +1244,14 @@ namespace DeepL
             Stream fileStream,
             string fileName,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
             null,
             targetLanguageCode,
+            formality,
             cancellationToken
         );
 
@@ -1186,6 +1266,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -1214,12 +1295,14 @@ namespace DeepL
             string fileName,
             Language sourceLanguage,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
             DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
@@ -1233,6 +1316,7 @@ namespace DeepL
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -1260,11 +1344,13 @@ namespace DeepL
             Stream fileStream,
             string fileName,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
@@ -1279,6 +1365,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -1308,12 +1395,14 @@ namespace DeepL
             string fileName,
             SupportedLanguage sourceLanguage,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
             sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 
@@ -1327,6 +1416,7 @@ namespace DeepL
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -1355,11 +1445,13 @@ namespace DeepL
             Stream fileStream,
             string fileName,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileStream,
             fileName,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 
@@ -1373,6 +1465,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more
@@ -1423,6 +1516,7 @@ namespace DeepL
             string fileName,
             string sourceLanguageCode,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Validates the parameters
@@ -1441,6 +1535,7 @@ namespace DeepL
                     fileName,
                     sourceLanguageCode,
                     targetLanguageCode,
+                    formality,
                     cancellationToken
                 ).ConfigureAwait(false);
             }
@@ -1455,6 +1550,7 @@ namespace DeepL
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name or the target language code are empty, only consist of white spaces, or the file name contains one or more
@@ -1506,11 +1602,13 @@ namespace DeepL
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
             null,
             targetLanguageCode,
+            formality,
             cancellationToken
         );
 
@@ -1524,6 +1622,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
@@ -1577,11 +1676,13 @@ namespace DeepL
             string fileName,
             Language sourceLanguage,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
             DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
@@ -1594,6 +1695,7 @@ namespace DeepL
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
@@ -1646,10 +1748,12 @@ namespace DeepL
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
@@ -1663,6 +1767,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
@@ -1715,11 +1820,13 @@ namespace DeepL
             string fileName,
             SupportedLanguage sourceLanguage,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
             sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 
@@ -1732,6 +1839,7 @@ namespace DeepL
         /// </summary>
         /// <param name="fileName">The name of the file that is to be uploaded.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, or the file name contains one or more invalid characters, then an
@@ -1784,10 +1892,12 @@ namespace DeepL
         public Task<DocumentTranslation> UploadDocumentForTranslationAsync(
             string fileName,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.UploadDocumentForTranslationAsync(
             fileName,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 
@@ -1958,7 +2068,7 @@ namespace DeepL
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync(Stream, string, string, string, CancellationToken)"/>,
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(Stream, string, string, string, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
@@ -1966,6 +2076,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file (this file name is needed to determine the MIME type of the file).</param>
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
@@ -1993,6 +2104,7 @@ namespace DeepL
             string fileName,
             string sourceLanguageCode,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Uploads the document to the DeepL API for translation
@@ -2001,6 +2113,7 @@ namespace DeepL
                 fileName,
                 sourceLanguageCode,
                 targetLanguageCode,
+                formality,
                 cancellationToken
             ).ConfigureAwait(false);
 
@@ -2041,13 +2154,14 @@ namespace DeepL
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
         /// from the source text, if possible. This method is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, string, CancellationToken)"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, string, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name or the target language code are empty or only consist of white spaces, then an <see cref="ArgumentException"/>
@@ -2074,18 +2188,20 @@ namespace DeepL
             Stream fileStream,
             string fileName,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
             null,
             targetLanguageCode,
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync(Stream, string, Language, Language, CancellationToken)"/>,
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(Stream, string, Language, Language, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
@@ -2093,6 +2209,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -2118,25 +2235,28 @@ namespace DeepL
             string fileName,
             Language sourceLanguage,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
             DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
         /// from the source text, if possible. This method is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, Language, CancellationToken)"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, Language, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -2161,18 +2281,20 @@ namespace DeepL
             Stream fileStream,
             string fileName,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
         /// is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, SupportedLanguage, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, SupportedLanguage, SupportedLanguage, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
@@ -2180,6 +2302,7 @@ namespace DeepL
         /// <param name="fileName">The name of the file.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -2206,25 +2329,28 @@ namespace DeepL
             string fileName,
             SupportedLanguage sourceLanguage,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
             sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
         /// from the source text, if possible. This method is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(Stream, string, SupportedLanguage, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, CancellationToken)"/>.
         /// </summary>
         /// <param name="fileStream">A stream that contains the contents of the document that is to be uploaded.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the file name is empty or only consists of white spaces, then an <see cref="ArgumentException"/> is thrown.
@@ -2250,17 +2376,19 @@ namespace DeepL
             Stream fileStream,
             string fileName,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             fileStream,
             fileName,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync(string, string, string, CancellationToken)"/>,
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(string, string, string, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
@@ -2268,6 +2396,7 @@ namespace DeepL
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="sourceLanguageCode">The source language code.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
@@ -2319,6 +2448,7 @@ namespace DeepL
             string outputFileName,
             string sourceLanguageCode,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // Validates the arguments
@@ -2341,6 +2471,7 @@ namespace DeepL
                     inputFileName,
                     sourceLanguageCode,
                     targetLanguageCode,
+                    formality,
                     cancellationToken).ConfigureAwait(false))
                 {
                     // Writes the downloaded stream to a file (the CopyToAsync method does not have an overload where only a stream and a
@@ -2356,12 +2487,13 @@ namespace DeepL
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
         /// from the source text, if possible. This method is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(string, string, CancellationToken)"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(string, string, Formality, CancellationToken)"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguageCode">The target language code.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
@@ -2412,18 +2544,20 @@ namespace DeepL
             string inputFileName,
             string outputFileName,
             string targetLanguageCode,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             inputFileName,
             outputFileName,
             null,
             targetLanguageCode,
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
-        /// is a combination of <see cref="UploadDocumentForTranslationAsync(string, Language, Language, CancellationToken)"/>,
+        /// is a combination of <see cref="UploadDocumentForTranslationAsync(string, Language, Language, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
@@ -2431,6 +2565,7 @@ namespace DeepL
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the input file name, or the output file name are empty or only consist of white spaces, then an
@@ -2482,24 +2617,27 @@ namespace DeepL
             string outputFileName,
             Language sourceLanguage,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             inputFileName,
             outputFileName,
             DeepLClient.sourceLanguageCodeConversionMap[sourceLanguage],
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
         /// from the source text, if possible. This method is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(string, Language, CancellationToken)"/>, <see cref="CheckTranslationStatusAsync"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(string, Language, Formality, CancellationToken)"/>, <see cref="CheckTranslationStatusAsync"/>,
         /// and <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
@@ -2549,18 +2687,20 @@ namespace DeepL
             string inputFileName,
             string outputFileName,
             Language targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             inputFileName,
             outputFileName,
             DeepLClient.targetLanguageCodeConversionMap[targetLanguage],
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream from the specified source language to the specified target language. This method
         /// is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(string, SupportedLanguage, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(string, SupportedLanguage, SupportedLanguage, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
@@ -2568,6 +2708,7 @@ namespace DeepL
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
@@ -2619,25 +2760,28 @@ namespace DeepL
             string outputFileName,
             SupportedLanguage sourceLanguage,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             inputFileName,
             outputFileName,
             sourceLanguage == null ? null : sourceLanguage.LanguageCode,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 
         /// <summary>
         /// Translates the document in the specified stream to the specified target language. The source language is automatically inferred
         /// from the source text, if possible. This method is a combination of
-        /// <see cref="UploadDocumentForTranslationAsync(string, SupportedLanguage, CancellationToken)"/>,
+        /// <see cref="UploadDocumentForTranslationAsync(string, SupportedLanguage, Formality, CancellationToken)"/>,
         /// <see cref="CheckTranslationStatusAsync"/>, and
         /// <see cref="DownloadTranslatedDocumentAsync(DocumentTranslation, string, CancellationToken)"/>.
         /// </summary>
         /// <param name="inputFileName">The name of the file that is to be uploaded.</param>
         /// <param name="outputFileName">The name of the file into which the translated document is to be written.</param>
         /// <param name="targetLanguage">The target language.</param>
+        /// <param name="formality">Determines whether the translated text should lean towards formal or informal language.</param>
         /// <param name="cancellationToken">A cancellation token, that can be used to cancel the request to the DeepL API.</param>
         /// <exception cref="ArgumentException">
         /// If the input file name, the output file name, or the target language code are empty or only consist of white spaces, or the
@@ -2688,11 +2832,13 @@ namespace DeepL
             string inputFileName,
             string outputFileName,
             SupportedLanguage targetLanguage,
+            Formality formality = Formality.Default,
             CancellationToken cancellationToken = default(CancellationToken)
         ) => this.TranslateDocumentAsync(
             inputFileName,
             outputFileName,
             targetLanguage.LanguageCode,
+            formality,
             cancellationToken
         );
 

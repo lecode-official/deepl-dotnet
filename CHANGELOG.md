@@ -62,3 +62,15 @@ This release was made possible by the following contributors:
 
 - [Michal Cadecky](https://github.com/MichalCadecky)
 - [Raoul Jacobs](https://github.com/RaoulJacobs)
+
+## 0.4.0
+
+Released on January 28, 2022
+
+- Added the formality parameter, which determines how formal the translation should be
+- Upgraded Newtonsoft.Json to its latest version (12.0.3 -> 13.0.1)
+- Updated the DeepL.NET documentation
+
+This release was made possible by the following contributors:
+
+- [Paul-SB](https://github.com/Paul-SB)

@@ -11,6 +11,7 @@ The `DeepLClient.TranslateAsync(string, ...)` family of methods can be used to t
 | `targetLanguageCode` or `targetLanguage` | `string`, `Language`, or `SupportedLanguage` | ✗        | The language into which the text is to be translated.                                                                                                                                                                               |
 | `splitting`                              | `Splitting`                                  | ✓        | Determines how the text is split into sentences by the translation engine. Defaults to `Splitting.InterpunctionAndNewLines`.                                                                                                        |
 | `preserveFormatting`                     | `bool`                                       | ✓        | Determines whether the translation engine should respect the original formatting, even if it would usually correct some aspects. This includes capitalization at the beginning of sentences and interpunction. Defaults to `false`. |
+| `formality`                              | `Formality`                                  | ✓        | Determines whether the translated text should lean towards formal or informal language.                                                                                                                                             |
 | `xmlHandling`                            | `XmlHandling`                                | ✓        | Determines how XML tags are handled by the translation engine. Defaults to `null`.                                                                                                                                                  |
 | `cancellationToken`                      | `CancellationToken`                          | ✓        | Can be used to cancel a long running translation. Defaults to `default(CancellationToken)`.                                                                                                                                         |
 
@@ -52,40 +53,40 @@ When you are trying to translate a large volume of text, then you should conside
 
 ## Languages
 
-As of writing this documentation (May, 2020), the DeepL API supports the following languages:
+As of writing this documentation (January, 2022), the DeepL API supports the following languages:
 
 | Language                  | Code  | `Language` Enumeration         | Source Language | Target Language |
 |---------------------------|-------|--------------------------------|-----------------|-----------------|
-| German                    | DE    | `Language.German`              | ✓               | ✓               |
-| English                   | EN    | `Language.English`             | ✓               | ✗               |
-| British English           | EN-GB | `Language.BritishEnglish`      | ✗               | ✓               |
-| American English          | EN-US | `Language.AmericanEnglish`     | ✗               | ✓               |
-| French                    | FR    | `Language.French`              | ✓               | ✓               |
-| Italian                   | IT    | `Language.Italian`             | ✓               | ✓               |
-| Japanese                  | JA    | `Language.Japanese`            | ✓               | ✓               |
-| Spanish                   | ES    | `Language.Spanish`             | ✓               | ✓               |
-| Dutch                     | NL    | `Language.Dutch`               | ✓               | ✓               |
-| Polish                    | PL    | `Language.Polish`              | ✓               | ✓               |
-| Portuguese (all variants) | PT    | `Language.Portuguese`          | ✓               | ✗               |
-| Portuguese (no Brazilian) | PT-PT | `Language.Portuguese`          | ✗               | ✓               |
-| Portuguese (Brazilian)    | PT-BR | `Language.BrazilianPortuguese` | ✗               | ✓               |
-| Russian                   | RU    | `Language.Russian`             | ✓               | ✓               |
-| Chinese                   | ZH    | `Language.Chinese`             | ✓               | ✓               |
 | Bulgarian                 | BG    | `Language.Bulgarian`           | ✓               | ✓               |
 | Czech                     | CS    | `Language.Czech`               | ✓               | ✓               |
 | Danish                    | DA    | `Language.Danish`              | ✓               | ✓               |
+| German                    | DE    | `Language.German`              | ✓               | ✓               |
 | Greek                     | EL    | `Language.Greek`               | ✓               | ✓               |
+| British English           | EN-GB | `Language.BritishEnglish`      | ✗               | ✓               |
+| American English          | EN-US | `Language.AmericanEnglish`     | ✗               | ✓               |
+| English                   | EN    | `Language.English`             | ✓               | ✗               |
+| Spanish                   | ES    | `Language.Spanish`             | ✓               | ✓               |
 | Estonian                  | ET    | `Language.Estonian`            | ✓               | ✓               |
 | Finnish                   | FI    | `Language.Finnish`             | ✓               | ✓               |
+| French                    | FR    | `Language.French`              | ✓               | ✓               |
 | Hungarian                 | HU    | `Language.Hungarian`           | ✓               | ✓               |
+| Italian                   | IT    | `Language.Italian`             | ✓               | ✓               |
+| Japanese                  | JA    | `Language.Japanese`            | ✓               | ✓               |
 | Lithuanian                | LT    | `Language.Lithuanian`          | ✓               | ✓               |
 | Latvian                   | LV    | `Language.Latvian`             | ✓               | ✓               |
+| Dutch                     | NL    | `Language.Dutch`               | ✓               | ✓               |
+| Polish                    | PL    | `Language.Polish`              | ✓               | ✓               |
+| Portuguese (no Brazilian) | PT-PT | `Language.Portuguese`          | ✗               | ✓               |
+| Portuguese (Brazilian)    | PT-BR | `Language.BrazilianPortuguese` | ✗               | ✓               |
+| Portuguese (all variants) | PT    | `Language.Portuguese`          | ✓               | ✗               |
 | Romanian                  | RO    | `Language.Romanian`            | ✓               | ✓               |
+| Russian                   | RU    | `Language.Russian`             | ✓               | ✓               |
 | Slovak                    | SK    | `Language.Slovak`              | ✓               | ✓               |
 | Slovenian                 | SL    | `Language.Slovenian`           | ✓               | ✓               |
 | Swedish                   | SV    | `Language.Swedish`             | ✓               | ✓               |
+| Chinese                   | ZH    | `Language.Chinese`             | ✓               | ✓               |
 
-Every translation method has an overload that accepts the language code as a string. For your convenience, there is also the `Language` enumeration, which contains all languages (supported as of May, 2020). Furthermore, the source or target language can also be specified as an instance of `SupportedLanguage`. A list of all supported languages can be retrieved using the `GetSupportedLanguagesAsync` method. For further information see ["Listing Supported Languages"](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md#listing-supported-languages). This is helpful for inclusion in user interfaces or in case a new supported language is added, but DeepL.NET has not been updated to include it.
+Every translation method has an overload that accepts the language code as a string. For your convenience, there is also the `Language` enumeration, which contains all languages (supported as of January, 2022). Furthermore, the source or target language can also be specified as an instance of `SupportedLanguage`. A list of all supported languages can be retrieved using the `GetSupportedLanguagesAsync` method. For further information see ["Listing Supported Languages"](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md#listing-supported-languages). This is helpful for inclusion in user interfaces or in case a new supported language is added, but DeepL.NET has not been updated to include it.
 
 ## Text Splitting
 

@@ -2,9 +2,13 @@
 
 ![DeepL.NET Logo](https://raw.githubusercontent.com/lecode-official/deepl-dotnet/master/documentation/images/banner.png "DeepL.NET Logo")
 
-> **IMPORTANT** This is not an official .NET binding for DeepL and is neither created nor officially supported by DeepL.
+[![License: MIT](https://img.shields.io/github/license/lecode-official/deepl-dotnet)](https://github.com/lecode-official/deepl-dotnet/blob/master/LICENSE)
+[![Nuget Package](https://img.shields.io/nuget/v/DeepL)](https://www.nuget.org/packages/DeepL)
+[![Nuget Downloads](https://img.shields.io/nuget/dt/DeepL)](https://www.nuget.org/packages/DeepL)
 
-A fully-featured .NET client for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This API client only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
+> **IMPORTANT** This is not an official .NET binding for DeepL and is neither created nor officially supported by DeepL. DeepL provides their own .NET client library, which can be found [here](https://github.com/DeepLcom/deepl-dotnet).
+
+An unofficial, fully-featured .NET client for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This API client only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
 
 ## Features
 
@@ -19,15 +23,15 @@ A fully-featured .NET client for the [DeepL](https://www.deepl.com/translator) t
 To get started you have to add the package reference to your project:
 
 ```bash
-Install-Package DeepL -Version 0.3.0 # Package Manager
-dotnet add package DeepL --version 0.3.0 # .NET CLI
-paket add DeepL --version 0.3.0 # Paket CLI
+Install-Package DeepL -Version 0.4.0 # Package Manager
+dotnet add package DeepL --version 0.4.0 # .NET CLI
+paket add DeepL --version 0.4.0 # Paket CLI
 ```
 
 or manually add a reference to your project file:
 
 ```xml
-<PackageReference Include="DeepL" Version="0.3.0" />
+<PackageReference Include="DeepL" Version="0.4.0" />
 ```
 
 Then you can start translating texts:
@@ -39,9 +43,7 @@ namespace Application
 {
     public class Program
     {
-        public static void Main(string[] arguments) => Program.MainAsync(arguments).Wait();
-
-        public static async Task MainAsync(string[] arguments)
+        public static async Task Main(string[] arguments)
         {
             using (DeepLClient client = new DeepLClient("<authentication key>", useFreeApi: false))
             {

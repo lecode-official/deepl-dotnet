@@ -78,16 +78,6 @@ task.Wait();
 Translation translation = task.Result;
 ```
 
-If you want to use DeepL.NET from the your `Main` method, then create a second asynchronous `MainAsync` method like so:
-
-```csharp
-public static void Main(string[] arguments) => Program.MainAsync(arguments).Wait();
-
-public static async Task MainAsync(string[] arguments)
-{
-}
-```
-
 All asynchronous methods of the `DeepLClient` offer a `CancellationToken` parameter, which can be used to cancel long-running requests to the DeepL API.
 
 ```csharp

@@ -9,9 +9,29 @@ namespace DeepL
     public enum Language
     {
         /// <summary>
+        /// The Bulgarian language (language code "BG").
+        /// </summary>
+        Bulgarian,
+        
+        /// <summary>
+        /// The Czech language (language code "CS").
+        /// </summary>
+        Czech,
+        
+        /// <summary>
+        /// The Danish language (language code "DA").
+        /// </summary>
+        Danish,
+
+        /// <summary>
         /// The German language (language code "DE").
         /// </summary>
         German,
+        
+        /// <summary>
+        /// The Greek language (language code "EL").
+        /// </summary>
+        Greek,
 
         /// <summary>
         /// The British English language (language code "EN-GB").
@@ -30,9 +50,29 @@ namespace DeepL
         English,
 
         /// <summary>
+        /// The Spanish language (language code "ES").
+        /// </summary>
+        Spanish,
+        
+        /// <summary>
+        /// The Estonian language (language code "ET").
+        /// </summary>
+        Estonian,
+        
+        /// <summary>
+        /// The Finnish language (language code "FI").
+        /// </summary>
+        Finnish,
+
+        /// <summary>
         /// The French language (language code "FR").
         /// </summary>
         French,
+        
+        /// <summary>
+        /// The Hungarian language (language code "HU").
+        /// </summary>
+        Hungarian,
 
         /// <summary>
         /// The Italian language (language code "IT").
@@ -43,11 +83,16 @@ namespace DeepL
         /// The Japanese language (language code "JA").
         /// </summary>
         Japanese,
-
+        
         /// <summary>
-        /// The Spanish language (language code "ES").
+        /// The Lithuanian language (language code "LT").
         /// </summary>
-        Spanish,
+        Lithuanian,
+        
+        /// <summary>
+        /// The Latvian language (language code "LV").
+        /// </summary>
+        Latvian,
 
         /// <summary>
         /// The Dutch language (language code "NL").
@@ -71,66 +116,16 @@ namespace DeepL
         /// source language.
         /// </summary>
         BrazilianPortuguese,
-
-        /// <summary>
-        /// The Russian language (language code "RU").
-        /// </summary>
-        Russian,
-
-        /// <summary>
-        /// The Chinese language (language code "ZH").
-        /// </summary>
-        Chinese,
-        
-        /// <summary>
-        /// The Bulgarian language (language code "BG").
-        /// </summary>
-        Bulgarian,
-        
-        /// <summary>
-        /// The Czech language (language code "CS").
-        /// </summary>
-        Czech,
-        
-        /// <summary>
-        /// The Danish language (language code "DA").
-        /// </summary>
-        Danish,
-        
-        /// <summary>
-        /// The Greek language (language code "EL").
-        /// </summary>
-        Greek,
-        
-        /// <summary>
-        /// The Estonian language (language code "ET").
-        /// </summary>
-        Estonian,
-        
-        /// <summary>
-        /// The Finnish language (language code "FI").
-        /// </summary>
-        Finnish,
-        
-        /// <summary>
-        /// The Hungarian language (language code "HU").
-        /// </summary>
-        Hungarian,
-        
-        /// <summary>
-        /// The Lithuanian language (language code "LT").
-        /// </summary>
-        Lithuanian,
-        
-        /// <summary>
-        /// The Latvian language (language code "LV").
-        /// </summary>
-        Latvian,
         
         /// <summary>
         /// The Romanian language (language code "RO").
         /// </summary>
         Romanian,
+
+        /// <summary>
+        /// The Russian language (language code "RU").
+        /// </summary>
+        Russian,
         
         /// <summary>
         /// The Slovak language (language code "SK").
@@ -145,6 +140,11 @@ namespace DeepL
         /// <summary>
         /// The Swedish language (language code "SV").
         /// </summary>
-        Swedish
+        Swedish,
+
+        /// <summary>
+        /// The Chinese language (language code "ZH").
+        /// </summary>
+        Chinese
     }
 }
