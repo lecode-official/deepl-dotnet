@@ -6,3 +6,4 @@
 - [jcmag](https://github.com/jcmag)
 - [Michal Cadecky](https://github.com/MichalCadecky)
 - [Raoul Jacobs](https://github.com/RaoulJacobs)
+- [Paul-SB](https://github.com/Paul-SB)
