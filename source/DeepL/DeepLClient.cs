@@ -75,7 +75,7 @@ namespace DeepL
         private static readonly string translateDocumentPath = "document";
 
         /// <summary>
-        /// Contains the path to the action that retrieves the langauges that are supported by the DeepL API.
+        /// Contains the path to the action that retrieves the languages that are supported by the DeepL API.
         /// </summary>
         private static readonly string supportedLanguagesPath = "languages";
 
@@ -97,6 +97,7 @@ namespace DeepL
             [Language.Finnish] = "FI",
             [Language.French] = "FR",
             [Language.Hungarian] = "HU",
+            [Language.Indonesian] = "ID",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
             [Language.Lithuanian] = "LT",
@@ -110,6 +111,7 @@ namespace DeepL
             [Language.Slovak] = "SK",
             [Language.Slovenian] = "SL",
             [Language.Swedish] = "SV",
+            [Language.Turkish] = "TR",
             [Language.Chinese] = "ZH"
 
         };
@@ -124,14 +126,15 @@ namespace DeepL
             [Language.Danish] = "DA",
             [Language.German] = "DE",
             [Language.Greek] = "EL",
+            [Language.English] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
             [Language.BritishEnglish] = "EN-GB",
             [Language.AmericanEnglish] = "EN-US",
-            [Language.English] = "EN", // Unspecified variant for backward compatibility; please select EN-GB or EN-US instead
             [Language.Spanish] = "ES",
             [Language.Estonian] = "ET",
             [Language.Finnish] = "FI",
             [Language.French] = "FR",
             [Language.Hungarian] = "HU",
+            [Language.Indonesian] = "ID",
             [Language.Italian] = "IT",
             [Language.Japanese] = "JA",
             [Language.Lithuanian] = "LT",
@@ -145,6 +148,7 @@ namespace DeepL
             [Language.Slovak] = "SK",
             [Language.Slovenian] = "SL",
             [Language.Swedish] = "SV",
+            [Language.Turkish] = "TR",
             [Language.Chinese] = "ZH"
 
         };
@@ -2139,7 +2143,7 @@ namespace DeepL
                     throw new DeepLException("An unknown error occurred during the translation of the document.");
 
                 // In order to not send too many requests to the server, we wait for a short amount of time, before sending another request
-                // (when the tranlation has started, then the translation status actually contains the estimated number of seconds
+                // (when the translation has started, then the translation status actually contains the estimated number of seconds
                 // remaining, if they are not in the translation status, then we default to 1/2 second)
                 await Task.Delay(
                     translationStatus.SecondsRemaining.HasValue ? translationStatus.SecondsRemaining.Value * 1000 : 1000,
