@@ -148,14 +148,15 @@ namespace DeepL.Cli
             ["danish"] = "DA",
             ["german"] = "DE",
             ["greek"] = "EL",
+            ["english"] = "EN",
             ["british-english"] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
             ["american-english"] = "EN", // Region-specific variants are actually not supported, but are here to prevent errors
-            ["english"] = "EN",
             ["spanish"] = "ES",
             ["estonian"] = "ET",
             ["finnish"] = "FI",
             ["french"] = "FR",
             ["hungarian"] = "HU",
+            ["indonesian"] = "ID",
             ["italian"] = "IT",
             ["japanese"] = "JA",
             ["lithuanian"] = "LT",
@@ -169,6 +170,7 @@ namespace DeepL.Cli
             ["slovak"] = "SK",
             ["slovenian"] = "SL",
             ["swedish"] = "SV",
+            ["turkish"] = "TR",
             ["chinese"] = "ZH"
 
         };
@@ -191,6 +193,7 @@ namespace DeepL.Cli
             ["finnish"] = "FI",
             ["french"] = "FR",
             ["hungarian"] = "HU",
+            ["indonesian"] = "ID",
             ["italian"] = "IT",
             ["japanese"] = "JA",
             ["lithuanian"] = "LT",
@@ -204,6 +207,7 @@ namespace DeepL.Cli
             ["slovak"] = "SK",
             ["slovenian"] = "SL",
             ["swedish"] = "SV",
+            ["turkish"] = "TR",
             ["chinese"] = "ZH"
 
         };

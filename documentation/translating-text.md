@@ -62,28 +62,30 @@ As of writing this documentation (January, 2022), the DeepL API supports the fol
 | Danish                    | DA    | `Language.Danish`              | ✓               | ✓               |
 | German                    | DE    | `Language.German`              | ✓               | ✓               |
 | Greek                     | EL    | `Language.Greek`               | ✓               | ✓               |
+| English                   | EN    | `Language.English`             | ✓               | ✗               |
 | British English           | EN-GB | `Language.BritishEnglish`      | ✗               | ✓               |
 | American English          | EN-US | `Language.AmericanEnglish`     | ✗               | ✓               |
-| English                   | EN    | `Language.English`             | ✓               | ✗               |
 | Spanish                   | ES    | `Language.Spanish`             | ✓               | ✓               |
 | Estonian                  | ET    | `Language.Estonian`            | ✓               | ✓               |
 | Finnish                   | FI    | `Language.Finnish`             | ✓               | ✓               |
 | French                    | FR    | `Language.French`              | ✓               | ✓               |
 | Hungarian                 | HU    | `Language.Hungarian`           | ✓               | ✓               |
+| Indonesian                | ID    | `Language.Indonesian`          | ✓               | ✓               |
 | Italian                   | IT    | `Language.Italian`             | ✓               | ✓               |
 | Japanese                  | JA    | `Language.Japanese`            | ✓               | ✓               |
 | Lithuanian                | LT    | `Language.Lithuanian`          | ✓               | ✓               |
 | Latvian                   | LV    | `Language.Latvian`             | ✓               | ✓               |
 | Dutch                     | NL    | `Language.Dutch`               | ✓               | ✓               |
 | Polish                    | PL    | `Language.Polish`              | ✓               | ✓               |
+| Portuguese (all variants) | PT    | `Language.Portuguese`          | ✓               | ✗               |
 | Portuguese (no Brazilian) | PT-PT | `Language.Portuguese`          | ✗               | ✓               |
 | Portuguese (Brazilian)    | PT-BR | `Language.BrazilianPortuguese` | ✗               | ✓               |
-| Portuguese (all variants) | PT    | `Language.Portuguese`          | ✓               | ✗               |
 | Romanian                  | RO    | `Language.Romanian`            | ✓               | ✓               |
 | Russian                   | RU    | `Language.Russian`             | ✓               | ✓               |
 | Slovak                    | SK    | `Language.Slovak`              | ✓               | ✓               |
 | Slovenian                 | SL    | `Language.Slovenian`           | ✓               | ✓               |
 | Swedish                   | SV    | `Language.Swedish`             | ✓               | ✓               |
+| Turkish                   | TR    | `Language.Turkish`             | ✓               | ✓               |
 | Chinese                   | ZH    | `Language.Chinese`             | ✓               | ✓               |
 
 Every translation method has an overload that accepts the language code as a string. For your convenience, there is also the `Language` enumeration, which contains all languages (supported as of January, 2022). Furthermore, the source or target language can also be specified as an instance of `SupportedLanguage`. A list of all supported languages can be retrieved using the `GetSupportedLanguagesAsync` method. For further information see ["Listing Supported Languages"](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md#listing-supported-languages). This is helpful for inclusion in user interfaces or in case a new supported language is added, but DeepL.NET has not been updated to include it.

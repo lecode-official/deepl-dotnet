@@ -34,6 +34,12 @@ namespace DeepL
         Greek,
 
         /// <summary>
+        /// An unspecified variant of the English language (language code "EN"). This language may only be used as a target language, but
+        /// not as a source language.
+        /// </summary>
+        English,
+
+        /// <summary>
         /// The British English language (language code "EN-GB").
         /// </summary>
         BritishEnglish,
@@ -42,12 +48,6 @@ namespace DeepL
         /// The American English language (language code "EN-US").
         /// </summary>
         AmericanEnglish,
-
-        /// <summary>
-        /// An unspecified variant of the English language (language code "EN"). This language may only be used as a target language, but
-        /// not as a source language.
-        /// </summary>
-        English,
 
         /// <summary>
         /// The Spanish language (language code "ES").
@@ -73,6 +73,11 @@ namespace DeepL
         /// The Hungarian language (language code "HU").
         /// </summary>
         Hungarian,
+
+        /// <summary>
+        /// The Indonesian language (language code "ID").
+        /// </summary>
+        Indonesian,
 
         /// <summary>
         /// The Italian language (language code "IT").
@@ -105,7 +110,7 @@ namespace DeepL
         Polish,
 
         /// <summary>
-        /// The Portuguese language. When used as a source language, then this represents all Portuguese varieties mixed (langauge code
+        /// The Portuguese language. When used as a source language, then this represents all Portuguese varieties mixed (language code
         /// "PT"). When used as a target language, then this represents all Portuguese varieties excluding Brazilian Portuguese (language
         /// code "PT-PT").
         /// </summary>
@@ -141,6 +146,11 @@ namespace DeepL
         /// The Swedish language (language code "SV").
         /// </summary>
         Swedish,
+        
+        /// <summary>
+        /// The Turkish language (language code "TR").
+        /// </summary>
+        Turkish,
 
         /// <summary>
         /// The Chinese language (language code "ZH").

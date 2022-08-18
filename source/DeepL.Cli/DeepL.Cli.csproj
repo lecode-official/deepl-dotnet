@@ -11,8 +11,8 @@
   <PropertyGroup>
     <AssemblyTitle>DeepL.NET CLI</AssemblyTitle>
     <AssemblyName>deepl-cli</AssemblyName>
-    <Version>0.4.0</Version>
-    <Copyright>Copyright © 2021 David Neumann</Copyright>
+    <Version>0.4.1</Version>
+    <Copyright>Copyright © 2022 David Neumann</Copyright>
     <Product>DeepL.NET - A .NET client for the DeepL translation service</Product>
     <Description>A command line interface for the DeepL.NET API.</Description>
   </PropertyGroup>

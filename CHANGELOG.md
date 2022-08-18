@@ -74,3 +74,13 @@ Released on January 28, 2022
 This release was made possible by the following contributors:
 
 - [Paul-SB](https://github.com/Paul-SB)
+
+## 0.4.1
+
+Released on August 18, 2022
+
+- Added all new languages that are now supported by DeepL:
+  - Indonesian
+  - Turkish
+- Fixed some spelling mistakes in the XML documentation of the source code
+- Updated the DeepL.NET documentation

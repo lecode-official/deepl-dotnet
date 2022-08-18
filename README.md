@@ -23,15 +23,15 @@ An unofficial, fully-featured .NET client for the [DeepL](https://www.deepl.com/
 To get started you have to add the package reference to your project:
 
 ```bash
-Install-Package DeepL -Version 0.4.0 # Package Manager
-dotnet add package DeepL --version 0.4.0 # .NET CLI
-paket add DeepL --version 0.4.0 # Paket CLI
+Install-Package DeepL -Version 0.4.1 # Package Manager
+dotnet add package DeepL --version 0.4.1 # .NET CLI
+paket add DeepL --version 0.4.1 # Paket CLI
 ```
 
 or manually add a reference to your project file:
 
 ```xml
-<PackageReference Include="DeepL" Version="0.4.0" />
+<PackageReference Include="DeepL" Version="0.4.1" />
 ```
 
 Then you can start translating texts:
