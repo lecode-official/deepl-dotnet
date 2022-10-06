@@ -86,6 +86,7 @@ As of writing this documentation (January, 2022), the DeepL API supports the fol
 | Slovenian                 | SL    | `Language.Slovenian`           | ✓               | ✓               |
 | Swedish                   | SV    | `Language.Swedish`             | ✓               | ✓               |
 | Turkish                   | TR    | `Language.Turkish`             | ✓               | ✓               |
+| Ukrainian                 | UK    | `Language.Ukrainian`           | ✓               | ✓               |
 | Chinese                   | ZH    | `Language.Chinese`             | ✓               | ✓               |
 
 Every translation method has an overload that accepts the language code as a string. For your convenience, there is also the `Language` enumeration, which contains all languages (supported as of January, 2022). Furthermore, the source or target language can also be specified as an instance of `SupportedLanguage`. A list of all supported languages can be retrieved using the `GetSupportedLanguagesAsync` method. For further information see ["Listing Supported Languages"](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/other-functions.md#listing-supported-languages). This is helpful for inclusion in user interfaces or in case a new supported language is added, but DeepL.NET has not been updated to include it.

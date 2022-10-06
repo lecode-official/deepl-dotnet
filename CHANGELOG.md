@@ -84,3 +84,10 @@ Released on August 18, 2022
   - Turkish
 - Fixed some spelling mistakes in the XML documentation of the source code
 - Updated the DeepL.NET documentation
+
+
+## 0.4.2
+
+Released on October 6, 2022
+
+- Added Ukrainian as a language which is now supported by DeepL

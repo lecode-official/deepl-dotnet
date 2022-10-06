@@ -112,6 +112,7 @@ namespace DeepL
             [Language.Slovenian] = "SL",
             [Language.Swedish] = "SV",
             [Language.Turkish] = "TR",
+            [Language.Ukrainian] = "UK",
             [Language.Chinese] = "ZH"
 
         };
@@ -149,6 +150,7 @@ namespace DeepL
             [Language.Slovenian] = "SL",
             [Language.Swedish] = "SV",
             [Language.Turkish] = "TR",
+            [Language.Ukrainian] = "UK",
             [Language.Chinese] = "ZH"
 
         };
