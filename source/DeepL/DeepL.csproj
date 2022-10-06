@@ -9,7 +9,7 @@
   <!-- Assembly Info -->
   <PropertyGroup>
     <AssemblyTitle>DeepL.NET</AssemblyTitle>
-    <Version>0.4.1</Version>
+    <Version>0.4.2</Version>
     <Copyright>Copyright © 2022 David Neumann</Copyright>
     <Product>DeepL.NET - An unofficial .NET client for the DeepL translation service</Product>
     <Description>DeepL.NET is an unofficial, fully-featured .NET client for the DeepL translation service.</Description>
@@ -22,11 +22,7 @@
     <PackageId>DeepL</PackageId>
     <PackageTags>deepl;translation;deep learning;nlp;natural language processing</PackageTags>
     <PackageReleaseNotes>
-- Added all new languages that are now supported by DeepL:
-  - Indonesian
-  - Turkish
-- Fixed some spelling mistakes in the XML documentation of the source code
-- Updated the DeepL.NET documentation
+- Added Ukrainian as a language which is now supported by DeepL
     </PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>

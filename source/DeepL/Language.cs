@@ -153,6 +153,11 @@ namespace DeepL
         Turkish,
 
         /// <summary>
+        /// The Ukrainian language (language code "UK").
+        /// </summary>
+        Ukrainian,
+
+        /// <summary>
         /// The Chinese language (language code "ZH").
         /// </summary>
         Chinese

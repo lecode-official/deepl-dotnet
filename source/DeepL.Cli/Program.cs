@@ -171,6 +171,7 @@ namespace DeepL.Cli
             ["slovenian"] = "SL",
             ["swedish"] = "SV",
             ["turkish"] = "TR",
+            ["ukrainian"] = "UK",
             ["chinese"] = "ZH"
 
         };
@@ -208,6 +209,7 @@ namespace DeepL.Cli
             ["slovenian"] = "SL",
             ["swedish"] = "SV",
             ["turkish"] = "TR",
+            ["ukrainian"] = "UK",
             ["chinese"] = "ZH"
 
         };
