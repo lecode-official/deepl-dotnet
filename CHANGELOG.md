@@ -91,3 +91,10 @@ Released on August 18, 2022
 Released on October 6, 2022
 
 - Added Ukrainian as a language which is now supported by DeepL
+
+## 0.4.3
+
+Unreleased
+
+- Added a deprecation notice to the read me, as the project will soon be discontinued
+- Made the `DeepLClient` class obsolete, so that users will receive a compiler warning, concerning the deprecation of DeepL.NET

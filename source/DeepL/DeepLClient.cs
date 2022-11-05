@@ -23,6 +23,7 @@ namespace DeepL
     /// <summary>
     /// Represents a client for communicating with the DeepL API.
     /// </summary>
+    [Obsolete("This DeepL .NET binding is longer maintained and will be discontinued soon. Please switch to the official binding: https://github.com/DeepLcom/deepl-dotnet.")]
     public class DeepLClient : IDisposable
     {
         #region Constructors

@@ -6,7 +6,7 @@
 [![Nuget Package](https://img.shields.io/nuget/v/DeepL)](https://www.nuget.org/packages/DeepL)
 [![Nuget Downloads](https://img.shields.io/nuget/dt/DeepL)](https://www.nuget.org/packages/DeepL)
 
-> **IMPORTANT** This is not an official .NET binding for DeepL and is neither created nor officially supported by DeepL. DeepL provides their own .NET client library, which can be found [here](https://github.com/DeepLcom/deepl-dotnet).
+> :warning: **DEPRECATION NOTICE** For some time now, an [official .NET binding for DeepL](https://github.com/DeepLcom/deepl-dotnet) has been available. This unofficial .NET binding has only been created, because, at the time, there was no official .NET binding. Therefore, this .NET binding will be deprecated soon. This means that this project will only receive security updates and bug fixes, but no new features will be added from now on. Also, the `DeepLClient` class was made obsolete and a compiler warning will be issued, when you use it. On February 5, 2023, the project will seize to receive any updates, the repository will be put into archived mode, and the accompanying NuGet package will be deprecated. To help you with the transition, please refer to the [migration guide](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/migration-guide.md)
 
 An unofficial, fully-featured .NET client for the [DeepL](https://www.deepl.com/translator) translation service. DeepL is a commercial translation service based on deep learning. This API client only supports v2 of the API as v1 has been deprecated for new DeepL API plans available from October 2018.
 
@@ -23,15 +23,15 @@ An unofficial, fully-featured .NET client for the [DeepL](https://www.deepl.com/
 To get started you have to add the package reference to your project:
 
 ```bash
-Install-Package DeepL -Version 0.4.2 # Package Manager
-dotnet add package DeepL --version 0.4.2 # .NET CLI
-paket add DeepL --version 0.4.2 # Paket CLI
+Install-Package DeepL -Version 0.4.3 # Package Manager
+dotnet add package DeepL --version 0.4.3 # .NET CLI
+paket add DeepL --version 0.4.3 # Paket CLI
 ```
 
 or manually add a reference to your project file:
 
 ```xml
-<PackageReference Include="DeepL" Version="0.4.2" />
+<PackageReference Include="DeepL" Version="0.4.3" />
 ```
 
 Then you can start translating texts:

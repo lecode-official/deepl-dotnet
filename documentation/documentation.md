@@ -2,6 +2,8 @@
 
 ![DeepL.NET Logo](https://raw.githubusercontent.com/lecode-official/deepl-dotnet/master/documentation/images/banner.png "DeepL.NET Logo")
 
+> :warning: **DEPRECATION NOTICE** For some time now, an [official .NET binding for DeepL](https://github.com/DeepLcom/deepl-dotnet) has been available. This unofficial .NET binding has only been created, because, at the time, there was no official .NET binding. Therefore, this .NET binding will be deprecated soon. This means that this project will only receive security updates and bug fixes, but no new features will be added from now on. Also, the `DeepLClient` class was made obsolete and a compiler warning will be issued, when you use it. On February 5, 2023, the project will seize to receive any updates, the repository will be put into archived mode, and the accompanying NuGet package will be deprecated. To help you with the transition, please refer to the [migration guide](https://github.com/lecode-official/deepl-dotnet/blob/master/documentation/migration-guide.md)
+
 Welcome to the documentation of DeepL.NET. DeepL.NET is a C# library for accessing the DeepL translation REST API. Please note that DeepL.NET only supports v2 of the API, as v1 is deprecated. In order to use DeepL.NET you need to have a [DeepL API subscription](https://www.deepl.com/pro.html#developer). For further information about the DeepL API, please refer to the [official documentation](https://www.deepl.com/docs-api/introduction/).
 
 ## Installation
@@ -9,15 +11,15 @@ Welcome to the documentation of DeepL.NET. DeepL.NET is a C# library for accessi
 To get started you have to add the package reference to your project. Use one of the following commands depending on your development environment (Package Manager, if you use Visual Studio, .NET CLI if you use .NET on the command line or Visual Studio Code, or Paket CLI, if you use the Paket package manager):
 
 ```bash
-Install-Package DeepL -Version 0.4.2 # Package Manager
-dotnet add package DeepL --version 0.4.2 # .NET CLI
-paket add DeepL --version 0.4.2 # Paket CLI
+Install-Package DeepL -Version 0.4.3 # Package Manager
+dotnet add package DeepL --version 0.4.3 # .NET CLI
+paket add DeepL --version 0.4.3 # Paket CLI
 ```
 
 Alternatively, you can also manually add a reference to your project file:
 
 ```xml
-<PackageReference Include="DeepL" Version="0.4.2" />
+<PackageReference Include="DeepL" Version="0.4.3" />
 ```
 
 ## Getting Started
