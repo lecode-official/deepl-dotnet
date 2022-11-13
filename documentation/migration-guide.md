@@ -104,7 +104,17 @@ In order to monitor the usage of your DeepL API subscription, the old `DeepLClie
 
 ## Handling Exceptions
 
+The old DeepL binding for .NET only had a single exception class, which was used for all errors that could occur: `DeepLException`. The only way to differentiate between different errors was to check the `Message` property of the exception, which contained some details. The new DeepL .NET binding contains many exception types, one for each error that can occur during its usage. Fortunately, they all derive from a single base class, which is called `DeepLException`. This makes it extremely simple to migrate to the new exception type: if you are not interested in the exact error that occurred, you can just keep the same exception. But, if you are interested in the exact error that occurred, the new .NET binding offers the following exception types. For more information, please refer to the official documentation.
 
+- `DeepLException`
+  - `AuthorizationException`
+  - `NotFoundException`
+    - `GlossaryNotFoundException`
+  - `QuotaExceededException`
+  - `TooManyRequestsException`
+  - `ConnectionException`
+  - `DocumentNotReadyException`
+  - `DocumentTranslationException`
 
 ## DeepL CLI
 
