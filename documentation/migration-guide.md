@@ -92,7 +92,7 @@ Also, all the translation options can now be specified via the `TextTranslateOpt
 
 ## Translating Documents
 
-
+To translate documents like Word files and PDFs, the old `DeepLClient` offered the `TranslateDocumentAsync` family of methods, which allowed you to upload a file to the DeepL API, translate it, and download the translated document. `DeepLClient` offered a whole host of overloads, which accepted streams and file names for the source document and either returned a stream containing the translated document or required an output file name as argument to which the translated document would be downloaded. Also, there were overloads that supported the `Language` enumeration, language code strings, and `SupportedLanguage` objects as the source and target languages. The new DeepL binding for .NET makes this much easier. The `Translator` class has two overloads for the `TranslateDocumentAsync` method: one which receives a `FileInfo` object for the input file and a `FileInfo` object for the output file, and another which receives an input stream, an input file name, and an output stream.
 
 ## Listing Available Languages
 
@@ -102,10 +102,14 @@ The old `DeepLClient` class had a method called `GetSupportedLanguagesAsync`, wh
 
 In order to monitor the usage of your DeepL API subscription, the old `DeepLClient` offered the `GetUsageStatisticsAsync` method. This method returns a `UsageStatistics` object, which contains the number of characters that you have already translated using the DeepL API as well as the character limit. The new `Translator` also allows you to monitor your usage, but it offers much more fine-grained information. In order to retrieve your usage statistics, you can use the `GetUsageAsync` method, which returns a `Usage` object. This object does not only provide you with the number of characters translated and the character limit, but it splits your usage up into character usage (via the `Character` property), document usage (via the `Document` property), and team document usage (via the `TeamDocument` property). Each of them expose a `Count` property, which contains the currently used number of items for the usage type, and a `Limit` property, which contains the maximum permitted number of items for the usage type. For your convenience, they also expose a `LimitReached` property, which is `true` if the limit was reached and `false` otherwise. Furthermore, the `Usage` object has a `AnyLimitReached`, which is `true` if the limit of any usage type has been reached and `false` otherwise.
 
-## New Features
+## Handling Exceptions
 
-A new feature, which was missing from the old DeepL .NET binding are glossaries. By migrating to the official .NET binding for DeepL, you will be able to use glossaries, which enable you to customize the translation of certain terms. This can, for example, be helpful, when you are translating texts from a specific domain that contains technical terms, that might be translated differently in other circumstances. New glossaries can be created using the `CreateGlossaryAsync` of the `Translator` class. To retrieve existing glossaries, you can use the `ListGlossariesAsync`, which returns a list of all the glossaries that were created so far. Finally, to use a glossary, you have to specify its ID in the `TextTranslateOptions` or the `DocumentTranslateOptions` either by passing the `GlossaryInfo` object, retrieved from the `ListGlossariesAsync` method, to the constructor, or by setting the `GlossaryId` property. For a more complete introduction, please refer to the [official documentation](https://github.com/DeepLcom/deepl-dotnet#glossaries).
+
 
 ## DeepL CLI
 
 If you were using the command line interface for DeepL, then unfortunately, there is currently no official alternative. If you want a command line interface for DeepL, I suggest you [open an issue](https://github.com/DeepLcom/deepl-dotnet/issues) with the official project.
+
+## New Features
+
+A new feature, which was missing from the old DeepL .NET binding are glossaries. By migrating to the official .NET binding for DeepL, you will be able to use glossaries, which enable you to customize the translation of certain terms. This can, for example, be helpful, when you are translating texts from a specific domain that contains technical terms, that might be translated differently in other circumstances. New glossaries can be created using the `CreateGlossaryAsync` of the `Translator` class. To retrieve existing glossaries, you can use the `ListGlossariesAsync`, which returns a list of all the glossaries that were created so far. Finally, to use a glossary, you have to specify its ID in the `TextTranslateOptions` or the `DocumentTranslateOptions` either by passing the `GlossaryInfo` object, retrieved from the `ListGlossariesAsync` method, to the constructor, or by setting the `GlossaryId` property. For a more complete introduction, please refer to the [official documentation](https://github.com/DeepLcom/deepl-dotnet#glossaries).
