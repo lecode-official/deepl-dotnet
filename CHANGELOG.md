@@ -97,4 +97,5 @@ Released on October 6, 2022
 Unreleased
 
 - Added a deprecation notice to the read me, as the project will soon be discontinued
+- Added a migration guide, to help existing users to easily migrate to the official DeepL .NET binding
 - Made the `DeepLClient` class obsolete, so that users will receive a compiler warning, concerning the deprecation of DeepL.NET
