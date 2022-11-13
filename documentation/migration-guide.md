@@ -105,3 +105,7 @@ In order to monitor the usage of your DeepL API subscription, the old `DeepLClie
 ## New Features
 
 A new feature, which was missing from the old DeepL .NET binding are glossaries. By migrating to the official .NET binding for DeepL, you will be able to use glossaries, which enable you to customize the translation of certain terms. This can, for example, be helpful, when you are translating texts from a specific domain that contains technical terms, that might be translated differently in other circumstances. New glossaries can be created using the `CreateGlossaryAsync` of the `Translator` class. To retrieve existing glossaries, you can use the `ListGlossariesAsync`, which returns a list of all the glossaries that were created so far. Finally, to use a glossary, you have to specify its ID in the `TextTranslateOptions` or the `DocumentTranslateOptions` either by passing the `GlossaryInfo` object, retrieved from the `ListGlossariesAsync` method, to the constructor, or by setting the `GlossaryId` property. For a more complete introduction, please refer to the [official documentation](https://github.com/DeepLcom/deepl-dotnet#glossaries).
+
+## DeepL CLI
+
+If you were using the command line interface for DeepL, then unfortunately, there is currently no official alternative. If you want a command line interface for DeepL, I suggest you [open an issue](https://github.com/DeepLcom/deepl-dotnet/issues) with the official project.
