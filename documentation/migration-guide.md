@@ -100,7 +100,7 @@ The old `DeepLClient` class had a method called `GetSupportedLanguagesAsync`, wh
 
 ## Monitoring Usage
 
-
+In order to monitor the usage of your DeepL API subscription, the old `DeepLClient` offered the `GetUsageStatisticsAsync` method. This method returns a `UsageStatistics` object, which contains the number of characters that you have already translated using the DeepL API as well as the character limit. The new `Translator` also allows you to monitor your usage, but it offers much more fine-grained information. In order to retrieve your usage statistics, you can use the `GetUsageAsync` method, which returns a `Usage` object. This object does not only provide you with the number of characters translated and the character limit, but it splits your usage up into character usage (via the `Character` property), document usage (via the `Document` property), and team document usage (via the `TeamDocument` property). Each of them expose a `Count` property, which contains the currently used number of items for the usage type, and a `Limit` property, which contains the maximum permitted number of items for the usage type. For your convenience, they also expose a `LimitReached` property, which is `true` if the limit was reached and `false` otherwise. Furthermore, the `Usage` object has a `AnyLimitReached`, which is `true` if the limit of any usage type has been reached and `false` otherwise.
 
 ## New Features
 
