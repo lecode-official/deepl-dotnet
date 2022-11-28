@@ -94,7 +94,7 @@ Released on October 6, 2022
 
 ## 0.4.3
 
-Unreleased
+Released on November 28, 2022
 
 - Added a deprecation notice to the read me, as the project will soon be discontinued
 - Added a migration guide, to help existing users to easily migrate to the official DeepL .NET binding
